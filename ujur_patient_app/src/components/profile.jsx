@@ -1,0 +1,464 @@
+import React, { useEffect, useState } from "react";
+// import profileImg from "../img/review/profile-2.jpg";
+import { useRouter } from "../hooks/use-router";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateNavbar } from "../redux/reducers/functionalities.reducer";
+import BottomNav from "./BottomNav";
+import { Button, Modal } from "antd-mobile";
+import { fetchprofiles, patientAddNewProfile } from "../urls/urls";
+import useAxios from "../network/useAxios";
+
+const CustomerProfile = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [profileData, setprofileData] = useState([]);
+  const [formValues, setFormValues] = useState({
+    gender: "M",
+  });
+
+  //functions
+  const submitUserSignup = () => {
+    console.log(formValues)
+    patientSignupFetch(patientAddNewProfile(formValues));
+  };
+  const fetchPatientprofile = () => {
+    profileFetch(fetchprofiles({ patientId: 1 }));
+  };
+
+  //useState
+  const [message, setMessage] = useState({
+    message: "",
+    isShow: false,
+  });
+
+  //useAxios
+  const [
+    patientSignupResponse,
+    patientSignupError,
+    patientSignupLoading,
+    patientSignupFetch,
+  ] = useAxios();
+  const [profileResponse, profileError, profileLoading, profileFetch] =
+    useAxios();
+
+  //useEffects
+  useEffect(() => {
+    fetchPatientprofile();
+  }, []);
+  useEffect(() => {
+    if (profileResponse?.result == "success") {
+      setprofileData(profileResponse?.data);
+    }
+  }, [profileResponse]);
+  useEffect(() => {
+    if (patientSignupResponse?.result == "success") {
+      router.push(`/home`);
+    }
+  }, [patientSignupResponse]);
+  useEffect(() => {
+    if (patientSignupError) {
+      setMessage({
+        message: patientSignupError?.response?.data,
+        isShow: true,
+      });
+    }
+  }, [patientSignupError]);
+
+  return (
+    <>
+      <div class="my-profile d-flex flex-column vh-100">
+        <div class="d-flex align-items-center justify-content-between mb-auto p-3 bg-white shadow-sm osahan-header">
+          <a
+            onClick={() => router.back()}
+            class="text-dark bg-white shadow rounded-circle icon"
+          >
+            <span class="mdi mdi-arrow-left mdi-18px"></span>
+          </a>
+          <div class="d-flex align-items-center gap-2 ms-3 me-auto">
+            <a href="doctor-profile.html">
+              {/* <img
+                src={profileImg}
+                alt=""
+                class="img-fluid rounded-circle icon"
+              /> */}
+            </a>
+
+            <div>
+              <select
+                style={{
+                  fontSize: "1rem",
+                  width: "8rem",
+                  height: "1.5rem",
+                  border: "transparent",
+                }}
+              >
+                <option value="">
+                  <p class="mb-0 fw-bold">Mr Singh</p>
+                </option>
+                <option value="">
+                  <p class="mb-0 fw-bold">Mr Rajput</p>
+                </option>
+                <option value="">
+                  <p class="mb-0 fw-bold">Mrs Singh</p>
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <a
+              class="toggle d-flex align-items-center justify-content-center fs-5 bg-white shadow rounded-circle icon hc-nav-trigger hc-nav-1"
+              onClick={() => {
+                dispatch(updateNavbar());
+              }}
+              role="button"
+              aria-controls="hc-nav-1"
+            >
+              <i class="bi bi-list"></i>
+            </a>
+          </div>
+        </div>
+        <Button
+          className="mt-3"
+          onClick={() => {
+            Modal.alert({
+              onConfirm: () => {
+                submitUserSignup()
+              },
+              title: "Add New Profile",
+              content: (
+                <>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlFullName"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Full Name
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlFullName"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="fullName"
+                      >
+                        <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Type your full name"
+                        aria-label="Type your full name"
+                        aria-describedby="fullName"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            fullName: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlDOB"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Date of Birth
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlDOB"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="dob"
+                      >
+                        <span className="mdi mdi-calendar mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="date"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Select your date of birth"
+                        aria-label="Select your date of birth"
+                        aria-describedby="dob"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            dob: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlGender"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Gender
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlGender"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="gender"
+                      >
+                        <span className="mdi mdi-gender-male-female mdi-18px text-muted" />
+                      </span>
+                      <select
+                        className="form-select bg-transparent rounded-0 border-0"
+                        aria-label="Select your gender"
+                        aria-describedby="gender"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            gender: e.target.value,
+                          }));
+                        }}
+                      >
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlBloodGroup"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Blood Group
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlBloodGroup"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="bloodGroup"
+                      >
+                        <span className="mdi mdi-heart mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Type your blood group"
+                        aria-label="Type your blood group"
+                        aria-describedby="bloodGroup"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            bloodGroup: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlDOB"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Date of Birth
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlDOB"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="dob"
+                      >
+                        <span className="mdi mdi-calendar mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="date"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Select your date of birth"
+                        aria-label="Select your date of birth"
+                        aria-describedby="dob"
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlFullName"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Weight
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlFullName"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="fullName"
+                      >
+                        <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Enter Your Weight"
+                        aria-label="Enter Your Weight"
+                        aria-describedby="fullName"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            weight: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlFullName"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      District
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlFullName"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="fullName"
+                      >
+                        <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Type your District"
+                        aria-label="Type your District"
+                        aria-describedby="fullName"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            district: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                </>
+              ),
+              showCloseButton: true,
+              confirmText: "Add Profile",
+            });
+          }}
+        >
+          Add New Profile
+        </Button>
+        <div class="vh-100 my-auto overflow-auto body-fix-osahan-footer">
+          <div class="p-3">
+            <div class="bg-white rounded-4 px-3 pt-3 overflow-hidden edit-profile-back shadow mb-3">
+              <h6 class="pb-2">Personal Info</h6>
+              <div class="d-flex">
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">Name</span>
+                    <br />
+                    {profileData?.full_name}
+                  </p>
+                </div>
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">Date of Birth</span>
+                    <br />
+                    {profileData?.date_of_birth}
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">Gender</span>
+                    <br />
+                    {profileData?.gender == "M" ? "Male" : "Female"}
+                  </p>
+                </div>
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">Phone</span>
+                    <br />
+                    {profileData?.user?.phone}
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">Email</span>
+                    <br />
+                    {profileData?.user?.email || "N/A"}
+                  </p>
+                </div>
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">District</span>
+                    <br />
+                    New Delhi
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">Blood Group</span>
+                    <br />
+                    {profileData?.blood_group}
+                  </p>
+                </div>
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">Weight</span>
+                    <br />
+                    {profileData?.weight} KG
+                  </p>
+                </div>
+              </div>
+              <Link to="/change-profile" className="link-dark">
+                <div className="edit-profile-icon bg-primary text-white">
+                  <span className="mdi mdi-square-edit-outline h2 m-0 pt-3 pe-2" />
+                </div>
+              </Link>
+            </div>
+            <div class="rounded-4 shadow overflow-hidden">
+              <Link to="/view-appointments" class="link-dark">
+                <div class="bg-white d-flex align-items-center justify-content-between p-3 border-bottom">
+                  <h6 class="m-0">My Appointment</h6>
+                  <span class="mdi mdi-chevron-right mdi-24px icon shadow rounded-pill"></span>
+                </div>
+              </Link>
+              <Link to="/lab-reports" class="link-dark">
+                <div class="bg-white d-flex align-items-center justify-content-between p-3 border-bottom">
+                  <h6 class="m-0">Lab Reports</h6>
+                  <span class="mdi mdi-chevron-right mdi-24px icon shadow rounded-pill"></span>
+                </div>
+              </Link>
+              <Link to="/favorite-doctor" class="link-dark">
+                <div class="bg-white d-flex align-items-center justify-content-between p-3">
+                  <h6 class="m-0">Favorite Doctor</h6>
+                  <span class="mdi mdi-chevron-right mdi-24px icon shadow rounded-pill"></span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <BottomNav path={"profile"} />
+      </div>
+    </>
+  );
+};
+
+export default CustomerProfile;
