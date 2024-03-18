@@ -7,7 +7,7 @@ import doctorImg1 from "../img/home/doctor.png"
 import doctorImg2 from "../img/home/schedule.png"
 import doctorImg3 from "../img/home/medicine.png"
 import doctorImg4 from "../img/home/prescription.png"
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import BackNavbar from './BackNavbar';
@@ -199,6 +199,9 @@ const Home = () => {
           placeholder="Find your suitable doctor!"
           aria-label="Search"
           aria-describedby="search"
+          onClick={()=>{
+            router.push(`/search-doctor`);
+          }}
         />
         <a
           href="#"

@@ -32,6 +32,7 @@ const AppointmentDetails = () => {
     },[appointmentId])
     useEffect(()=>{
      if(appointmentResponse?.result == "success"){
+      console.log(appointmentResponse?.data)
       setAppointmentDetails(appointmentResponse?.data)
       setSlotDetails(appointmentResponse?.slot)
       console.log(appointmentResponse?.data)

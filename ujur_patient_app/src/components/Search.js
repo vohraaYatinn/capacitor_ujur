@@ -42,6 +42,7 @@ const Search = () => {
       if(formValues?.searchInput.length > 3){
          searchFetch(searchPatientFeature(formValues))
       }
+
     },[formValues])
     useEffect(()=>{
       if(searchResponse?.result == "success"){
@@ -74,7 +75,9 @@ const Search = () => {
             <form>
                <div className="input-group rounded-4 shadow overflow-hidden border-0 py-1 ps-3 bg-light">
                   <span className="input-group-text bg-transparent text-muted border-0 p-0" id="search"><span className="mdi mdi-magnify mdi-24px text-primary"></span></span>
-                  <input type="text" className="form-control bg-transparent text-muted border-0 px-3 fs-14" placeholder="Search" aria-label="Search" aria-describedby="search"
+                  <input type="text"
+                  value={formValues?.searchInput}
+                  className="form-control bg-transparent text-muted border-0 px-3 fs-14" placeholder="Search" aria-label="Search" aria-describedby="search"
                                 onChange={(e) => {
                                  setFormValues((prev) => ({
                                    ...prev,
