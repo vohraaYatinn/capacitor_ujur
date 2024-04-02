@@ -53,7 +53,7 @@ Version: 0.1
 }
 /* Body */
 body {
-    background-color: #e5eaf2;
+    background-color: #ced8ff !important;
     font-family: 'Roboto', sans-serif;
     color: var(--dark);
     font-size: 13px;

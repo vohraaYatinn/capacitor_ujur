@@ -17,12 +17,14 @@ import { fetchCustomerDoctors, fetchCustomerlatestAppointment, fetchCustomerHosp
 import { useRouter } from '../hooks/use-router';
 import { test_url_images } from '../config/environment';
 import moment from 'moment';
+import logo from "../img/logo/logo.png"
+
 
 const Home = () => {
   const router = useRouter();
-  const [doctorsData, setDoctorsData] = useState([])
-  const [hospitalDetails, setHospitalDetails] = useState([])
-  const [latestAppointment, setLastestAppointment] = useState([])
+  const [doctorsData, setDoctorsData] = useState([]);
+  const [hospitalDetails, setHospitalDetails] = useState([]);
+  const [latestAppointment, setLastestAppointment] = useState([]);
 
   //useAxios
   const [fetchAppointmentResponse, fetchAppointmentError, fetchAppointmentLoading, fetchAppointmentFetch] = useAxios();
@@ -147,16 +149,14 @@ const Home = () => {
 <div className="bg-white shadow-sm">
   <div className="d-flex align-items-center justify-content-between mb-auto p-3 osahan-header">
     <div className="d-flex align-items-center gap-2 me-auto">
-      <a href="doctor-profile.html">
+      <a>
         <img
-          src="img/favorite/favorite-4.jpg"
+          src={logo}
           alt=""
           className="img-fluid rounded-circle icon"
         />
       </a>
       <div className="ps-1">
-        <p className="text-orange m-0 small">Welcome</p>
-        <p className="fw-bold mb-0 text-primary fw-bold">Hey, Samantha!</p>
       </div>
     </div>
     <div className="d-flex align-items-center gap-2">

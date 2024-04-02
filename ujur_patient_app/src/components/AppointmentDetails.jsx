@@ -86,28 +86,29 @@ const AppointmentDetails = () => {
                </div>
             </div>
             {appointmentDetails?.status == "pending" ?
-                   <div className="row row-cols-2 g-2 mt-3">
+               //     <div className="row row-cols-2 g-2 mt-3">
             
-                   <div className="col">
-                     <div className="bg-white text-center rounded-4 p-2 shadow-sm">
+               //     <div className="col">
+               //       <div className="bg-white text-center rounded-4 p-2 shadow-sm">
              
-                     <Link className="link-dark">
-                         <h1>12</h1>
-                         <p className="text-truncate small pt-2 m-0">Token Number</p>
-                       </Link>
-                     </div>
-                   </div>
+               //       <Link className="link-dark">
+               //           <h1>12</h1>
+               //           <p className="text-truncate small pt-2 m-0">Token Number</p>
+               //         </Link>
+               //       </div>
+               //     </div>
                    
-                   <div className="col">
-                     <div className="bg-white text-center rounded-4 p-2 shadow-sm">
-                       <Link className="link-dark">
-                       <h1>3</h1>
-                         <p className="text-truncate small pt-2 m-0">Ongoing Token Number</p>
-                       </Link>
-                     </div>
-                   </div>
+               //     <div className="col">
+               //       <div className="bg-white text-center rounded-4 p-2 shadow-sm">
+               //         <Link className="link-dark">
+               //         <h1>3</h1>
+               //           <p className="text-truncate small pt-2 m-0">Ongoing Token Number</p>
+               //         </Link>
+               //       </div>
+               //     </div>
      
-                 </div>
+               //   </div>
+               <></>
                  :
                  <div class="bg-white mt-1 p-3">
 

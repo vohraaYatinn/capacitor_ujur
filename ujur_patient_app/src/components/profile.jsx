@@ -76,7 +76,7 @@ const CustomerProfile = () => {
             <span class="mdi mdi-arrow-left mdi-18px"></span>
           </a>
           <div class="d-flex align-items-center gap-2 ms-3 me-auto">
-            <a href="doctor-profile.html">
+            <a>
               {/* <img
                 src={profileImg}
                 alt=""
