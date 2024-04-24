@@ -87,9 +87,11 @@ const LoginPhone = () => {
               <span className="mdi mdi-phone-outline mdi-18px text-muted" />
             </span>
             <input
-              type="number"
+            // i change the type = number to "text"
+              type="text"
               className="form-control bg-transparent rounded-0 border-0 px-0"
               placeholder="Type your phone"
+              maxLength={10}
               aria-label="Type your email or phone number"
               aria-describedby="mail"
               onChange={(e) => {
