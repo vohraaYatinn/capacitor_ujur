@@ -114,8 +114,36 @@ const Navbar = () => {
     >
       <span className="mdi mdi-account-edit me-3"></span>Edit Profile
     </Link>
+    <hr/>
 
   </li>
+  <li>
+    <Link to="/" onClick={()=>{
+       onClose()
+    }}
+    style={{textDecoration: "none"}}
+
+    >
+    <span className="mdi mdi-flask me-3"></span>Logout
+    </Link>
+    <hr/>
+
+  </li>
+
+  {/* <li>
+    <Link to="/change-profile" onClick={()=>{
+       onClose()
+    }}
+    style={{textDecoration: "none"}}
+
+    >
+      <span className="mdi mdi-account-edit me-3"></span>Logout
+    </Link>
+
+  </li> */}
+
+
+  
 </ul>
 
       <ul className="nav-bootom bottom-nav p-0" 
@@ -151,6 +179,8 @@ const Navbar = () => {
                Profile
             </Link>
          </li>
+
+         
       </ul>
      </>
       </Drawer>  )

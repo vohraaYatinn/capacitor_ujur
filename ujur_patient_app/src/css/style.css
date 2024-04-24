@@ -171,7 +171,8 @@ li.nav-parent.level-open h2 {
 }
 
 .btn-secondary, .btn-outline-secondary:hover, .btn-outline-secondary:focus {
-    background: var(--orange) !important;
+    background-color: #6d87e8;
+    /* background: var(--orange) !important; */
     border-color: var(--orange) !important;
 }
 .btn-outline-secondary{
@@ -727,4 +728,12 @@ a{
 }
 .nav-bootom a p span{
     font-size: 1.5rem;
+}
+
+
+.imgimg {
+    
+    /* mix-blend-mode: multiply; */
+    /* filter: invert(100%); */
+    /* mix-blend-mode: color-burn; */
 }
