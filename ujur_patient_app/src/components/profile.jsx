@@ -3,23 +3,33 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "../hooks/use-router";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateNavbar } from "../redux/reducers/functionalities.reducer";
+import { updateNavbar, updateToken } from "../redux/reducers/functionalities.reducer";
 import BottomNav from "./BottomNav";
 import { Button, Modal } from "antd-mobile";
-import { fetchprofiles, patientAddNewProfile } from "../urls/urls";
+import { changeJwtOfPatient, fetchprofiles, patientAddNewProfile } from "../urls/urls";
 import useAxios from "../network/useAxios";
 
 const CustomerProfile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [profileData, setprofileData] = useState([]);
+  const [extraPatientsData, setExtraPatientsData] = useState([]);
   const [formValues, setFormValues] = useState({
     gender: "M",
   });
 
   //functions
+  const changeLogin = (data) =>{
+    if(data){
+      changeJwtFunction(data)
+    }
+  }
+  const changeJwtFunction = (id) => {
+    changeJwtFetch(changeJwtOfPatient({
+      patientId:id
+    }));
+  };
   const submitUserSignup = () => {
-    console.log(formValues)
     patientSignupFetch(patientAddNewProfile(formValues));
   };
   const fetchPatientprofile = () => {
@@ -39,6 +49,12 @@ const CustomerProfile = () => {
     patientSignupLoading,
     patientSignupFetch,
   ] = useAxios();
+  const [
+    changeJwtResponse,
+    changeJwtError,
+    changeJwtLoading,
+    changeJwtFetch,
+  ] = useAxios();
   const [profileResponse, profileError, profileLoading, profileFetch] =
     useAxios();
 
@@ -49,6 +65,7 @@ const CustomerProfile = () => {
   useEffect(() => {
     if (profileResponse?.result == "success") {
       setprofileData(profileResponse?.data);
+      setExtraPatientsData(profileResponse?.linked_patient)
     }
   }, [profileResponse]);
   useEffect(() => {
@@ -64,6 +81,15 @@ const CustomerProfile = () => {
       });
     }
   }, [patientSignupError]);
+  useEffect(() => {
+    if (changeJwtResponse?.result == "success") {
+      localStorage.removeItem('storedToken');
+      localStorage.setItem('storedToken', changeJwtResponse?.token);
+      dispatch(updateToken(changeJwtResponse?.token))
+      router.push(`/home`);
+
+    }
+  }, [changeJwtResponse]);
 
   return (
     <>
@@ -77,15 +103,14 @@ const CustomerProfile = () => {
           </a>
           <div class="d-flex align-items-center gap-2 ms-3 me-auto">
             <a>
-              {/* <img
-                src={profileImg}
-                alt=""
-                class="img-fluid rounded-circle icon"
-              /> */}
+      
             </a>
 
             <div>
               <select
+              onChange={(e)=>{
+                changeLogin(e.target.value)
+              }}
                 style={{
                   fontSize: "1rem",
                   width: "8rem",
@@ -93,15 +118,18 @@ const CustomerProfile = () => {
                   border: "transparent",
                 }}
               >
-                <option value="">
-                  <p class="mb-0 fw-bold">Mr Singh</p>
+<option value="">
+                  <p class="mb-0 fw-bold">Self</p>
                 </option>
-                <option value="">
-                  <p class="mb-0 fw-bold">Mr Rajput</p>
+                {extraPatientsData.map((data)=>{
+                return(
+                  <option value={data.id}>
+                  <p class="mb-0 fw-bold">{data.full_name}</p>
                 </option>
-                <option value="">
-                  <p class="mb-0 fw-bold">Mrs Singh</p>
-                </option>
+                )
+                })}
+              
+              
               </select>
             </div>
           </div>

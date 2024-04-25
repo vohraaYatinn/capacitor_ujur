@@ -6,6 +6,7 @@ import BackNavbar from "./BackNavbar";
 import useAxios from "../network/useAxios";
 import { useRouter } from "../hooks/use-router";
 import { fetchBookingPrice } from '../urls/urls';
+import { Alert } from "antd";
 
 
 const VisitInfo = () => {
@@ -51,48 +52,44 @@ const VisitInfo = () => {
       router.push(`/overview-booking/${fetchBookingResponse?.booking_id}`);
     }
   }, [fetchBookingResponse]);
-
+  //useState
+  const [message, setMessage] = useState({
+    message: "",
+    isShow: false,
+  });
+  useEffect(() => {
+    if (fetchBookingError) {
+      setMessage({
+        message: fetchBookingError?.response?.data?.message,
+        isShow: true,
+      });
+    }
+  }, [fetchBookingError]);
   return (
     <>
+
       <div className="visit-info d-flex flex-column vh-100">
+        
         <BackNavbar name={"Patient Info"} />
         <div className="vh-100 my-auto overflow-auto p-3">
+        {message.isShow && (
+            <Alert
+              style={{ marginBottom: "1rem" }}
+              message={message?.message}
+              type="error"
+              showIcon
+              closable
+              onClose={() => {
+                setMessage({
+                  message: "",
+                  isShow: false,
+                });
+              }}
+            />
+          )}
           <form>
             <div className="mb-3">
-              <label
-                for="exampleFormControlName"
-                className="form-label mb-1 label-custom-boot"
-              >
-                Patient Name
-              </label>
-              <div
-                className="input-group border bg-white rounded-3 py-1"
-                id="exampleFormControlName"
-              >
-                <span
-                  className="input-group-text bg-transparent rounded-0 border-0"
-                  id="name"
-                >
-                  <i className="bi bi-person-circle text-muted"></i>
-                </span>
-                <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
-                <select
-                  className="form-control bg-transparent rounded-0 border-0 px-0"
-                  aria-label="Patient name"
-                  aria-labelledby="nameLabel"
-                >
-                  
-                  <option disabled selected>
-                    Select patient name
-                  </option>
-                  <option value="Osahan Singh">Self</option>
-                </select>
-              </div>
+
             </div>
 
             <div className="mb-5">

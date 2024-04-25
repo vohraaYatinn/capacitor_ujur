@@ -75,3 +75,7 @@ export const searchPatientFeature = (payload_data) => {
 export const fetchSingleHospital = (payload_data) => {
   return project.get(Urls.FETCH_SINGLE_HOSPITALS, payload_data);
 };
+//hospital
+export const changeJwtOfPatient = (payload_data) => {
+  return project.post(Urls.CHANGE_JWT_PATIENT, payload_data);
+};

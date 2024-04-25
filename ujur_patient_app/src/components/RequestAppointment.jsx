@@ -62,7 +62,6 @@ const RequestAppointment = () => {
   }, [doctorId]);
   useEffect(() => {
     if (doctorsAppointmentResponse?.result == "success") {
-      console.log(doctorsAppointmentResponse);
       setAppointmentDetails(doctorsAppointmentResponse?.data);
       setdaysdateDetails(doctorsAppointmentResponse?.dates_and_days);
     }

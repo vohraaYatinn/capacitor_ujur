@@ -102,20 +102,20 @@ const Home = () => {
       <div className="available-doctor-item">
         <div className="btn-secondary text-white rounded-4 p-3 doctor-book-back">
           <h1 className="mb-1 doctor-book-back-title">
-          {index === 0 ? 'Cardiologist:' : index === 1 ? 'Dermatologist:' : index === 2 ? 'Pediatrician:' : ''}
+          {index === 0 ? 'Cardiologist' : index === 1 ? 'Dermatologist' : index === 2 ? 'Pediatrician' : ''}
           {/* {index === 0 ? 'Cardiologist:' : index === 1 ? 'Dermatologist:' : index ===3 ? 'Pediatrician'} */}
           {/* Cardiologist: */}
           <br />
             <span className="h4 text-warning overflow-hidden rounded-4 m-0">
               <b className="bg-warning text-black px-1 rounded">
                 {/* Doctor for Your */}
-                {index === 0 ? 'Locate a nearby cardiologist' : index === 1 ? 'Locate a nearby Dermatologist' : index === 2 ? 'Locate a nearby Pediatrician:' : ''}
+                {index === 0 ? 'Locate a nearby cardiologist' : index === 1 ? 'Locate a nearby Dermatologist' : index === 2 ? 'Locate a nearby Pediatrician' : ''}
               </b>
-              <b className="text-black">Needs!</b>
+              <br/><b className="text-black">{" "}Needs!</b>
             </span>
           </h1>
           {/* <p className="mb-2 text-white small">Book Now and Get 30% OFF</p> */}
-          <a href="#" className="btn btn-sm btn-dark btn-book">
+          <a href="#" className="btn btn-sm btn-dark btn-book mt-2">
             SEARCH NOW <i className="bi bi-arrow-right" />
           </a>
           <div className="doctor-book-img">
@@ -137,7 +137,7 @@ const Home = () => {
               alt="..."
               style={{
                 height: "10rem",
-                objectFit: "fill",
+                objectFit: "cover",
               }}
             />
             <div className="card-body small p-3 osahan-card-body">
@@ -243,7 +243,7 @@ const Home = () => {
         </Swiper>
       </div>
 
-      <div className="row row-cols-4 g-2 mt-4">
+      <div className="row row-cols-4 g-2 mt-4 doctor-icons-tabs" >
         <div className="col">
           <div className="bg-white text-center rounded-4 p-2 shadow-sm">
             <Link
@@ -251,7 +251,7 @@ const Home = () => {
               className="link-dark"
               style={{ textDecoration: "none" }}
             >
-              <img src={doctorImg5} alt="" className="img-fluid px-2" />
+              <img src={doctorImg1} alt="" className="img-fluid px-2" />
               <p className="text-truncate small pt-2 m-0">Doctor</p>
             </Link>
           </div>
@@ -287,7 +287,7 @@ const Home = () => {
               className="link-dark"
               style={{ textDecoration: "none" }}
             >
-              <img src={doctorImg6} alt="" className="img-fluid px-2" />
+              <img src={doctorImg3} alt="" className="img-fluid px-2" />
               <p className="text-truncate small pt-2 m-0">Favrouite</p>
             </Link>
           </div>

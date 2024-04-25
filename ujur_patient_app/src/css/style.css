@@ -730,10 +730,6 @@ a{
     font-size: 1.5rem;
 }
 
-
-.imgimg {
-    
-    /* mix-blend-mode: multiply; */
-    /* filter: invert(100%); */
-    /* mix-blend-mode: color-burn; */
+.doctor-icons-tabs img{
+    height: 3rem
 }

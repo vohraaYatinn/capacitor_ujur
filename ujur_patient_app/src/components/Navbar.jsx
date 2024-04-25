@@ -39,10 +39,9 @@ const Navbar = () => {
      <ul className="second-nav p-0" style={{ listStyle: "none" }}>
   <li className="osahan-user-profile bg-primary" style={{ padding: "1rem" }}>
     <div className="d-flex align-items-center gap-2">
-      <img src={navImg} alt="" className="rounded-pill img-fluid" />
       <div className="ps-1">
-        <h6 className="fw-bold text-white mb-0">Hey, Samantha!</h6>
-        <p className="text-white-50 m-0 small">+91 12345-67890</p>
+        <h6 className="fw-bold text-white mb-0">Hey There!</h6>
+        <p className="text-white-50 m-0 small">UJUR</p>
       </div>
     </div>
   </li>

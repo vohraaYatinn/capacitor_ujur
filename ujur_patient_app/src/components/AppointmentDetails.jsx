@@ -15,6 +15,7 @@ const AppointmentDetails = () => {
    const { appointmentId } = useParams();
    const [ appointmentDetails, setAppointmentDetails ] = useState();
    const [ slotDetails, setSlotDetails ] = useState();
+   const [ slotNumber, setTotalSlots ] = useState();
 
     //useAxios
     const [appointmentResponse, appointmentError, appointmentLoading, appointmentFetch] = useAxios();
@@ -35,6 +36,7 @@ const AppointmentDetails = () => {
       console.log(appointmentResponse?.data)
       setAppointmentDetails(appointmentResponse?.data)
       setSlotDetails(appointmentResponse?.slot)
+      setTotalSlots(appointmentResponse?.count)
       console.log(appointmentResponse?.data)
      }
     },[appointmentResponse])
@@ -86,37 +88,36 @@ const AppointmentDetails = () => {
                </div>
             </div>
             {appointmentDetails?.status == "pending" ?
-               //     <div className="row row-cols-2 g-2 mt-3">
+                   <div className="row row-cols-2 g-2 mt-3 p-3">
             
-               //     <div className="col">
-               //       <div className="bg-white text-center rounded-4 p-2 shadow-sm">
+                   <div className="col">
+                     <div className="bg-white text-center rounded-4 p-2 shadow-sm">
              
-               //       <Link className="link-dark">
-               //           <h1>12</h1>
-               //           <p className="text-truncate small pt-2 m-0">Token Number</p>
-               //         </Link>
-               //       </div>
-               //     </div>
+                     <Link className="link-dark">
+                         <h1>{appointmentDetails?.appointment_slot}</h1>
+                         <p className="text-truncate small pt-2 m-0">Token Number</p>
+                       </Link>
+                     </div>
+                   </div>
                    
-               //     <div className="col">
-               //       <div className="bg-white text-center rounded-4 p-2 shadow-sm">
-               //         <Link className="link-dark">
-               //         <h1>3</h1>
-               //           <p className="text-truncate small pt-2 m-0">Ongoing Token Number</p>
-               //         </Link>
-               //       </div>
-               //     </div>
+                   <div className="col">
+                     <div className="bg-white text-center rounded-4 p-2 shadow-sm">
+                       <Link className="link-dark">
+                       <h1>{slotNumber}</h1>
+                         <p className="text-truncate small pt-2 m-0">Total Patients</p>
+                       </Link>
+                     </div>
+                   </div>
      
-               //   </div>
-               <></>
+                 </div>
                  :
                  <div class="bg-white mt-1 p-3">
 
-                 <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
+                 {/* <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                     router.push("/write-reviews")
                  }}
-                 >Add Review</Button>
+                 >Add Review</Button> */}
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                   convertToPDF(appointmentDetails?.pdf_content, "prescription")

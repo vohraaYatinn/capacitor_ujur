@@ -7,6 +7,7 @@ export class Urls {
     static VERIFY_OTP = Urls.MPHRMS_API_PREFIX + 'users/phone-otp-verify/';
     static PATIENT_SIGNUP = Urls.MPHRMS_API_PREFIX + 'patients/patient-signup/';
     static PATIENT_ADD_PROFILE = Urls.MPHRMS_API_PREFIX + 'patients/add-new-profile/';
+    static CHANGE_JWT_PATIENT = Urls.MPHRMS_API_PREFIX + 'patients/change_jwt_patient/';
 
 
     //patients
