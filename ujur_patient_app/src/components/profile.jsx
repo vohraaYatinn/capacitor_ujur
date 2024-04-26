@@ -124,7 +124,7 @@ const CustomerProfile = () => {
                 {extraPatientsData.map((data)=>{
                 return(
                   <option value={data.id}>
-                  <p class="mb-0 fw-bold">{data.full_name}</p>
+                  <p class="mb-0 fw-bold">{data?.full_name}</p>
                 </option>
                 )
                 })}
@@ -461,7 +461,7 @@ const CustomerProfile = () => {
                 </div>
               </Link>
             </div>
-            <div class="rounded-4 shadow overflow-hidden">
+            <div class="rounded-4 shadow overflow-hidden" style={{marginBottom: "3rem"}}>
               <Link to="/view-appointments" class="link-dark">
                 <div class="bg-white d-flex align-items-center justify-content-between p-3 border-bottom">
                   <h6 class="m-0">My Appointment</h6>
@@ -475,7 +475,7 @@ const CustomerProfile = () => {
                 </div>
               </Link>
               <Link to="/favorite-doctor" class="link-dark">
-                <div class="bg-white d-flex align-items-center justify-content-between p-3">
+                <div class="bg-white d-flex align-items-center justify-content-between p-3" >
                   <h6 class="m-0">Favorite Doctor</h6>
                   <span class="mdi mdi-chevron-right mdi-24px icon shadow rounded-pill"></span>
                 </div>

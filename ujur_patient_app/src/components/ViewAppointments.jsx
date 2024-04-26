@@ -25,7 +25,7 @@ const ViewAppointments = () => {
       appointmentType = "upcoming"
    }
    else if(addNav == 1){
-      appointmentType = "past"
+      appointmentType = "completed"
 
    }
    fetchAppointmentFetch(fetchAppointments({patientId:1, appointmentType:appointmentType}));
@@ -78,7 +78,7 @@ const ViewAppointments = () => {
                }}
                id="pills-past-tab" data-bs-toggle="pill"
                      data-bs-target="#pills-past" type="button" role="tab" aria-controls="pills-past"
-                     aria-selected="false">Past</button>
+                     aria-selected="false">Completed</button>
                </li>
             </ul>
             <div class="tab-content" id="pills-tabContent">
@@ -99,9 +99,6 @@ const ViewAppointments = () => {
                               </div>
                               <div class="ms-auto">
                                  <div class="d-flex justify-content-end">
-                                    <div class="bg-info-subtle rounded-circle icon mb-3">
-                                       <span class="mdi mdi-phone-outline mdi-18px text-info"></span>
-                                    </div>
                                  </div>
                                 {addNav==0 &&
                                                                  <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">UPCOMING</span>
@@ -132,9 +129,9 @@ const ViewAppointments = () => {
                         </div>
                         <div class="ms-auto">
                            <div class="d-flex justify-content-end">
-                              <div class="bg-info-subtle rounded-circle icon mb-3">
+                              {/* <div class="bg-info-subtle rounded-circle icon mb-3">
                                  <span class="mdi mdi-phone-outline mdi-18px text-info"></span>
-                              </div>
+                              </div> */}
                            </div>
                            <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">COMPLETE</span>
                         </div>
@@ -152,9 +149,9 @@ const ViewAppointments = () => {
                         </div>
                         <div class="ms-auto">
                            <div class="d-flex justify-content-end">
-                              <div class="bg-info-subtle rounded-circle icon mb-3">
+                              {/* <div class="bg-info-subtle rounded-circle icon mb-3">
                                  <span class="mdi mdi-phone-outline mdi-18px text-info"></span>
-                              </div>
+                              </div> */}
                            </div>
                            <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">COMPLETE</span>
                         </div>
@@ -172,9 +169,9 @@ const ViewAppointments = () => {
                         </div>
                         <div class="ms-auto">
                            <div class="d-flex justify-content-end">
-                              <div class="bg-info-subtle rounded-circle icon mb-3">
+                              {/* <div class="bg-info-subtle rounded-circle icon mb-3">
                                  <span class="mdi mdi-phone-outline mdi-18px text-info"></span>
-                              </div>
+                              </div> */}
                            </div>
                            <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">COMPLETE</span>
                         </div>
@@ -192,9 +189,9 @@ const ViewAppointments = () => {
                         </div>
                         <div class="ms-auto">
                            <div class="d-flex justify-content-end">
-                              <div class="bg-info-subtle rounded-circle icon mb-3">
+                              {/* <div class="bg-info-subtle rounded-circle icon mb-3">
                                  <span class="mdi mdi-phone-outline mdi-18px text-info"></span>
-                              </div>
+                              </div> */}
                            </div>
                            <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">COMPLETE</span>
                         </div>

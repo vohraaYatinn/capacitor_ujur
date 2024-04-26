@@ -4,6 +4,7 @@ import { useRouter } from '../hooks/use-router';
 import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import BottomNav from './BottomNav';
 
 const DoctorReviews = () => {
    const router = useRouter();
@@ -84,7 +85,7 @@ const DoctorReviews = () => {
                   </div>
                </Link>
          </div>
-         <div class="footer mt-auto p-3 fix-osahan-footer">
+         {/* <div class="footer mt-auto p-3 fix-osahan-footer">
             <div class="d-flex align-items-center justify-content-between rounded-4 shadow overflow-hidden bottom-nav-main">
                <a href="home.html" class="col footer-bottom-nav active">
                <span class="mdi mdi-home-variant-outline mdi-24px"></span>
@@ -107,7 +108,7 @@ const DoctorReviews = () => {
                <span>Profile</span>
                </a>
             </div>
-         </div>
+         </div> */}
       </div>
       <div class="offcanvas offcanvas-bottom bg-light" tabindex="-1" id="offcanvasBottomRemove"
          aria-labelledby="offcanvasBottomRemoveLabel" style={{height:"40vh"}}>
@@ -142,6 +143,7 @@ const DoctorReviews = () => {
             Remove</a>
          </div>
       </div>
+      <BottomNav/>
 </>
     )
 }

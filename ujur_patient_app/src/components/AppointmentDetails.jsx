@@ -58,9 +58,7 @@ const AppointmentDetails = () => {
                   </div>
                   <div class="ms-auto">
                      <div class="d-flex justify-content-end">
-                        <div class="bg-info-subtle rounded-circle icon mb-3">
-                           <span class="mdi mdi-phone-outline mdi-18px text-info"></span>
-                        </div>
+
                      </div>
                      <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">
                      {appointmentDetails?.status == "pending" && "PENDING"}

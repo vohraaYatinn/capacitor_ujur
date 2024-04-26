@@ -71,12 +71,12 @@ const OverviewBooking = () => {
                console.log("aaa")
                router.push(`/home`)
             }}
-              bodyStyle={{ height: '40vh' }}
+              bodyStyle={{ height: '40vh', paddingBottom: '50px', marginBottom: "80px" }}
             >
          <div className="offcanvas-body text-center d-flex align-items-center justify-content-center p-4">
             <div>
                <i className="bi bi-hand-thumbs-up text-primary display-1"></i>
-               <h5 className="py-3">Thanks You!<br/>Your Appointment Created</h5>
+               <h5 className="py-3">Thank You<br/>Your Appointment Created</h5>
                <p className="text-muted fs-6">You Booked an appointment with dr. {afterBookingData?.doctor?.full_name} on {Moment(afterBookingData?.date_appointment).format('DD MMMM YYYY')}</p>
             </div>
          </div>

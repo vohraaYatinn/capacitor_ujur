@@ -136,12 +136,12 @@ const Home = () => {
               className="card-img-top top-doctor-img"
               alt="..."
               style={{
-                height: "10rem",
+                height: "8rem",
                 objectFit: "cover",
               }}
             />
-            <div className="card-body small p-3 osahan-card-body">
-              <p className="card-title fw-semibold mb-0 text-truncate fs-14">
+            <div className="card-body small  osahan-card-body">
+              <p className="card-title fw-semibold  text-truncate fs-14">
                 {each?.name}
               </p>
 
@@ -150,7 +150,7 @@ const Home = () => {
                   ? each.description.substring(0, 30) + "..."
                   : each.description}
               </p>
-              <p className="mt-3">
+              <p className="mt-1">
                 <span className="mdi mdi-star text-warning me-1" />
                 4.9 (5,380)
               </p>
@@ -288,7 +288,7 @@ const Home = () => {
               style={{ textDecoration: "none" }}
             >
               <img src={doctorImg3} alt="" className="img-fluid px-2" />
-              <p className="text-truncate small pt-2 m-0">Favrouite</p>
+              <p className="text-truncate small pt-2 m-0">Favourite</p>
             </Link>
           </div>
         </div>
@@ -323,9 +323,8 @@ const Home = () => {
               </div>
               <div class="ms-auto">
                 <div class="d-flex justify-content-end">
-                  <div class="bg-info-subtle rounded-circle icon mb-3">
-                    <span class="mdi mdi-phone-outline mdi-18px text-info"></span>
-                  </div>
+                  {/* <div class="bg-info-subtle rounded-circle icon mb-3">
+                  </div> */}
                 </div>
                 {latestAppointment?.status == "pending" && (
                   <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">
@@ -355,7 +354,7 @@ const Home = () => {
         <div className="row row-cols-2 g-3">
           {doctorsData.map((each) => {
             return (
-              <div className="col">
+              <div className="col" style={{marginBottom: "8rem"}}>
                 <div
                   className="card rounded-4 border-0 position-relative shadow-sm overflow-hidden"
                   onClick={() => {

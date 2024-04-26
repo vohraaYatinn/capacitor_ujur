@@ -98,14 +98,14 @@ const VisitInfo = () => {
               </label>
               <textarea
                 className="form-control text-muted"
-                style={{ height: "100px" }}
+                style={{ height: "500px" }}
                 placeholder="Leave a comment here"
                 id="floatingTextarea"
                 onChange={(e)=>{
                   setPatientData((prev)=>({...prev, "comment":e.target.value}))
                 }}
               >
-                hello, My name..
+
               </textarea>
             </div>
           </form>
