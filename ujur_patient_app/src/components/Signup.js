@@ -5,6 +5,8 @@ import { patientSignUp } from '../urls/urls';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../redux/reducers/functionalities.reducer';
+import {districts} from '../demo/districts';
+import { Select } from 'antd';
 
 
 const Signup = () => {
@@ -28,15 +30,28 @@ const Signup = () => {
     email:"",
     dob:"",
     gender:"male",
-    district:"",
+    district:districts.length > 0 ? districts[0] : ""
   });
 
+  const onChange = (value) => {
+    console.log(`selected ${value}`);
+    // Update the selected district in your formValues state
+    setFormValues((prev) => ({
+      ...prev,
+      district: value,
+    }));
+  };
+  
+  const onSearch = (value) => {
+    console.log('search:', value);
+    // Perform any search-related functionality if needed
+  };
+  
 
   //functions
   const signupFunction = () => {
     signUpFetch(patientSignUp(formValues));
   };
-
 
   //useEffects
   useEffect(() => {
@@ -192,35 +207,28 @@ const Signup = () => {
         </div>
       </div>
       <div className="mb-3 mt-3">
-        <label htmlFor="Pincode" className="form-label mb-1">
-          Pincode
-        </label>
-        <div
-          className="input-group border bg-white rounded-3 py-1"
-          id="Pincode"
-        >
-          <span
-            className="input-group-text bg-transparent rounded-0 border-0"
-            id="Pincode"
-          >
-            <span className="mdi mdi-account-circle-outline text-muted" />
-          </span>
-          <input
-            type="text"
-            className="form-control bg-transparent rounded-0 border-0 px-0"
-            placeholder="Type your Pincode"
-            aria-label="Type your Pincode"
-            aria-describedby="Pincode"
-            value={formValues?.district}
-            onChange={(e) => {
-              setFormValues((prev) => ({
-                ...prev,
-                district: e.target.value,
-              }));
-            }}
-          />
-        </div>
-      </div>
+  <label htmlFor="district" className="form-label mb-1">
+    District
+  </label>
+  <div className="input-group border bg-white rounded-3 py-1" id="district">
+    <Select
+      showSearch
+      placeholder="Select District"
+      optionFilterProp="children"
+      onChange={onChange}
+      onSearch={onSearch}
+      value={formValues.district}
+      style={{ width: '100%' }}
+    >
+      {districts.map((district, index) => (
+        <Select.Option key={index} value={district}>
+          {district}
+        </Select.Option>
+      ))}
+    </Select>
+  </div>
+</div>
+
 
       <div>
         <a
