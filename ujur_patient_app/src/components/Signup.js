@@ -218,7 +218,7 @@ const Signup = () => {
       onChange={onChange}
       onSearch={onSearch}
       value={formValues.district}
-      style={{ width: '100%' }}
+      style={{ width: '100%', border: "none", outline: "none" }}
     >
       {districts.map((district, index) => (
         <Select.Option key={index} value={district}>
