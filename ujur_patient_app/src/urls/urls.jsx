@@ -48,6 +48,9 @@ export const fetchLabReports = (payload_data) => {
 export const fetchprofiles = (payload_data) => {
   return project.get(Urls.GET_PERSONAL_PROFILE, payload_data);
 };
+export const changeProfileValues = (payload_data) => {
+  return project.post(Urls.CHANGE_PROFILE_VALUES, payload_data);
+};
 
 
 //doctor

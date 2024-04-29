@@ -8,6 +8,8 @@ import BottomNav from "./BottomNav";
 import { Button, Modal } from "antd-mobile";
 import { changeJwtOfPatient, fetchprofiles, patientAddNewProfile } from "../urls/urls";
 import useAxios from "../network/useAxios";
+import { Select } from 'antd';
+import {districts} from '../demo/districts';
 
 const CustomerProfile = () => {
   const router = useRouter();
@@ -59,6 +61,12 @@ const CustomerProfile = () => {
     useAxios();
 
   //useEffects
+  const onChange = (value) => {
+    setFormValues((prev) => ({
+       ...prev,
+       district: value,
+     }));
+   };
   useEffect(() => {
     fetchPatientprofile();
   }, []);
@@ -190,6 +198,38 @@ const CustomerProfile = () => {
                   </div>
                   <div className="mb-3">
                     <label
+                      htmlFor="exampleFormControlFullName"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                     Email
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlFullName"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="fullName"
+                      >
+<span className="mdi mdi-email-outline mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Type your email"
+                        aria-label="Type your email"
+                        aria-describedby="email"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label
                       htmlFor="exampleFormControlDOB"
                       className="form-label mb-1 label-custom-boot"
                     >
@@ -256,70 +296,42 @@ const CustomerProfile = () => {
                     </div>
                   </div>
 
+
                   <div className="mb-3">
-                    <label
-                      htmlFor="exampleFormControlBloodGroup"
-                      className="form-label mb-1 label-custom-boot"
-                    >
-                      Blood Group
-                    </label>
-                    <div
-                      className="input-group border bg-white rounded-3 py-1"
-                      id="exampleFormControlBloodGroup"
-                    >
-                      <span
-                        className="input-group-text bg-transparent rounded-0 border-0"
-                        id="bloodGroup"
-                      >
-                        <span className="mdi mdi-heart mdi-18px text-muted" />
-                      </span>
-                      <input
-                        type="text"
-                        className="form-control bg-transparent rounded-0 border-0 px-0"
-                        placeholder="Type your blood group"
-                        aria-label="Type your blood group"
-                        aria-describedby="bloodGroup"
-                        onChange={(e) => {
-                          setFormValues((prev) => ({
-                            ...prev,
-                            bloodGroup: e.target.value,
-                          }));
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="exampleFormControlDOB"
-                      className="form-label mb-1 label-custom-boot"
-                    >
-                      Date of Birth
-                    </label>
-                    <div
-                      className="input-group border bg-white rounded-3 py-1"
-                      id="exampleFormControlDOB"
-                    >
-                      <span
-                        className="input-group-text bg-transparent rounded-0 border-0"
-                        id="dob"
-                      >
-                        <span className="mdi mdi-calendar mdi-18px text-muted" />
-                      </span>
-                      <input
-                        type="date"
-                        className="form-control bg-transparent rounded-0 border-0 px-0"
-                        placeholder="Select your date of birth"
-                        aria-label="Select your date of birth"
-                        aria-describedby="dob"
-                      />
-                    </div>
+                  <label htmlFor="district" className="form-label mb-1 mt-1">
+    District
+  </label>
+  <div className="input-group border bg-white rounded-3 py-1" id="district">
+    <Select
+      showSearch
+      placeholder="Select District"
+      optionFilterProp="children"
+      onChange={onChange}
+      // onSearch={onSearch}
+      // value={profileDataToChange.district}
+      style={{ width: '100%', border: "none", outline: "none" }}
+    >
+      {Object.keys(districts).map((district, index) => (
+        
+        <>
+        <Select.Option disabled={true} style={{height:"3rem"}}>
+          {district}
+        </Select.Option>
+        {districts[district].map((district, index) => (
+        <Select.Option key={index} value={district}>
+          {district}
+        </Select.Option>))}
+        </>
+      ))}
+    </Select>
+  </div>
                   </div>
                   <div className="mb-3">
                     <label
                       htmlFor="exampleFormControlFullName"
                       className="form-label mb-1 label-custom-boot"
                     >
-                      Weight
+                      Block
                     </label>
                     <div
                       className="input-group border bg-white rounded-3 py-1"
@@ -329,50 +341,18 @@ const CustomerProfile = () => {
                         className="input-group-text bg-transparent rounded-0 border-0"
                         id="fullName"
                       >
-                        <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+<span className="mdi mdi-map-marker-outline mdi-18px text-muted" />
                       </span>
                       <input
                         type="text"
                         className="form-control bg-transparent rounded-0 border-0 px-0"
-                        placeholder="Enter Your Weight"
-                        aria-label="Enter Your Weight"
+                        placeholder="Enter Block"
+                        aria-label="Enter Block"
                         aria-describedby="fullName"
                         onChange={(e) => {
                           setFormValues((prev) => ({
                             ...prev,
-                            weight: e.target.value,
-                          }));
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="exampleFormControlFullName"
-                      className="form-label mb-1 label-custom-boot"
-                    >
-                      District
-                    </label>
-                    <div
-                      className="input-group border bg-white rounded-3 py-1"
-                      id="exampleFormControlFullName"
-                    >
-                      <span
-                        className="input-group-text bg-transparent rounded-0 border-0"
-                        id="fullName"
-                      >
-                        <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
-                      </span>
-                      <input
-                        type="text"
-                        className="form-control bg-transparent rounded-0 border-0 px-0"
-                        placeholder="Type your District"
-                        aria-label="Type your District"
-                        aria-describedby="fullName"
-                        onChange={(e) => {
-                          setFormValues((prev) => ({
-                            ...prev,
-                            district: e.target.value,
+                            block: e.target.value,
                           }));
                         }}
                       />

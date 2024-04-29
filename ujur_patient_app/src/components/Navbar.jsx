@@ -118,6 +118,7 @@ const Navbar = () => {
   </li>
   <li>
     <Link to="/" onClick={()=>{
+      localStorage.removeItem('storedToken')
        onClose()
     }}
     style={{textDecoration: "none"}}

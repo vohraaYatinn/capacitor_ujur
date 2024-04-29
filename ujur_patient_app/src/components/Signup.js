@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { updateToken } from '../redux/reducers/functionalities.reducer';
 import {districts} from '../demo/districts';
 import { Select } from 'antd';
+import { Alert } from "antd";
 
 
 const Signup = () => {
@@ -34,8 +35,6 @@ const Signup = () => {
   });
 
   const onChange = (value) => {
-    console.log(`selected ${value}`);
-    // Update the selected district in your formValues state
     setFormValues((prev) => ({
       ...prev,
       district: value,
@@ -66,7 +65,7 @@ const Signup = () => {
   useEffect(() => {
     if (signUpError) {
       setMessage({
-        message: signUpError?.response?.data,
+        message: signUpError?.response?.data?.message,
         isShow: true,
       });
     }
@@ -84,6 +83,21 @@ const Signup = () => {
       </div>
 
     </div>
+    {message.isShow && (
+            <Alert
+              style={{ marginBottom: "1rem" }}
+              message={message?.message}
+              type="error"
+              showIcon
+              closable
+              onClose={() => {
+                setMessage({
+                  message: "",
+                  isShow: false,
+                });
+              }}
+            />
+          )}
     <form>
     <div className="mb-3 mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
@@ -220,14 +234,51 @@ const Signup = () => {
       value={formValues.district}
       style={{ width: '100%', border: "none", outline: "none" }}
     >
-      {districts.map((district, index) => (
-        <Select.Option key={index} value={district}>
+      {Object.keys(districts).map((district, index) => (
+        
+        <>
+        <Select.Option disabled={true} style={{height:"3rem"}}>
           {district}
         </Select.Option>
+        {districts[district].map((district, index) => (
+        <Select.Option key={index} value={district}>
+          {district}
+        </Select.Option>))}
+        </>
       ))}
     </Select>
   </div>
 </div>
+<div className="mb-3 mt-3">
+        <label htmlFor="exampleFormControlName" className="form-label mb-1">
+          Block
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlName"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-map-marker-outline mdi-18px text-muted" />
+          </span>
+          <input
+            type="text"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Type your block"
+            aria-label="Type your block"
+            aria-describedby="name"
+            value={formValues?.block}
+            onChange={(e) => {
+              setFormValues((prev) => ({
+                ...prev,
+                block: e.target.value,
+              }));
+            }}
+          />
+        </div>
+      </div>
 
 
       <div>
