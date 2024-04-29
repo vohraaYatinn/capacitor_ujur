@@ -87,6 +87,7 @@ const CustomerProfile = () => {
     if (profileResponse?.result == "success") {
       setprofileData(profileResponse?.data);
       setExtraPatientsData(profileResponse?.linked_patient)
+      console.log(profileData)
     }
   }, [profileResponse]);
   useEffect(() => {
@@ -297,8 +298,8 @@ const CustomerProfile = () => {
                           }));
                         }}
                       >
-                        <option value="M">Male</option>
-                        <option value="F">Female</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                         <option value="O">Other</option>
                       </select>
                     </div>
@@ -412,7 +413,7 @@ const CustomerProfile = () => {
                   <p>
                     <span class="text-muted small">Gender</span>
                     <br />
-                    {profileData?.gender == "M" ? "Male" : "Female"}
+                    {profileData?.gender == "male" ? "Male" : "Female"}
                   </p>
                 </div>
                 <div class="col">
@@ -435,7 +436,7 @@ const CustomerProfile = () => {
                   <p>
                     <span class="text-muted small">District</span>
                     <br />
-                    New Delhi
+                    {profileData?.district}
                   </p>
                 </div>
               </div>
