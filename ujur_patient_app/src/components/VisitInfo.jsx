@@ -21,7 +21,27 @@ const VisitInfo = () => {
     fetchBookingLoading,
     fetchBookingFetch,
   ] = useAxios();
-
+  const [isUploaded, setIsUploaded] = useState(false);
+  const handleUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      console.log("Selected file:", file);
+      setPatientData((prev) => ({
+        ...prev,
+        document: file,
+      }));
+      setIsUploaded(true);
+    }
+  };
+  
+  const handleRemove = () => {
+    setIsUploaded(false);
+    console.log("Remove button clicked");
+    setPatientData((prev) => ({
+      ...prev,
+      document: "",
+    }));
+  };
   //functions
   const getBookingAmount = () => {
     const payload = {
@@ -30,7 +50,8 @@ const VisitInfo = () => {
       doctorId: doctorId,
       date: date,
       slot: slot,
-      comment: patientData?.comment
+      comment: patientData?.comment,
+      document:patientData?.document
     };
     fetchBookingFetch(fetchBookingPrice(payload));
   };
@@ -67,6 +88,7 @@ const VisitInfo = () => {
   }, [fetchBookingError]);
   return (
     <>
+    <input type="file" ref={fileInputRef} style={{display:"none"}}  onChange={handleUpload}/>
 
       <div className="visit-info d-flex flex-column vh-100">
         
@@ -111,6 +133,7 @@ const VisitInfo = () => {
           </form>
         </div>
         <button style={{background:"white", border:"0px", padding:"1rem"}}>
+
             <p className="fw-bold mb-1 text-primary fs-14"  onClick={()=>handleUploadClick()}>
               Attach reports &<br /> previous Pescriptions
             </p>
@@ -120,7 +143,15 @@ const VisitInfo = () => {
             <div className="upload-file-icon bg-primary" >
               <i className="bi bi-file-earmark-arrow-up text-white fs-3 pt-4 pe-3"></i>
             </div>
-
+            {isUploaded && (
+                        <button
+                          className="btn btn-soft-primary ms-2 mt-4"
+                          onClick={handleRemove}
+                          style={{background:"red", color:"white"}}
+                        >
+                          Remove
+                        </button>
+                      )}
           </button>
         <div className="footer mt-auto p-3">
           

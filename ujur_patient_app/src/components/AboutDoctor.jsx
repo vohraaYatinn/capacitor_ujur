@@ -52,7 +52,7 @@ const AboutDoctor = () => {
     <div class="vh-100 my-auto overflow-auto p-3">
        <div class="overflow-hidden rounded-4 shadow-sm mb-4">
           <div class="px-3 appointment-banner">
-             <div class="d-flex align-items-center gap-3">
+             <div class="d-flex align-items-center gap-3" style={{textAlign:"center"}}>
                 <img src={test_url_images+doctorData?.profile_picture} alt="" class="img-fluid appointment-doctor-img" />
                 <div>
                    <h5 class="mb-1">Dr. {doctorData?.full_name}</h5>

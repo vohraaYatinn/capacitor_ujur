@@ -17,6 +17,8 @@ export class Urls {
     static FETCH_APPOINTMENTS_PATIENTS = Urls.MPHRMS_API_PREFIX + 'doctors/fetch_appointments_patients/';
     static GET_PERSONAL_PROFILE = Urls.MPHRMS_API_PREFIX + 'patients/fetch-personal-info-patients/';
     static CHANGE_PROFILE_VALUES = Urls.MPHRMS_API_PREFIX + 'patients/change-profile-values/';
+    static ADD_REVIEWS = Urls.MPHRMS_API_PREFIX + 'doctors/add-reviews/';
+    static FETCH_REVIEWS = Urls.MPHRMS_API_PREFIX + 'doctors/fetch-reviews/';
 
     
 

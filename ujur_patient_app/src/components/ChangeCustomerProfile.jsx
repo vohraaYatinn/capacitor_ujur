@@ -181,7 +181,7 @@ const ChangeCustomerProfile = () => {
 
                </span>
                   <input type="text" class="form-control bg-transparent rounded-0 border-0 px-0"
-                     placeholder="Enter Weight" aria-label="Type your number" 
+                     placeholder="Enter Height" aria-label="Type your number" 
                      value={`${profileDataToChange?.height || ""}`} 
                      onChange={(e)=>{
                         setProfileDataToChange((prev) => ({

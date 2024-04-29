@@ -25,7 +25,7 @@ const NotificationsCustomer = () => {
          </div>
          <div class="vh-100 my-auto overflow-auto body-fix-osahan-footer">
             <div>
-               <h6 class="border-bottom fw-bold text-black p-3 mb-0">Today 16 Nov, 2023</h6>
+               <h6 class="border-bottom fw-bold text-black p-3 mb-0"></h6>
                <div class="d-flex gap-3 bg-white border-bottom p-3">
                   <div>
                      <span class="bg-info-subtle rounded-pill notification-icon">
@@ -72,54 +72,7 @@ const NotificationsCustomer = () => {
                   </div>
                </div>
             </div>
-            <div>
-               <h6 class="border-bottom fw-bold text-black p-3 mb-0">Preview</h6>
-               <div class="d-flex gap-3 bg-white border-bottom p-3">
-                  <div>
-                     <span class="light-bg-orange rounded-pill notification-icon">
-                     <span class="mdi mdi-calendar-multiple text-orange"></span>
-                     </span>
-                  </div>
-                  <div>
-                     <p class="text-muted mb-2">Your have appointment with mahuba islam at 9:00 pm 5 days ago</p>
-                     <a href="#">Just Now</a>
-                  </div>
-               </div>
-               
-               <div class="d-flex gap-3 bg-white border-bottom p-3">
-                  <div>
-                     <span class="bg-info-subtle rounded-pill notification-icon">
-                     <span class="mdi mdi-calendar-month text-info"></span>
-                     </span>
-                  </div>
-                  <div>
-                     <p class="text-muted mb-2">Your have appointment with mahuba islam at 11:00 pm 20 days ago</p>
-                     <a href="#">Just Now</a>
-                  </div>
-               </div>
-               <div class="d-flex gap-3 bg-white border-bottom p-3">
-                  <div>
-                     <span class="light-bg-warning rounded-pill notification-icon">
-                     <span class="mdi mdi-calendar-range text-warning"></span>
-                     </span>
-                  </div>
-                  <div>
-                     <p class="text-muted mb-2">Your have appointment with Kawsar ahmed at 10:00am 27 days ago</p>
-                     <a href="#">Just Now</a>
-                  </div>
-               </div>
-               <div class="d-flex gap-3 bg-white border-bottom p-3 mb-3">
-                  <div>
-                     <span class="bg-success-subtle rounded-pill notification-icon">
-                     <span class="mdi mdi-calendar-check text-success"></span>
-                     </span>
-                  </div>
-                  <div>
-                     <p class="text-muted mb-2">Your have appointment with islam at 8:00pm 30 days ago</p>
-                     <a href="#">Just Now</a>
-                  </div>
-               </div>
-            </div>
+   
          </div>
          <div class="footer mt-auto p-3 fix-osahan-footer">
          <BottomNav path={"search"} />

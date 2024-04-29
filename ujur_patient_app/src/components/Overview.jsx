@@ -71,7 +71,7 @@ const OverviewBooking = () => {
                console.log("aaa")
                router.push(`/home`)
             }}
-              bodyStyle={{ height: '40vh', paddingBottom: '50px', marginBottom: "80px" }}
+              bodyStyle={{  paddingBottom: '50px'}}
             >
          <div className="offcanvas-body text-center d-flex align-items-center justify-content-center p-4">
             <div>

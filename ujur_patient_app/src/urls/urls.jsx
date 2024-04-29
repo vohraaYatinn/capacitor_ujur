@@ -33,6 +33,12 @@ export const fetchCustomerlatestAppointment = (payload_data) => {
 export const fetchAppointmentDetails = (payload_data) => {
   return project.get(Urls.APPOINTMENT_DETAILS, payload_data);
 };
+export const addReviewsPatient = (payload_data) => {
+  return project.post(Urls.ADD_REVIEWS, payload_data);
+};
+export const fetchReviewsPatient = (payload_data) => {
+  return project.get(Urls.FETCH_REVIEWS, payload_data);
+};
 export const fetchFavDoctor = (payload_data) => {
   return project.get(Urls.FETCH_FAV_DOCTOR, payload_data);
 };
@@ -61,7 +67,7 @@ export const fetchRequestAppointmentsDetails = (payload_data) => {
   return project.get(Urls.REQUEST_APPOINTMEENTS_DETAILS, payload_data);
 };
 export const fetchBookingPrice = (payload_data) => {
-  return project.post(Urls.FETCH_PRICE_OF_BOOKING, payload_data);
+  return project.multiPartFormData(Urls.FETCH_PRICE_OF_BOOKING, payload_data);
 };
 export const fetchBookingConfirmationPagePrice = (payload_data) => {
   return project.get(Urls.FETCH_PRICE_OF_BOOKING_FINAL_PAGE, payload_data);

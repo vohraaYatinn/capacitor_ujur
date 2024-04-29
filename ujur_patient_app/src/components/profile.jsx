@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateNavbar, updateToken } from "../redux/reducers/functionalities.reducer";
 import BottomNav from "./BottomNav";
-import { Button, Modal } from "antd-mobile";
+import { Button } from "antd-mobile";
 import { changeJwtOfPatient, fetchprofiles, patientAddNewProfile } from "../urls/urls";
 import useAxios from "../network/useAxios";
-import { Select } from 'antd';
+import { Modal, Select } from 'antd';
 import {districts} from '../demo/districts';
 
 const CustomerProfile = () => {
@@ -26,14 +26,27 @@ const CustomerProfile = () => {
       changeJwtFunction(data)
     }
   }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    submitUserSignup()
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const changeJwtFunction = (id) => {
     changeJwtFetch(changeJwtOfPatient({
       patientId:id
     }));
   };
   const submitUserSignup = () => {
+    console.log(formValues)
     patientSignupFetch(patientAddNewProfile(formValues));
   };
+  useEffect(()=>{console.log(formValues)},[formValues])
   const fetchPatientprofile = () => {
     profileFetch(fetchprofiles({ patientId: 1 }));
   };
@@ -154,17 +167,12 @@ const CustomerProfile = () => {
             </a>
           </div>
         </div>
-        <Button
-          className="mt-3"
-          onClick={() => {
-            Modal.alert({
-              onConfirm: () => {
-                submitUserSignup()
-              },
-              title: "Add New Profile",
-              content: (
-                <>
-                  <div className="mb-3">
+        <Button type="primary" onClick={showModal} style={{background:"rgb(12,109,253)", color:"white"}}>
+        Add New Profile
+      </Button>
+      <Modal title="Add New Profile" open={isModalOpen} onOk={handleOk} okText={"Add"} onCancel={handleCancel} >
+      <>
+                  <div className="mb-3 mt-5">
                     <label
                       htmlFor="exampleFormControlFullName"
                       className="form-label mb-1 label-custom-boot"
@@ -359,6 +367,18 @@ const CustomerProfile = () => {
                     </div>
                   </div>
                 </>
+      </Modal>
+        {/* <Button
+          className="mt-3"
+          onClick={() => {
+            Modal.alert({
+              onConfirm: () => {
+                console.log(formValues)
+                submitUserSignup(formValues)
+              },
+              title: "Add New Profile",
+              content: (
+              
               ),
               showCloseButton: true,
               confirmText: "Add Profile",
@@ -366,7 +386,7 @@ const CustomerProfile = () => {
           }}
         >
           Add New Profile
-        </Button>
+        </Button> */}
         <div class="vh-100 my-auto overflow-auto body-fix-osahan-footer">
           <div class="p-3">
             <div class="bg-white rounded-4 px-3 pt-3 overflow-hidden edit-profile-back shadow mb-3">
@@ -397,9 +417,9 @@ const CustomerProfile = () => {
                 </div>
                 <div class="col">
                   <p>
-                    <span class="text-muted small">Phone</span>
+                    <span class="text-muted small">Height</span>
                     <br />
-                    {profileData?.user?.phone}
+                    {profileData?.height} Cm
                   </p>
                 </div>
               </div>

@@ -109,7 +109,7 @@ const Home = () => {
             <span className="h4 text-warning overflow-hidden rounded-4 m-0">
               <b className="bg-warning text-black px-1 rounded">
                 {/* Doctor for Your */}
-                {index === 0 ? 'Locate a nearby cardiologist' : index === 1 ? 'Locate a nearby Dermatologist' : index === 2 ? 'Locate a nearby Pediatrician' : ''}
+                {index === 0 ? 'Nearby cardiologist' : index === 1 ? 'Nearby Dermatologist' : index === 2 ? 'Nearby Pediatrician' : ''}
               </b>
               <br/><b className="text-black">{" "}Needs!</b>
             </span>
@@ -374,10 +374,13 @@ const Home = () => {
                   </div>
                   <img
                     src={test_url_images + each?.profile_picture}
+                    style={{height:"9rem", objectFit:"cover"}}
                     alt=""
                     className="card-img-top top-doctor-img"
                   />
-                  <div className="card-body small p-3 osahan-card-body">
+                  <div className="card-body small p-3 osahan-card-body" style={{
+                        height: "11rem"
+                  }}>
                     <h6 className="card-title fs-14 mb-1">
                       Dr. {each?.full_name}
                     </h6>

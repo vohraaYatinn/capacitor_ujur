@@ -122,7 +122,7 @@ const HospitalOverview = () => {
               Doctors
             </button>
           </li>
-          <li className="nav-item col" role="presentation">
+          {/* <li className="nav-item col" role="presentation">
             <button
               className={`nav-link w-100 ${selectedTab == 3 && "active"}`}
               id="pills-review-tab"
@@ -138,7 +138,7 @@ const HospitalOverview = () => {
             >
               Review
             </button>
-          </li>
+          </li> */}
         </ul>
       </div>
       <div className="mb-3">
@@ -177,6 +177,10 @@ const HospitalOverview = () => {
                     src={test_url_images+data.profile_picture}
                     className="card-img-top top-doctor-img"
                     alt="..."
+                    style={{
+                      height: "8rem",
+                      objectFit: "cover"
+                    }}
                   />
                   <div className="card-body small p-3 osahan-card-body">
                     <p className="card-title fw-semibold mb-0 text-truncate fs-14">

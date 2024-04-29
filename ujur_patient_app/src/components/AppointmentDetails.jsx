@@ -111,11 +111,11 @@ const AppointmentDetails = () => {
                  :
                  <div class="bg-white mt-1 p-3">
 
-                 {/* <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
+                 <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
-                    router.push("/write-reviews")
+                    router.push("/write-reviews/"+appointmentId)
                  }}
-                 >Add Review</Button> */}
+                 >Add Review</Button>
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                   convertToPDF(appointmentDetails?.pdf_content, "prescription")
@@ -146,11 +146,19 @@ const AppointmentDetails = () => {
                         <p class="mb-1">Full Name</p>
                         <p class="mb-1">DOB</p>
                         <p class="m-0">Gender</p>
+                        {/* <p class="m-0">Phone</p> */}
+                        <p class="m-0">Blood Group</p>
+                        <p class="m-0">Weight</p>
+                        <p class="m-0">Height</p>
                      </div>
                      <div>
                         <p class="mb-1">: MR {appointmentDetails?.patient?.full_name}</p>
                         <p class="mb-1">: {appointmentDetails?.patient?.date_of_birth}</p>
                         <p class="m-0">: {appointmentDetails?.patient?.gender == "M" ? "Male" :"Female"}</p>
+                        {/* <p class="m-0">: {appointmentDetails?.patient?.}</p> */}
+                        <p class="m-0">: {appointmentDetails?.patient?.blood_group}</p>
+                        <p class="m-0">: {appointmentDetails?.patient?.weight || "N/A"} Kg</p>
+                        <p class="m-0">: {appointmentDetails?.patient?.height || "N/A"} Cm</p>
                      </div>
                   </div>
                </div>

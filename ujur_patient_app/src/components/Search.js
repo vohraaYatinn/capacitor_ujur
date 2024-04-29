@@ -39,7 +39,7 @@ const Search = () => {
       searchInput:""
     })
     useEffect(()=>{
-      if(formValues?.searchInput.length > 3){
+      if(formValues?.searchInput.length > 1){
          searchFetch(searchPatientFeature(formValues))
       }
 
