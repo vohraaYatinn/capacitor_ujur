@@ -1,12 +1,23 @@
 import { Swiper } from 'antd-mobile'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from '../hooks/use-router';
 import img2 from "../img/frontpage/1.png"
 import img1 from "../img/frontpage/2.png"
 import img3 from "../img/frontpage/3.png"
+import { useNavigate } from 'react-router-dom';
 
 
 const LandingSlides = () => {
+
+   const navigate = useNavigate();
+
+   useEffect(()=>{
+      const isLoggedIn = localStorage.getItem('storedToken')
+      if(isLoggedIn?.length > 0){
+         navigate('/home')
+      }
+   }, [])
+
     const router = useRouter();
 
     const colors = [

@@ -1,36 +1,60 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from '../hooks/use-router';
-import { updateNavbar } from '../redux/reducers/functionalities.reducer';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useRouter } from '../hooks/use-router';
+import { useDispatch } from 'react-redux';
+import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import useAxios from '../network/useAxios';
 import { fetchprofiles } from '../urls/urls';
 
 const ChangeCustomerProfile = () => {
-    const router = useRouter();
-    const dispatch = useDispatch();
-    const [profileData, setprofileData] = useState([])
-    const [profileDataToChange, setprofileDataToChange] = useState([])
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [profileData, setProfileData] = useState([]);
+  const [profileDataToChange, setProfileDataToChange] = useState([]);
+  const [date, setDate] = useState({
+    year: null,
+    month: null,
+    day: null
+  });
 
-    //useAxios
-    const [profileResponse, profileError, profileLoading, profileFetch] = useAxios();
- 
-    //functions
-    const fetchPatientprofile = () => {
-       profileFetch(fetchprofiles({patientId:1}));
-       };
- 
-    
-       //useEffects
-       useEffect(()=>{
-          fetchPatientprofile()
-       },[])
-       useEffect(()=>{
-         if(profileResponse?.result == "success"){
-           setprofileData(profileResponse?.data)
-           setprofileDataToChange(profileResponse?.data)
-         }
-       },[profileResponse])
+  // useAxios
+  const [profileResponse, profileError, profileLoading, profileFetch] = useAxios();
+
+  // Function to fetch patient profile
+  const fetchPatientProfile = () => {
+    profileFetch(fetchprofiles({ patientId: 1 }));
+  };
+
+  // Function to set date from string
+  const setDateFromString = (dateString) => {
+    const [year, month, day] = dateString.split('-');
+    const monthNames = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 
+      'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+
+    const monthName = monthNames[parseInt(month) - 1];
+
+    setDate({
+      year: parseInt(year),
+      month: monthName, 
+      day: parseInt(day)
+    });
+  };
+
+  // useEffect to fetch patient profile on component mount
+  useEffect(() => {
+    fetchPatientProfile();
+  }, []);
+
+  // useEffect to handle profileResponse updates
+  useEffect(() => {
+    if (profileResponse?.result === "success") {
+      setProfileData(profileResponse.data);
+      // Update date based on fetched profile data
+      setDateFromString(profileResponse.data.date_of_birth);
+    }
+  }, [profileResponse]);
 
   return (
 <>
@@ -81,7 +105,7 @@ const ChangeCustomerProfile = () => {
                      <div class="input-group border bg-white rounded-3 py-1">
                         <label class="input-group-text bg-transparent rounded-0 border-0 label-custom-boot" for="inputGroupSelectDay"><span class="mdi mdi-calendar-today mdi-18px"></span></label>
                         <select class="form-select bg-transparent rounded-0 border-0 px-0" id="inputGroupSelectDay">
-                           <option selected>11</option>
+                           <option selected>{date?.day}</option>
                            <option value="1">1</option>
                            <option value="2">2</option>
                            <option value="3">3</option>
@@ -122,7 +146,7 @@ const ChangeCustomerProfile = () => {
                      <div class="input-group border bg-white rounded-3 py-1">
                         <label class="input-group-text bg-transparent rounded-0 border-0 label-custom-boot" for="inputGroupSelectMonth"><span class="mdi mdi-calendar-month mdi-18px"></span></label>
                         <select class="form-select bg-transparent rounded-0 border-0 px-0" id="inputGroupSelectMonth">
-                           <option selected>Jan</option>
+                           <option selected>{date?.month}</option>
                            <option value="1">Jan</option>
                            <option value="2">Feb</option>
                            <option value="3">Mar</option>
@@ -145,7 +169,7 @@ const ChangeCustomerProfile = () => {
                      <div class="input-group border bg-white rounded-3 py-1">
                         <label class="input-group-text bg-transparent rounded-0 border-0 label-custom-boot" for="inputGroupSelectYear"><span class="mdi mdi-calendar-text mdi-18px"></span></label>
                         <select class="form-select bg-transparent rounded-0 border-0 px-0" id="inputGroupSelectYear">
-                           <option selected>2000</option>
+                           <option selected>{date?.year}</option>
                            <option value="1">2001</option>
                            <option value="2">2002</option>
                            <option value="3">2003</option>

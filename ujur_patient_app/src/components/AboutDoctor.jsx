@@ -69,11 +69,7 @@ const AboutDoctor = () => {
                 </div>
              </div>
           </div>
-          <div class="d-flex align-items-center justify-content-between bg-white">
-             <a  class="col text-center rounded-0 p-3"
-             >
-                <span class="mdi mdi-phone-outline h4 m-0 text-primary"></span>
-             </a>
+          <div class="p-3 bg-white">
              <a  class="col text-center rounded-0 p-3"
              onClick={()=>{
                addFavDoctor()
@@ -81,9 +77,7 @@ const AboutDoctor = () => {
              >
                 <span class={`mdi ${isFav ? "mdi-heart" : "mdi-heart-outline"} h4 m-0 text-primary`}></span>
              </a>
-             <a  class="col text-center rounded-0 p-3">
-                <span class="mdi mdi-message-processing-outline h4 m-0 text-primary"></span>
-             </a>
+            
           </div>
        </div>
        <div class="body">
