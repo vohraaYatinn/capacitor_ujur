@@ -54,10 +54,28 @@ const RequestAppointment = () => {
     return day.slice(0, 3);
   };
 
+  const checkValidTime = () => {
+    const now = new Date();
+    let hour = now.getHours();
+    return hour
+  };
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Adding 1 because getMonth() returns zero-based index
+    const day = String(today.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+}
+
+  console.log(getCurrentDate(), selectedSlotsAndDate.date)
+
   //useEffects
   useEffect(() => {
     if (doctorId) {
       fetchDoctorAppointments();
+      checkValidTime();
     }
   }, [doctorId]);
   useEffect(() => {
@@ -66,6 +84,11 @@ const RequestAppointment = () => {
       setdaysdateDetails(doctorsAppointmentResponse?.dates_and_days);
     }
   }, [doctorsAppointmentResponse]);
+
+  const currentHour = checkValidTime();
+  let showMorningSlots = selectedSlotsAndDate.date !== getCurrentDate() || currentHour < 12; // Show until 12 PM
+  let showAfternoonSlots =selectedSlotsAndDate.date !== getCurrentDate() || currentHour < 18; // Show until 6 PM
+  let showEveningSlots = selectedSlotsAndDate.date !== getCurrentDate() ||currentHour < 22 ; // Show until 10 PM
 
   return (
     <>
@@ -132,7 +155,7 @@ const RequestAppointment = () => {
             ))}
           </div>
         </div>
-        {appointmentDetails?.morning_slots > 0 && (
+        {showMorningSlots && appointmentDetails?.morning_slots > 0 && (
           <div class="mb-4">
             <h5 class="fs-14 fw-bold text-black mb-3">Morning Slots</h5>
 
@@ -162,7 +185,7 @@ const RequestAppointment = () => {
             </div>
           </div>
         )}
-        {appointmentDetails?.afternoon_slots > 0 && (
+        {showAfternoonSlots && appointmentDetails?.afternoon_slots > 0 && (
           <div class="mb-4">
             <h5 class="fs-14 fw-bold text-black mb-3">Afternoon Slots</h5>
 
@@ -194,7 +217,7 @@ const RequestAppointment = () => {
             </div>
           </div>
         )}
-        {appointmentDetails?.evening_slots > 0 && (
+        {showEveningSlots && appointmentDetails?.evening_slots > 0 && (
           <div class="mb-4">
             <h5 class="fs-14 fw-bold text-black mb-3">Evening Slots</h5>
 
