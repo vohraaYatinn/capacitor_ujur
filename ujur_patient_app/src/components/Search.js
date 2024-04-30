@@ -52,7 +52,7 @@ const Search = () => {
 
 
   return (
-    <div>
+    <div style={{paddingBottom: "40px"}}>
            <div className="select-area d-flex flex-column vh-100">
       <div className="bg-white shadow-sm">
          <div className="d-flex align-items-center justify-content-between mb-auto p-3 osahan-header">
