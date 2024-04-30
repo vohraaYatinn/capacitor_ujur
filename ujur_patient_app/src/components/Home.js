@@ -351,10 +351,10 @@ const Home = () => {
       </div>
       <div className="p-3">
         <h6 className="mb-2 pb-2 fw-bold text-black">Available Doctor</h6>
-        <div className="row row-cols-2 g-3">
+        <div className="row row-cols-2 g-3" style={{marginBottom:"8rem"}}>
           {doctorsData.map((each) => {
             return (
-              <div className="col" style={{marginBottom: "8rem"}}>
+              <div className="col" >
                 <div
                   className="card rounded-4 border-0 position-relative shadow-sm overflow-hidden"
                   onClick={() => {

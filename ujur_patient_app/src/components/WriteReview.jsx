@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import BackNavbar from './BackNavbar';
 import { addReviewsPatient, fetchReviewsPatient } from '../urls/urls';
 import useAxios from '../network/useAxios';
+import { Alert } from "antd";
 
 const WriteReview = () => {
    
@@ -24,6 +25,10 @@ const WriteReview = () => {
          rating: newRating,
        }))
    };
+   const [message, setMessage] = useState({
+      message: "",
+      isShow: false,
+    });
 
    const [reviewResponse, reviewError, reviewLoading, reviewFetch] = useAxios();
    const [reviewFetchResponse, reviewFetchError, reviewFetchLoading, reviewFetchFetch] = useAxios();
@@ -41,15 +46,41 @@ const WriteReview = () => {
          setFormValues({
             rating:reviewFetchResponse?.data?.reviews_star,
             comment:reviewFetchResponse?.data?.comment,
+            appointmentId:appointmentId
          })
       }
    },[reviewFetchResponse])
+   useEffect(()=>{
+      if(reviewResponse?.result == "success"){
+         setMessage({
+            message: reviewResponse?.message,
+            isShow: true,
+
+          });
+      }
+   },[reviewResponse])
 
   return (
 <>
 <div class="review d-flex flex-column vh-100">
      <BackNavbar name="Write Review" />
+
          <div class="vh-100 my-auto overflow-auto p-3">
+         {message.isShow && (
+            <Alert
+              style={{ marginBottom: "1rem" }}
+              message={message?.message}
+              type="success"
+              showIcon
+              closable
+              onClose={() => {
+                setMessage({
+                  message: "",
+                  isShow: false,
+                });
+              }}
+            />
+          )}
             <div class="text-center mb-5">
                <img src="img/favorite/favorite-4.jpg" alt="" class="img-fluid rounded-circle call-img mb-4 mt-4" />
                <div>

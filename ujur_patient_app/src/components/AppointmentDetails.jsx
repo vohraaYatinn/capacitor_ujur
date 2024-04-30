@@ -8,7 +8,9 @@ import useAxios from '../network/useAxios';
 import { fetchAppointmentDetails } from '../urls/urls';
 import moment from 'moment';
 import { test_url_images } from '../config/environment';
-import convertToPDF from '../utils/convertToPdf';
+// import convertToPDF from '../utils/convertToPdf';
+import PrescriptionHistory from './PrescriptionHistory';
+import { Modal } from 'antd';
 
 const AppointmentDetails = () => {
    const router = useRouter();
@@ -16,7 +18,17 @@ const AppointmentDetails = () => {
    const [ appointmentDetails, setAppointmentDetails ] = useState();
    const [ slotDetails, setSlotDetails ] = useState();
    const [ slotNumber, setTotalSlots ] = useState();
-
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const showModal = () => {
+     setIsModalOpen(true);
+   };
+   const handleOk = () => {
+     setIsModalOpen(false);
+   };
+   const handleCancel = () => {
+     setIsModalOpen(false);
+   };
+   const [htmlData, setHtmlData] = useState();
     //useAxios
     const [appointmentResponse, appointmentError, appointmentLoading, appointmentFetch] = useAxios();
 
@@ -113,19 +125,28 @@ const AppointmentDetails = () => {
 
                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
+                 
                     router.push("/write-reviews/"+appointmentId)
                  }}
                  >Add Review</Button>
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
-                  convertToPDF(appointmentDetails?.pdf_content, "prescription")
+                  setHtmlData(appointmentDetails?.pdf_content)
+                  showModal()
+                  // convertToPDF(appointmentDetails?.pdf_content, "prescription")
                  }}
-                 >Download Prescription</Button>
+                 >View Prescription</Button>
                  </div> 
                }
          
     
             <div class="p-3" style={{paddingTop:'0.5rem !important'}}>
+          
+                             <Modal title="Doctor's Prescription" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                             <PrescriptionHistory htmlContent={htmlData} />
+
+      </Modal>
+                            
                <div class="bg-white rounded-4 border p-3 mb-2">
                   <p class="mb-2 fs-14 fw-bold text-black">Visit Time</p>
                   <div class="d-flex align-items-center gap-4">
