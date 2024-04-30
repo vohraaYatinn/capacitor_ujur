@@ -33,7 +33,7 @@ const LabReports = () => {
       },[LabReportResponse])
   return (
 <>
-<div class="favorite-doctor d-flex flex-column vh-100">
+<div class="favorite-doctor d-flex flex-column vh-100" style={{paddingBottom: "40px"}}>
 <BackNavbar name={"Lab Reports"}/>
 
          <div class="vh-100 my-auto overflow-auto body-fix-osahan-footer">

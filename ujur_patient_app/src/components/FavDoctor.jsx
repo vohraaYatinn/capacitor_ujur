@@ -48,7 +48,7 @@ const FavDoctor = () => {
 
   return (
 <>
-<div class="favorite-doctor d-flex flex-column vh-100">
+<div class="favorite-doctor d-flex flex-column vh-100" style={{paddingBottom: "40px"}}>
          <div class="d-flex align-items-center justify-content-between mb-auto p-3 bg-white shadow-sm osahan-header">
             <a onClick={()=>router.back()} class="text-dark bg-white shadow rounded-circle icon">
                   <span class="mdi mdi-arrow-left mdi-18px"></span></a>
