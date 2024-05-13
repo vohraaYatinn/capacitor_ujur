@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import BackNavbar from './BackNavbar';
-import { Link } from 'react-router-dom';
+import { Link, Router } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import useAxios from '../network/useAxios';
 import { fetchFavDoctorAddRemove, fetchSingleDoctorDetails } from '../urls/urls';
 import { test_url_images } from '../config/environment';
+import { useRouter } from '../hooks/use-router';
 
 
 const AboutDoctor = () => {
@@ -21,8 +22,10 @@ const AboutDoctor = () => {
    const fetchNearbyDoctors = () => {
       doctorsFetch(fetchSingleDoctorDetails({doctorId:doctorId}));
     };
+    const router = useRouter();
     const addFavDoctor = () => {
       favDoctorActionFetch(fetchFavDoctorAddRemove({doctorId:doctorId, patientId:1, action:isFav?"remove":"add"}));
+      router.push('/favorite-doctor')
       };
 
     //useEffects

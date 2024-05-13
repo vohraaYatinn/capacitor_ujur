@@ -62,8 +62,10 @@ const FavDoctor = () => {
             </div>
          </div>
          <div class="vh-100 my-auto overflow-auto body-fix-osahan-footer">
-            {favDoctors?.map((each)=>{return(
-        <div class="d-flex align-items-center gap-3 bg-white p-3 my-1 shadow-sm">
+            {favDoctors?.map((each)=>{
+               console.log(each)
+               return(
+        <div class="d-flex align-items-center gap-3 bg-white p-3 my-1 shadow-sm" onClick={()=> router.push(`/about-doctor/${each.doctor.id}`)}>
         <img src={test_url_images + each?.doctor?.profile_picture} alt="" class="img-fluid rounded-circle favorite-img" />
         <div>
            <h6 class="mb-1 fs-14 fw-bold">Dr. {each?.doctor?.full_name}</h6>

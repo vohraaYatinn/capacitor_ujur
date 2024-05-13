@@ -252,13 +252,20 @@ const RequestAppointment = () => {
         )}
       </div>
       <div class="footer mt-auto p-3 custom-footer-appointment">
-        <Link
-          to={appointmentDetails?.doctor?.is_active && `/visit-info/${doctorId}/${selectedSlotsAndDate.date}/${selectedSlotsAndDate.slot}`}
-          class="btn btn-info btn-lg w-100 rounded-4"
-
-        >
-          Request For Appointment
-        </Link>
+      <Link
+  to={
+    appointmentDetails?.doctor?.is_active &&
+    selectedSlotsAndDate.date &&
+    selectedSlotsAndDate.slot
+      ? `/visit-info/${doctorId}/${selectedSlotsAndDate.date}/${selectedSlotsAndDate.slot}`
+      : '#'
+  }
+  class={`btn btn-info btn-lg w-100 rounded-4 ${
+    !(selectedSlotsAndDate.date && selectedSlotsAndDate.slot) && 'disabled'
+  }`}
+>
+  Request For Appointment
+</Link>
       </div>
     </>
   );

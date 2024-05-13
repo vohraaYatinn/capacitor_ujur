@@ -202,7 +202,11 @@ const LoginPhone = () => {
               "Verify"
             )}
           </a>
+          <div className="" style={{display: "flex", gap: "13px", fontSize: "16px"}}>
+
+          <p>Forget Password?</p>
          <p>New to UJUR? <Link to={`/sign-up/${formValues?.phoneNumber}`}>Sign Up Now</Link></p>
+          </div>
         </div>
       </form>
     </div>
