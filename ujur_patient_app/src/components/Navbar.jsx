@@ -4,6 +4,7 @@ import navImg from "../img/favorite/favorite-4.jpg"
 import { useDispatch, useSelector } from 'react-redux';
 import { functionalitiesNavbar, updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { Link } from 'react-router-dom';
+import logo from '../img/logo/logo.png'
 
 
 const Navbar = () => {
@@ -104,7 +105,7 @@ const Navbar = () => {
     <hr/>
 
   </li>
-  <li>
+  {/* <li>
     <Link to="/change-profile" onClick={()=>{
        onClose()
     }}
@@ -115,7 +116,7 @@ const Navbar = () => {
     </Link>
     <hr/>
 
-  </li>
+  </li> */}
   <li>
     <Link to="/" onClick={()=>{
       localStorage.removeItem('storedToken')
@@ -149,7 +150,7 @@ const Navbar = () => {
       <ul className="nav-bootom bottom-nav p-0" 
       
       >
-         <li className="home">
+         {/* <li className="home">
             <Link to="/home"
             onClick={()=>{
                 onClose()
@@ -168,8 +169,9 @@ const Navbar = () => {
                <p className="h5 m-0"><span className="mdi mdi-magnify"></span></p>
                Search
             </Link>
-         </li>
-         <li className="more">
+         </li> */}
+         <li className="more" style={{display: "flex", justifyContent: "space-between", width: "full", gap: "35px"}}>
+          <img src={logo} alt="" width={"40px"} />
             <Link to="/customer-profile"
             onClick={()=>{
                 onClose()

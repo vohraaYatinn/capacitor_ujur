@@ -135,7 +135,7 @@ const AppointmentDetails = () => {
                   showModal()
                   // convertToPDF(appointmentDetails?.pdf_content, "prescription")
                  }}
-                 >View Prescription</Button>
+                 >Download Prescription</Button>
                  </div> 
                }
          

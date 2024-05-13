@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from '../hooks/use-router';
 import useAxios from '../network/useAxios';
 import { patientSignUp } from '../urls/urls';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../redux/reducers/functionalities.reducer';
 import {districts} from '../demo/districts';
@@ -159,6 +159,36 @@ const Signup = () => {
           />
         </div>
       </div>
+      <div className="mb-3">
+        <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
+          Password
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlEmail"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="mail"
+          >
+            <span className="mdi mdi-email-outline mdi-18px text-muted" />
+          </span>
+          <input
+            type="password"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Type your password"
+            aria-label="Type your email or phone"
+            aria-describedby="mail"
+            value={formValues?.email}
+            onChange={(e) => {
+              setFormValues((prev) => ({
+                ...prev,
+                email: e.target.value,
+              }));
+            }}
+          />
+        </div>
+      </div>
       <div className="mb-3 mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
           Date of Birth
@@ -295,9 +325,9 @@ const Signup = () => {
         </a>
         <p className="text-muted text-center small">
           Already have an account?{" "}
-          <a className="text-primary" href="sign-in.html">
+          <Link to={"/login-phone"} className="text-primary">
             Sign In
-          </a>
+          </Link>
         </p>
       </div>
     </form>
