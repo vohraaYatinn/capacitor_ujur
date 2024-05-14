@@ -351,8 +351,9 @@ const Home = () => {
       </div>
       <div className="p-3">
         <h6 className="mb-2 pb-2 fw-bold text-black">Available Doctor</h6>
-        <div className="row row-cols-2 g-3" style={{marginBottom:"8rem"}}>
+        <div className="row row-cols-2 g-3" style={{marginBottom:"6rem"}}>
           {doctorsData.map((each) => {
+            console.log(each)
             return (
               <div className="col" >
                 <div
@@ -385,7 +386,7 @@ const Home = () => {
                       Dr. {each?.full_name}
                     </h6>
                     <p className="card-text text-muted mb-1">
-                      {each?.education}
+                      {each?.specialization}
                     </p>
                     <div className="d-flex align-items-center gap-3 small mb-3">
                       <div>

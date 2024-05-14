@@ -128,7 +128,7 @@ const CustomerProfile = () => {
       
             </a>
 
-            <div>
+            {/* <div>
               <select
               onChange={(e)=>{
                 changeLogin(e.target.value)
@@ -153,7 +153,7 @@ const CustomerProfile = () => {
               
               
               </select>
-            </div>
+            </div> */}
           </div>
           <div class="d-flex align-items-center gap-3">
             <a
@@ -168,9 +168,9 @@ const CustomerProfile = () => {
             </a>
           </div>
         </div>
-        <Button type="primary" onClick={showModal} style={{background:"rgb(12,109,253)", color:"white"}}>
+        {/* <Button type="primary" onClick={showModal} style={{background:"rgb(12,109,253)", color:"white"}}>
         Add New Profile
-      </Button>
+      </Button> */}
       <Modal title="Add New Profile" open={isModalOpen} onOk={handleOk} okText={"Add"} onCancel={handleCancel} >
       <>
                   <div className="mb-3 mt-5">

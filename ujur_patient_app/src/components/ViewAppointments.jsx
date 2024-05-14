@@ -8,6 +8,7 @@ import { fetchAppointments } from '../urls/urls';
 import useAxios from '../network/useAxios';
 import moment from 'moment';
 import { test_url_images } from '../config/environment';
+import { FaLocationDot } from 'react-icons/fa6';
 
 const ViewAppointments = () => {
    const router = useRouter();
@@ -104,8 +105,10 @@ const ViewAppointments = () => {
                                                                  <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">UPCOMING</span>
 
                                 }
-
                               </div>
+<div className="text-muted" >
+                  <FaLocationDot size={30} />
+                  </div>
                            </div>
                         </Link>
                         )

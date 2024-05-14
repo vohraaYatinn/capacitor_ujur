@@ -122,6 +122,17 @@ const ChangeCustomerProfile = () => {
       </div>
 <form style={{padding:"1rem"}}>
             <div class="mb-3">
+               <label for="exampleFormControlName" class="form-label mb-1 label-custom-boot">Image</label>
+               <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlName">
+                  <span class="input-group-text bg-transparent rounded-0 border-0" id="firstname">
+                     <span class="mdi mdi-account-outline mdi-18px"></span>
+                  </span>
+                  <input type="file" class="form-control bg-transparent rounded-0 border-0 px-0"
+                     placeholder="Type your first name" aria-label="Type your first name" aria-describedby="firstname"
+                     />
+               </div>
+            </div>
+            <div class="mb-3">
                <label for="exampleFormControlName" class="form-label mb-1 label-custom-boot">Full Name</label>
                <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlName">
                   <span class="input-group-text bg-transparent rounded-0 border-0" id="firstname">

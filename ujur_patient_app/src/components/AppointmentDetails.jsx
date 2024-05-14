@@ -3,6 +3,7 @@ import { useRouter } from '../hooks/use-router';
 import BackNavbar from './BackNavbar';
 import BottomNav from './BottomNav';
 import { Link, useParams } from 'react-router-dom';
+import { FaLocationDot } from "react-icons/fa6";
 import { Button } from 'antd-mobile';
 import useAxios from '../network/useAxios';
 import { fetchAppointmentDetails } from '../urls/urls';
@@ -95,6 +96,9 @@ const AppointmentDetails = () => {
                         <p class="text-primary m-0 fw-bold">{appointmentDetails?.doctor?.experience} Years</p>
                      </div>
                   </div>
+                  <div className="text-info" >
+                  <FaLocationDot size={30} />
+                  </div>
                </div>
             </div>
             {appointmentDetails?.status == "pending" ?
@@ -135,7 +139,7 @@ const AppointmentDetails = () => {
                   showModal()
                   // convertToPDF(appointmentDetails?.pdf_content, "prescription")
                  }}
-                 >View Prescription</Button>
+                 >Download Prescription</Button>
                  </div> 
                }
          

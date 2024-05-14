@@ -4,6 +4,7 @@ import useAxios from "../network/useAxios";
 import { phoneNumberOtp } from "../urls/urls";
 import { DotLoading } from "antd-mobile";
 import { Alert } from "antd";
+import { Link } from "react-router-dom";
 
 const LoginPhone = () => {
   //Constants & additionals
@@ -20,6 +21,8 @@ const LoginPhone = () => {
   });
   const [formValues, setFormValues] = useState({
     phoneNumber: "",
+    email: "",
+    password: "",
   });
 
 
@@ -69,6 +72,72 @@ const LoginPhone = () => {
         </div>
       </div>
       <form>
+        <div className="mb-3">
+          <label
+            htmlFor="exampleFormControlEmail"
+            className="form-label mb-1 label-custom-boot"
+          >
+            Email
+          </label>
+          <div
+            className="input-group border bg-white rounded-3 py-1"
+            id="exampleFormControlEmail"
+          >
+            <span
+              className="input-group-text bg-transparent rounded-0 border-0"
+              id="mail"
+            >
+              <span className="mdi mdi-email-outline mdi-18px text-muted" />
+            </span>
+            <input
+            // i change the type = number to "text"
+              type="text"
+              className="form-control bg-transparent rounded-0 border-0 px-0"
+              placeholder="Type your email"
+              aria-label="Type your email or phone number"
+              aria-describedby="mail"
+              onChange={(e) => {
+                setFormValues((prev) => ({
+                  ...prev,
+                  email: e.target.value,
+                }));
+              }}
+            />
+          </div>
+        </div>
+        <div className="mb-3">
+          <label
+            htmlFor="exampleFormControlEmail"
+            className="form-label mb-1 label-custom-boot"
+          >
+            Password
+          </label>
+          <div
+            className="input-group border bg-white rounded-3 py-1"
+            id="exampleFormControlPassword"
+          >
+            <span
+              className="input-group-text bg-transparent rounded-0 border-0"
+              id="pass"
+            >
+              <span className="mdi mdi-eye-outline mdi-18px text-muted" />
+            </span>
+            <input
+            // i change the type = number to "text"
+              type="password"
+              className="form-control bg-transparent rounded-0 border-0 px-0"
+              placeholder="Type your password"
+              aria-label="Type your email or Password number"
+              aria-describedby="pass"
+              onChange={(e) => {
+                setFormValues((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }));
+              }}
+            />
+          </div>
+        </div>
         <div className="mb-3">
           <label
             htmlFor="exampleFormControlEmail"
@@ -133,7 +202,11 @@ const LoginPhone = () => {
               "Verify"
             )}
           </a>
+          <div className="" style={{display: "flex", gap: "13px", fontSize: "16px"}}>
 
+          <p>Forget Password?</p>
+         <p>New to UJUR? <Link to={`/sign-up/${formValues?.phoneNumber}`}>Sign Up Now</Link></p>
+          </div>
         </div>
       </form>
     </div>
