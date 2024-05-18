@@ -12,6 +12,7 @@ import { test_url_images } from '../config/environment';
 // import convertToPDF from '../utils/convertToPdf';
 import PrescriptionHistory from './PrescriptionHistory';
 import { Modal } from 'antd';
+import transition from '../transition';
 
 const AppointmentDetails = () => {
    const router = useRouter();
@@ -196,4 +197,4 @@ const AppointmentDetails = () => {
 </>  )
 }
 
-export default AppointmentDetails
+export default transition(AppointmentDetails)

@@ -8,6 +8,7 @@ import { updateToken } from '../redux/reducers/functionalities.reducer';
 import {districts} from '../demo/districts';
 import { Select } from 'antd';
 import { Alert } from "antd";
+import transition from '../transition';
 
 
 const Signup = () => {
@@ -503,4 +504,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default transition(Signup)

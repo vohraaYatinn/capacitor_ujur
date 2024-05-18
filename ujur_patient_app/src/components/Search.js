@@ -7,6 +7,7 @@ import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { searchPatientFeature } from '../urls/urls';
 import useAxios from '../network/useAxios';
 import { test_url, test_url_images } from '../config/environment';
+import transition from '../transition';
 
 
 const Search = () => {
@@ -158,4 +159,4 @@ const Search = () => {
   )
 }
 
-export default Search
+export default transition(Search)

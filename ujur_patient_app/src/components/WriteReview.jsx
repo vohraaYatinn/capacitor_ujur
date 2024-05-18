@@ -8,6 +8,7 @@ import BackNavbar from './BackNavbar';
 import { addReviewsPatient, fetchReviewsPatient } from '../urls/urls';
 import useAxios from '../network/useAxios';
 import { Alert } from "antd";
+import transition from '../transition';
 
 const WriteReview = () => {
    
@@ -170,4 +171,4 @@ const WriteReview = () => {
     )
 }
 
-export default WriteReview
+export default transition(WriteReview)

@@ -7,6 +7,7 @@ import useAxios from '../network/useAxios';
 import { fetchFavDoctor, fetchFavDoctorAddRemove } from '../urls/urls';
 import { test_url_images } from '../config/environment';
 import { Popup } from 'antd-mobile';
+import transition from '../transition';
 
 const FavDoctor = () => {
    const router = useRouter();
@@ -156,4 +157,4 @@ const FavDoctor = () => {
     )
 }
 
-export default FavDoctor
+export default transition(FavDoctor)

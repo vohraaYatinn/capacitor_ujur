@@ -8,6 +8,7 @@ import { fetchBookingConfirmationPagePrice, fetchBookingConfirmationStatus } fro
 import useAxios from '../network/useAxios';
 import Moment from 'moment';
 import { useRouter } from '../hooks/use-router';
+import transition from '../transition';
 
 
 const OverviewBooking = () => {
@@ -195,4 +196,4 @@ const OverviewBooking = () => {
 </>  )
 }
 
-export default OverviewBooking
+export default transition(OverviewBooking)

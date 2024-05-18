@@ -8,6 +8,7 @@ import { changeProfileValues, fetchprofiles } from '../urls/urls';
 import {districts} from '../demo/districts';
 import { Select } from 'antd';
 import { Alert } from "antd";
+import transition from '../transition';
 
 const ChangeCustomerProfile = () => {
   const dispatch = useDispatch();
@@ -317,4 +318,4 @@ const ChangeCustomerProfile = () => {
 </>  )
 }
 
-export default ChangeCustomerProfile
+export default transition(ChangeCustomerProfile)

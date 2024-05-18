@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { fetchRequestAppointmentsDetails } from "../urls/urls";
 import useAxios from "../network/useAxios";
 import { test_url_images } from "../config/environment";
+import transition from "../transition";
 
 const RequestAppointment = () => {
   const router = useRouter();
@@ -271,4 +272,4 @@ const RequestAppointment = () => {
   );
 };
 
-export default RequestAppointment;
+export default transition(RequestAppointment);

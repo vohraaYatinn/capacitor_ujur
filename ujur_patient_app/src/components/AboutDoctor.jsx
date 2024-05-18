@@ -6,6 +6,7 @@ import useAxios from '../network/useAxios';
 import { fetchFavDoctorAddRemove, fetchSingleDoctorDetails } from '../urls/urls';
 import { test_url_images } from '../config/environment';
 import { useRouter } from '../hooks/use-router';
+import transition from '../transition';
 
 
 const AboutDoctor = () => {
@@ -121,4 +122,4 @@ const AboutDoctor = () => {
    )
 }
 
-export default AboutDoctor
+export default transition(AboutDoctor);

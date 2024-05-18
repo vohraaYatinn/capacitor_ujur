@@ -10,6 +10,7 @@ import { changeJwtOfPatient, fetchprofiles, patientAddNewProfile } from "../urls
 import useAxios from "../network/useAxios";
 import { Modal, Select } from 'antd';
 import {districts} from '../demo/districts';
+import transition from "../transition";
 
 const CustomerProfile = () => {
   const router = useRouter();
@@ -490,4 +491,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default transition(CustomerProfile);

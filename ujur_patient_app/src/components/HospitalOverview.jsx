@@ -5,6 +5,7 @@ import BackNavbar from './BackNavbar';
 import useAxios from '../network/useAxios';
 import { fetchSingleHospital } from '../urls/urls';
 import { test_url_images } from '../config/environment';
+import transition from '../transition';
 
 const HospitalOverview = () => {
     const [selectedTab, setSelectedTab] = useState(1);
@@ -447,4 +448,4 @@ const HospitalOverview = () => {
 </>  )
 }
 
-export default HospitalOverview
+export default transition(HospitalOverview)

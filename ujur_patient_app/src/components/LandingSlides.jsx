@@ -5,6 +5,7 @@ import img2 from "../img/frontpage/1.png"
 import img1 from "../img/frontpage/2.png"
 import img3 from "../img/frontpage/3.png"
 import { useNavigate } from 'react-router-dom';
+import transition from '../transition';
 
 
 const LandingSlides = () => {
@@ -70,4 +71,4 @@ const LandingSlides = () => {
     )
 }
 
-export default LandingSlides
+export default transition(LandingSlides)
