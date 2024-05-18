@@ -8,6 +8,7 @@ import moment from 'moment';
 import { test_url_images } from '../config/environment';
 import BottomNav from './BottomNav';
 import BackNavbar from './BackNavbar';
+import transition from '../transition';
 
 const LabReports = () => {
 
@@ -73,4 +74,4 @@ return(
     )
 }
 
-export default LabReports
+export default transition(LabReports)

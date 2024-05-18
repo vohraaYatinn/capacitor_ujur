@@ -25,6 +25,7 @@ import { useRouter } from "../hooks/use-router";
 import { test_url_images } from "../config/environment";
 import moment from "moment";
 import logo from "../img/logo/logo.png";
+import transition from "../transition";
 
 const Home = () => {
   const router = useRouter();
@@ -132,7 +133,7 @@ const Home = () => {
         <Link to={`/hospital-overview/${each?.id}`} className="link-dark">
           <div className="card bg-white border-0 rounded-4 shadow-sm overflow-hidden">
             <img
-              src={test_url_images + each?.logo}
+              src={test_url_images + each?.hospital_image}
               className="card-img-top top-doctor-img"
               alt="..."
               style={{
@@ -415,4 +416,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default transition(Home);

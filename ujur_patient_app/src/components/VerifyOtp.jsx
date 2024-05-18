@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { Alert } from 'antd';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../redux/reducers/functionalities.reducer';
+import transition from '../transition';
 
 const VerifyOtp = () => {
   // Constants & additionals
@@ -215,4 +216,4 @@ const VerifyOtp = () => {
   );
 };
 
-export default VerifyOtp;
+export default transition(VerifyOtp)

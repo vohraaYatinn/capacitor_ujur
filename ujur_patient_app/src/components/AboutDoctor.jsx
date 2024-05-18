@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import useAxios from '../network/useAxios';
 import { fetchFavDoctorAddRemove, fetchSingleDoctorDetails } from '../urls/urls';
 import { test_url_images } from '../config/environment';
+import transition from '../transition';
 
 
 const AboutDoctor = () => {
@@ -118,4 +119,4 @@ const AboutDoctor = () => {
    )
 }
 
-export default AboutDoctor
+export default transition(AboutDoctor);

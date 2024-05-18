@@ -4,6 +4,7 @@ import useAxios from "../network/useAxios";
 import { phoneNumberOtp } from "../urls/urls";
 import { DotLoading } from "antd-mobile";
 import { Alert } from "antd";
+import transition from "../transition";
 
 const LoginPhone = () => {
   //Constants & additionals
@@ -140,4 +141,4 @@ const LoginPhone = () => {
   );
 };
 
-export default LoginPhone;
+export default transition(LoginPhone);

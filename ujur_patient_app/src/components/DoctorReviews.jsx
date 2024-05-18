@@ -5,6 +5,7 @@ import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import BottomNav from './BottomNav';
+import transition from '../transition';
 
 const DoctorReviews = () => {
    const router = useRouter();
@@ -148,4 +149,4 @@ const DoctorReviews = () => {
     )
 }
 
-export default DoctorReviews
+export default transition(DoctorReviews)

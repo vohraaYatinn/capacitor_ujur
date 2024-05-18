@@ -8,6 +8,7 @@ import { fetchAppointments } from '../urls/urls';
 import useAxios from '../network/useAxios';
 import moment from 'moment';
 import { test_url_images } from '../config/environment';
+import transition from '../transition';
 
 const ViewAppointments = () => {
    const router = useRouter();
@@ -205,4 +206,4 @@ const ViewAppointments = () => {
 </>  )
 }
 
-export default ViewAppointments
+export default transition(ViewAppointments)

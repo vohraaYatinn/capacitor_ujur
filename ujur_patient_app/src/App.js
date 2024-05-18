@@ -22,11 +22,13 @@ import VerifyOtp from './components/VerifyOtp';
 import LoginPhone from './components/LoginPhone';
 import HospitalOverview from './components/HospitalOverview';
 import SignupPage from './components/Signup';
-
+import { AnimatePresence } from 'framer-motion';
+import "./index.css"
 function App() {
   return (
     <BrowserRouter>
     <Navbar />
+    <AnimatePresence mode='wait'>
       <Routes>
       
         <Route path="/home" element={<Home />} />
@@ -50,6 +52,7 @@ function App() {
         <Route path="/sign-up/:phone" element={<SignupPage />} />
         <Route path="/hospital-overview/:hospitalId" element={<HospitalOverview />} />
       </Routes>
+      </AnimatePresence>
     </BrowserRouter>
   );
 }
