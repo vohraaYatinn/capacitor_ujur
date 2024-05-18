@@ -179,11 +179,11 @@ const Signup = () => {
             placeholder="Type your password"
             aria-label="Type your email or phone"
             aria-describedby="mail"
-            value={formValues?.email}
+            value={formValues?.password}
             onChange={(e) => {
               setFormValues((prev) => ({
                 ...prev,
-                email: e.target.value,
+                password: e.target.value,
               }));
             }}
           />
