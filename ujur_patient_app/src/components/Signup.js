@@ -8,7 +8,6 @@ import { updateToken } from '../redux/reducers/functionalities.reducer';
 import {districts} from '../demo/districts';
 import { Select } from 'antd';
 import { Alert } from "antd";
-import transition from '../transition';
 
 
 const Signup = () => {
@@ -16,6 +15,7 @@ const Signup = () => {
   const router = useRouter();
   const { phone } = useParams();
   const dispatch = useDispatch();
+  const [isUploaded, setIsUploaded] = useState(false);
 
   
   //useAxios
@@ -26,8 +26,19 @@ const Signup = () => {
     message: "",
     isShow: false,
   });
+  const handleUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      console.log("Selected file:", file);
+      setFormValues((prev) => ({
+        ...prev,
+        document: file,
+      }));
+      setIsUploaded(true);
+    }
+  };
   const [formValues, setFormValues] = useState({
-    phoneNumber:phone,
+    phoneNumber:"+91-",
     fullName:"",
     email:"",
     dob:"",
@@ -100,6 +111,32 @@ const Signup = () => {
             />
           )}
     <form>
+    <div className="mb-3 mt-3">
+        <label htmlFor="exampleFormControlName" className="form-label mb-1">
+          Profile Photo
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlName"
+          
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+          </span>
+          <input type="file" class="form-control bg-transparent rounded-0 border-0 px-0"
+                     placeholder="Type your first name" aria-label="Type your first name" aria-describedby="firstname"
+                    onChange={
+                      handleUpload
+                    }
+                    
+                    />
+        </div>
+      </div>
+
+
     <div className="mb-3 mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
           Full Name
@@ -188,6 +225,92 @@ const Signup = () => {
               }));
             }}
           />
+        </div>
+      </div>
+      <div className="mb-3">
+        <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
+          Phone Number
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlEmail"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="mail"
+          >
+            <span className="mdi mdi-email-outline mdi-18px text-muted" />
+          </span>
+          <input
+            type="text"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Type your Phone Number"
+            aria-label="Type your email or phone"
+            aria-describedby="mail"
+            value={formValues?.phoneNumber}
+            onChange={(e) => {
+              setFormValues((prev) => ({
+                ...prev,
+                phoneNumber: e.target.value,
+              }));
+            }}
+          />
+        </div>
+      </div>
+      <div className="mb-3 mt-3">
+        <label htmlFor="exampleFormControlName" className="form-label mb-1">
+          Height (CM)
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlName"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+          </span>
+          <input type="text" class="form-control bg-transparent rounded-0 border-0 px-0"
+                     placeholder="Enter Height" aria-label="Type your number" 
+                     value={`${formValues?.height || ""}`} 
+                     onChange={(e)=>{
+                      setFormValues((prev) => ({
+                           ...prev,
+                           height: e.target.value,
+                         }));
+                     }}
+
+                     
+                     />
+        </div>
+      </div>
+    <div className="mb-3 mt-3">
+        <label htmlFor="exampleFormControlName" className="form-label mb-1">
+          Weight (Kg)
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlName"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+          </span>
+          <input type="text" class="form-control bg-transparent rounded-0 border-0 px-0"
+                     placeholder="Enter Weight" aria-label="Type your number" 
+                     value={`${formValues?.weight || ""}`} 
+                     onChange={(e)=>{
+                      setFormValues((prev) => ({
+                           ...prev,
+                           weight: e.target.value,
+                         }));
+                     }}
+
+                     
+                     />
         </div>
       </div>
       <div className="mb-3 mt-3">
@@ -504,4 +627,4 @@ const Signup = () => {
   )
 }
 
-export default transition(Signup)
+export default Signup

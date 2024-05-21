@@ -3,11 +3,14 @@ export class Urls {
     static MPHRMS_API_PREFIX = 'api/v2/';
 
     // users
-    static PHONE_NUMBER_OTP = Urls.MPHRMS_API_PREFIX + 'users/phone-otp/';
+    static PHONE_NUMBER_OTP = Urls.MPHRMS_API_PREFIX + 'users/phone-otp-verify/';
     static VERIFY_OTP = Urls.MPHRMS_API_PREFIX + 'users/phone-otp-verify/';
     static PATIENT_SIGNUP = Urls.MPHRMS_API_PREFIX + 'patients/patient-signup/';
     static PATIENT_ADD_PROFILE = Urls.MPHRMS_API_PREFIX + 'patients/add-new-profile/';
     static CHANGE_JWT_PATIENT = Urls.MPHRMS_API_PREFIX + 'patients/change_jwt_patient/';
+    static FETCH_CUSTOMER_REVIEWS = Urls.MPHRMS_API_PREFIX + 'patients/fetch_customer_reviews/';
+    static FETCH_CUSTOMER_REVIEWS_HOSPITALS = Urls.MPHRMS_API_PREFIX + 'patients/fetch_customer_reviews_hospitals/';
+    static UPLOAD_CUSTOMER_LAB_REPORT = Urls.MPHRMS_API_PREFIX + 'patients/upload_customer_lab_report/';
 
 
     //patients
@@ -18,7 +21,9 @@ export class Urls {
     static GET_PERSONAL_PROFILE = Urls.MPHRMS_API_PREFIX + 'patients/fetch-personal-info-patients/';
     static CHANGE_PROFILE_VALUES = Urls.MPHRMS_API_PREFIX + 'patients/change-profile-values/';
     static ADD_REVIEWS = Urls.MPHRMS_API_PREFIX + 'doctors/add-reviews/';
+    static ADD_REVIEWS_HOSPITAL = Urls.MPHRMS_API_PREFIX + 'doctors/add-reviews-hospital/';
     static FETCH_REVIEWS = Urls.MPHRMS_API_PREFIX + 'doctors/fetch-reviews/';
+    static FETCH_REVIEWS_HOSPITAL = Urls.MPHRMS_API_PREFIX + 'doctors/fetch-reviews-hospital/';
 
     
 
@@ -36,7 +41,7 @@ export class Urls {
     //hospitals
     static DASHBOARD_HOSPITALS = Urls.MPHRMS_API_PREFIX + 'hospitals/dashboard-hospitals/';
     static FETCH_SINGLE_HOSPITALS = Urls.MPHRMS_API_PREFIX + 'hospitals/doctors-hospitals/';
-    static FETCH_LAB_REPORTS = Urls.MPHRMS_API_PREFIX + 'hospitals/fetch_patients_lab_reports/';
+    static FETCH_LAB_REPORTS = Urls.MPHRMS_API_PREFIX + 'patients/fetch_patients_lab_reports/';
 
 
 

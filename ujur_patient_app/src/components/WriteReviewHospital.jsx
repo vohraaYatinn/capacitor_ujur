@@ -5,11 +5,11 @@ import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import BackNavbar from './BackNavbar';
-import { addReviewsPatient, fetchReviewsPatient } from '../urls/urls';
+import { addReviewsPatient, addReviewsPatientHospital, fetchReviewsPatient, fetchReviewsPatientHospital } from '../urls/urls';
 import useAxios from '../network/useAxios';
 import { Alert } from "antd";
 
-const WriteReview = () => {
+const WriteReviewHospital = () => {
    
    const router = useRouter();
    const { appointmentId } = useParams();
@@ -33,10 +33,10 @@ const WriteReview = () => {
    const [reviewResponse, reviewError, reviewLoading, reviewFetch] = useAxios();
    const [reviewFetchResponse, reviewFetchError, reviewFetchLoading, reviewFetchFetch] = useAxios();
    const reviewSubmit = () => {
-      reviewFetch(addReviewsPatient(formValues));
+      reviewFetch(addReviewsPatientHospital(formValues));
    }
    const fetchReview = () => {
-      reviewFetchFetch(fetchReviewsPatient(formValues));
+      reviewFetchFetch(fetchReviewsPatientHospital(formValues));
    }
    useEffect(()=>{
       fetchReview()
@@ -63,7 +63,7 @@ const WriteReview = () => {
   return (
 <>
 <div class="review d-flex flex-column vh-100">
-     <BackNavbar name="Write Review" />
+     <BackNavbar name="Write Hospital Review" />
 
          <div class="vh-100 my-auto overflow-auto p-3">
          {message.isShow && (
@@ -170,4 +170,4 @@ const WriteReview = () => {
     )
 }
 
-export default WriteReview
+export default WriteReviewHospital

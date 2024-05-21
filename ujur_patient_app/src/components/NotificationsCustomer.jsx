@@ -3,7 +3,6 @@ import { useRouter } from '../hooks/use-router';
 import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { useDispatch } from 'react-redux';
 import BottomNav from './BottomNav';
-import transition from '../transition';
 
 const NotificationsCustomer = () => {
    const router = useRouter();
@@ -82,4 +81,4 @@ const NotificationsCustomer = () => {
 </>  )
 }
 
-export default transition(NotificationsCustomer)
+export default NotificationsCustomer

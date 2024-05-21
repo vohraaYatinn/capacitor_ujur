@@ -5,7 +5,7 @@ import BackNavbar from './BackNavbar';
 import useAxios from '../network/useAxios';
 import { fetchSingleHospital } from '../urls/urls';
 import { test_url_images } from '../config/environment';
-import transition from '../transition';
+import { FaLocationDot } from 'react-icons/fa6';
 
 const HospitalOverview = () => {
     const [selectedTab, setSelectedTab] = useState(1);
@@ -54,6 +54,15 @@ const HospitalOverview = () => {
               Doctor
               <span className="text-white-50 fw-normal fs-6"> Choose from the list</span>
             </h1>
+            <p className="mt-1">
+              {hospitalData?.average_review_stars && Array(Math.floor(hospitalData?.average_review_stars)).fill(null).map(()=>{
+            return(
+              <span className="mdi mdi-star text-warning me-1" />
+
+            )
+           })}
+                <span style={{color:"white"}}>{hospitalData?.average_review_stars?.toFixed(2)} ({hospitalData?.total_review_stars})</span>
+              </p>
           </div>
         </div>
       </div>
@@ -66,11 +75,14 @@ const HospitalOverview = () => {
         </div>
         <div className="d-flex align-items-center justify-content-center">
    
-          <div className="d-flex align-items-center gap-3 col justify-content-center">
-            <span className="mdi mdi-star-outline mdi-24px text-info" />
-            <div>
-              <p className="mb-0 small text-muted">Review</p>
-              <p className="text-primary m-0 fw-bold">5.3K</p>
+          <div className="d-flex align-items-center gap-3 col justify-content-center" onClick={()=>{
+                     window.location.href = hospitalData?.google_link;
+                  }}>
+          <FaLocationDot size={30} 
+                  
+                  />            <div>
+              <p className="mb-0 small text-muted">Location</p>
+              <p className="text-primary m-0 fw-bold">Click Here</p>
             </div>
           </div>
           <div className="d-flex align-items-center gap-3 col justify-content-center">
@@ -166,7 +178,6 @@ const HospitalOverview = () => {
             tabIndex={0}
           >
          <div className='row' style={{
-                justifyContent: "center",
                 gap: "1rem"
          }}>
           {hospitalData?.hospital_doctors?.map((data)=>{
@@ -180,6 +191,7 @@ const HospitalOverview = () => {
                     alt="..."
                     style={{
                       height: "8rem",
+                      
                       objectFit: "cover"
                     }}
                   />
@@ -343,14 +355,12 @@ const HospitalOverview = () => {
     <div className="footer d-grid mt-auto p-3">
       <div className="d-flex gap-2">
         <a
-          
+          href={'tel:'+ hospitalData?.contact_number}
           className="btn btn-outline-info bg-light btn-lg col"
         >
           <i className="bi bi-telephone-fill me-2" /> Call
         </a>
-        <a  className="btn btn-info btn-lg col">
-            Review
-        </a>
+       
       </div>
     </div>
   </div>
@@ -448,4 +458,4 @@ const HospitalOverview = () => {
 </>  )
 }
 
-export default transition(HospitalOverview)
+export default HospitalOverview

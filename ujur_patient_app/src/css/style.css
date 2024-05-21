@@ -733,3 +733,7 @@ a{
 .doctor-icons-tabs img{
     height: 3rem
 }
+.footer-bottom-check{
+    margin-left: 0rem !important;
+    padding-left: 0rem !important;
+}

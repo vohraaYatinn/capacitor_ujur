@@ -24,16 +24,17 @@ import HospitalOverview from './components/HospitalOverview';
 import SignupPage from './components/Signup';
 import { AnimatePresence } from 'framer-motion';
 import "./index.css"
+import WriteReviewHospital from './components/WriteReviewHospital';
 function App() {
   return (
     <BrowserRouter>
     <Navbar />
     <AnimatePresence mode='wait'>
       <Routes>
-      
         <Route path="/home" element={<Home />} />
         <Route path="/" element={<LandingSlides />} />
         <Route path="/search-doctor" element={<Search />} />
+        <Route path="/search-doctor/:extra" element={<Search />} />
         <Route path="/verify-otp/:phone" element={<VerifyOtp />} />
         <Route path="/login-phone" element={<LoginPhone />} />
         <Route path="/request-appointment/:doctorId" element={<RequestAppointment />} />
@@ -49,7 +50,8 @@ function App() {
         <Route path="/lab-reports" element={<LabReports />} />
         <Route path="/doctor-reviews" element={<DoctorReviews />} />
         <Route path="/write-reviews/:appointmentId" element={<WriteReview />} />
-        <Route path="/sign-up/:phone" element={<SignupPage />} />
+        <Route path="/write-reviews-hospital/:appointmentId" element={<WriteReviewHospital />} />
+        <Route path="/sign-up/" element={<SignupPage />} />
         <Route path="/hospital-overview/:hospitalId" element={<HospitalOverview />} />
       </Routes>
       </AnimatePresence>

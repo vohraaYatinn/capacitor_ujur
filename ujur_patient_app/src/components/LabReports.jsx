@@ -8,7 +8,6 @@ import moment from 'moment';
 import { test_url_images } from '../config/environment';
 import BottomNav from './BottomNav';
 import BackNavbar from './BackNavbar';
-import transition from '../transition';
 
 const LabReports = () => {
 
@@ -42,7 +41,8 @@ const LabReports = () => {
 return(
    <div class="d-flex align-items-center gap-3 bg-white p-3 my-1 shadow-sm padding-custom-lab">
    <div>
-      <h6 class="mb-1 fs-14 fw-bold">{each?.report_name}</h6>
+      <h6 class="mb-1 fs-14 fw-bold">{each?.doctor?.full_name}</h6>
+      <small>{each?.doctor?.hospital?.name}</small>
       <div class="d-flex align-items-center gap-1 small">
       <span>                     {moment(each?.created_at).format('DD MMMM YYYY')}
 </span>
@@ -54,7 +54,7 @@ return(
       <a href="#" class="link-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottomRemove"
          aria-controls="offcanvasBottomRemove">
          <div class="lighter-bg-primary-opacity rounded-circle icon">
-              <a href={test_url_images+each?.report} download={`filename.pdf`} class="mdi mdi-download mdi-18px text-primary"
+              <a href={test_url_images+each?.lab_report} download={`filename.pdf`} class="mdi mdi-download mdi-18px text-primary"
               
               ></a> 
          </div>
@@ -74,4 +74,4 @@ return(
     )
 }
 
-export default transition(LabReports)
+export default LabReports

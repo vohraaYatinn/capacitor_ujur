@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Swiper } from 'antd-mobile';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import BottomNav from './BottomNav';
 import { useDispatch } from 'react-redux';
 import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { searchPatientFeature } from '../urls/urls';
 import useAxios from '../network/useAxios';
 import { test_url, test_url_images } from '../config/environment';
-import transition from '../transition';
 
 
 const Search = () => {
     const dispatch = useDispatch();
     const [searchResponse, searchError, searchLoading, searchFetch] = useAxios();
+    const { extra } = useParams();
 
     const [searchedData, setSearchDoctor] = useState([
 
@@ -43,8 +43,20 @@ const Search = () => {
       if(formValues?.searchInput.length > 1){
          searchFetch(searchPatientFeature(formValues))
       }
+      else if(formValues?.searchInput.length == 0){
+         setSearchDoctor("")
+      }
 
     },[formValues])
+    useEffect(()=>{
+      if(extra){
+         setFormValues((prev) => ({
+            ...prev,
+            searchInput: extra,
+          }))
+      }
+
+    },[extra])
     useEffect(()=>{
       if(searchResponse?.result == "success"){
          setSearchDoctor(searchResponse?.data)
@@ -98,7 +110,9 @@ const Search = () => {
                   return(
    <Link to={each?.batch == "doctor"? `/about-doctor/${each?.id}` : `/hospital-overview/${each?.id}`} class="link-dark">
    <div class="d-flex align-items-center gap-3 bg-white border-bottom shadow-sm p-3">
-   {each?.img && <img src={test_url+"media/"+each?.img} alt="" class="img-fluid rounded-4 favorite-img" />}
+   {each?.img && <img src={test_url+"media/"+each?.img} alt="" class="img-fluid rounded-4 favorite-img" style={{
+      height:"4rem", width:"4rem", objectFit:"cover"
+   }}/>}
        <div class="small">
            <h6 class="mb-1 fs-14">{each?.name}</h6>
            {each?.rating &&
@@ -112,6 +126,7 @@ const Search = () => {
                <span>(5,380)</span>
            </div>
            }
+           <small class="text-muted">{each?.hospital}</small><br/>
            <small class="text-muted">{each?.batch}</small>
        </div>
    </div>
@@ -159,4 +174,4 @@ const Search = () => {
   )
 }
 
-export default transition(Search)
+export default Search

@@ -42,7 +42,7 @@ const Navbar = () => {
     <div className="d-flex align-items-center gap-2">
       <div className="ps-1">
         <h6 className="fw-bold text-white mb-0">Hey There!</h6>
-        <p className="text-white-50 m-0 small">UJUR</p>
+        <p className="text-white-50 m-0 small">Welcome to UJUR</p>
       </div>
     </div>
   </li>
@@ -125,7 +125,7 @@ const Navbar = () => {
     style={{textDecoration: "none"}}
 
     >
-    <span className="mdi mdi-flask me-3"></span>Logout
+    <span className="mdi mdi-logout me-3"></span>Logout
     </Link>
     <hr/>
 
@@ -170,16 +170,12 @@ const Navbar = () => {
                Search
             </Link>
          </li> */}
-         <li className="more" style={{display: "flex", justifyContent: "space-between", width: "full", gap: "35px"}}>
-          <img src={logo} alt="" width={"40px"} />
-            <Link to="/customer-profile"
-            onClick={()=>{
-                onClose()
-             }}
-            >
-               <p className="h5 m-0"><span className="mdi mdi-account-circle-outline"></span></p>
-               Profile
-            </Link>
+         <li className="more" style={{display: "flex", justifyContent: "space-between", width: "full", gap: "35px", alignItems:"center", padding:"1rem", paddingBottom:"0rem"}}>
+          <img src={logo} alt="" width={"60px"} />
+          <div>
+          +91 7682097070
+          support@ujurcare.com
+          </div>
          </li>
 
          

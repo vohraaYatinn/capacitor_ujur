@@ -9,10 +9,13 @@ import doctorImg3 from "../img/home/medicine.png";
 import doctorImg4 from "../img/home/prescription.png";
 import doctorImg5 from  "../img/home/svg1.jpg";
 import doctorImg6 from  "../img/home/heart_svg.png";
+import { Button } from "antd-mobile";
+import { Modal, Select } from 'antd';
+import {districts} from '../demo/districts';
 
 import { Link, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateNavbar } from "../redux/reducers/functionalities.reducer";
+import { updateNavbar, updateToken } from "../redux/reducers/functionalities.reducer";
 import BackNavbar from "./BackNavbar";
 import BottomNav from "./BottomNav";
 import useAxios from "../network/useAxios";
@@ -20,18 +23,22 @@ import {
   fetchCustomerDoctors,
   fetchCustomerlatestAppointment,
   fetchCustomerHospital,
+  changeJwtOfPatient,
+  patientAddNewProfile,
+  fetchprofiles,
 } from "../urls/urls";
 import { useRouter } from "../hooks/use-router";
 import { test_url_images } from "../config/environment";
 import moment from "moment";
 import logo from "../img/logo/logo.png";
-import transition from "../transition";
 
 const Home = () => {
   const router = useRouter();
   const [doctorsData, setDoctorsData] = useState([]);
   const [hospitalDetails, setHospitalDetails] = useState([]);
   const [latestAppointment, setLastestAppointment] = useState([]);
+  const [extraPatientsData, setExtraPatientsData] = useState([]);
+  const [profileData, setprofileData] = useState([]);
 
   //useAxios
   const [
@@ -39,6 +46,12 @@ const Home = () => {
     fetchAppointmentError,
     fetchAppointmentLoading,
     fetchAppointmentFetch,
+  ] = useAxios();
+  const [
+    patientSignupResponse,
+    patientSignupError,
+    patientSignupLoading,
+    patientSignupFetch,
   ] = useAxios();
   const [hospitalsResponse, hospitalsError, hospitalsLoading, hospitalsFetch] =
     useAxios();
@@ -63,12 +76,35 @@ const Home = () => {
       })
     );
   };
-
+  const onChange = (value) => {
+    setFormValues((prev) => ({
+       ...prev,
+       district: value,
+     }));
+   };
   //useEffects
   useEffect(() => {
     fetchAppointmentsFunc();
     fetchHospitalsFunc();
     fetchDoctorsFunc();
+  }, []);
+  const [
+    changeJwtResponse,
+    changeJwtError,
+    changeJwtLoading,
+    changeJwtFetch,
+  ] = useAxios();
+  const [formValues, setFormValues] = useState({
+    gender: "M",
+  });
+
+  const [profileResponse, profileError, profileLoading, profileFetch] =
+  useAxios();
+  const fetchPatientprofile = () => {
+    profileFetch(fetchprofiles({ patientId: 1 }));
+  };
+  useEffect(() => {
+    fetchPatientprofile();
   }, []);
   useEffect(() => {
     if (
@@ -80,6 +116,21 @@ const Home = () => {
       setLastestAppointment(fetchAppointmentResponse?.data);
     }
   }, [fetchAppointmentResponse]);
+  useEffect(() => {
+    if (changeJwtResponse?.result == "success") {
+      localStorage.removeItem('storedToken');
+      localStorage.setItem('storedToken', changeJwtResponse?.token);
+      dispatch(updateToken(changeJwtResponse?.token))
+
+    }
+  }, [changeJwtResponse]);
+  useEffect(() => {
+    if (profileResponse?.result == "success") {
+      setprofileData(profileResponse?.data);
+      setExtraPatientsData(profileResponse?.linked_patient)
+      console.log(profileData)
+    }
+  }, [profileResponse]);
   useEffect(() => {
     if (hospitalsResponse?.result == "success") {
       console.log(hospitalsResponse?.data);
@@ -93,6 +144,40 @@ const Home = () => {
       setDoctorsData(doctorsResponse?.data);
     }
   }, [doctorsResponse]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  
+  const handleOk = () => {
+    submitUserSignup()
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const changeJwtFunction = (id) => {
+    changeJwtFetch(changeJwtOfPatient({
+      patientId:id
+    }));
+  };
+  const submitUserSignup = () => {
+    console.log(formValues)
+    patientSignupFetch(patientAddNewProfile(formValues));
+  };
+  useEffect(() => {
+    if (patientSignupResponse?.result == "success") {
+      router.push(`/`);
+    }
+  }, [patientSignupResponse]);
+  const changeLogin = (data) =>{
+    if(data=="new value"){
+      showModal()
+    }
+    else if(data){
+      changeJwtFunction(data)
+    }
+  }
 
   const dispatch = useDispatch();
 
@@ -116,9 +201,9 @@ const Home = () => {
             </span>
           </h1>
           {/* <p className="mb-2 text-white small">Book Now and Get 30% OFF</p> */}
-          <a href="#" className="btn btn-sm btn-dark btn-book mt-2">
+          <Link to={"/search-doctor/"+ (index === 0 ? 'Cardiologist' : index === 1 ? 'Dermatologist' : index === 2 ? 'Pediatrician' : '')} className="btn btn-sm btn-dark btn-book mt-2">
             SEARCH NOW <i className="bi bi-arrow-right" />
-          </a>
+          </Link>
           <div className="doctor-book-img">
             <img src={color} alt="" className="img-fluid" />
           </div>
@@ -147,13 +232,18 @@ const Home = () => {
               </p>
 
               <p className="card-text text-muted small m-0">
-                {each?.description && each.description.length > 30
-                  ? each.description.substring(0, 30) + "..."
-                  : each.description}
+                {each?.address && each.address.length > 30
+                  ? each.address.substring(0, 30) + "..."
+                  : each.address}
               </p>
               <p className="mt-1">
-                <span className="mdi mdi-star text-warning me-1" />
-                4.9 (5,380)
+              {each?.average_review_stars && Array(Math.floor(each?.average_review_stars) ).fill(null).map(()=>{
+            return(
+              <span className="mdi mdi-star text-warning me-1" />
+
+            )
+           })}
+                {each?.average_review_stars?.toFixed(2)} ({each?.total_review_stars})
               </p>
             </div>
           </div>
@@ -165,6 +255,7 @@ const Home = () => {
   return (
     <>
       <div className="bg-white shadow-sm">
+
         <div className="d-flex align-items-center justify-content-between mb-auto p-3 osahan-header">
           <div className="d-flex align-items-center gap-2 me-auto">
             <a>
@@ -174,6 +265,37 @@ const Home = () => {
                 className="img-fluid rounded-circle icon"
               />
             </a>
+           
+            <select
+              onChange={(e)=>{
+                changeLogin(e.target.value)
+              }}
+                style={{
+                  fontSize: "1rem",
+                  width: "8rem",
+                  height: "1.5rem",
+                  border: "transparent",
+                }}
+              >
+<option value="">
+                  <p class="mb-0 fw-bold">{profileData?.full_name}</p>
+                </option>
+                {extraPatientsData.map((data)=>{
+                return(
+                  <option value={data.id}>
+                  <p class="mb-0 fw-bold">{data?.full_name}</p>
+                </option>
+                
+                )
+                })}
+                <option value={"new value"}>
+                <Button type="primary" onClick={showModal} style={{background:"rgb(12,109,253)", color:"white"}}>
+        Add New Profile
+      </Button>
+                </option>
+              
+              
+              </select>
             <div className="ps-1"></div>
           </div>
           <div className="d-flex align-items-center gap-2">
@@ -183,12 +305,12 @@ const Home = () => {
             >
               <span className="mdi mdi-cards-heart-outline mdi-18px text-primary" />
             </Link>
-            <Link
+            {/* <Link
               to="/notifications"
               className="bg-white shadow rounded-circle icon"
             >
               <span className="mdi mdi-bell-outline mdi-18px text-primary" />
-            </Link>
+            </Link> */}
             <a
               className="toggle bg-white shadow rounded-circle icon d-flex align-items-center justify-content-center"
               style={{ textDecoration: "none" }}
@@ -200,6 +322,7 @@ const Home = () => {
             </a>
           </div>
         </div>
+
         <div className="px-3 pb-3">
           <form>
             <div className="input-group rounded-4 shadow py-1 px-3 bg-light">
@@ -294,7 +417,204 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Modal title="Add New Profile" open={isModalOpen} onOk={handleOk} okText={"Add"} onCancel={handleCancel} >
+      <>
+                  <div className="mb-3 mt-5">
+                    <label
+                      htmlFor="exampleFormControlFullName"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Full Name
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlFullName"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="fullName"
+                      >
+                        <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Type your full name"
+                        aria-label="Type your full name"
+                        aria-describedby="fullName"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            fullName: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlFullName"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                     Email
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlFullName"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="fullName"
+                      >
+<span className="mdi mdi-email-outline mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Type your email"
+                        aria-label="Type your email"
+                        aria-describedby="email"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlDOB"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Date of Birth
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlDOB"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="dob"
+                      >
+                        <span className="mdi mdi-calendar mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="date"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Select your date of birth"
+                        aria-label="Select your date of birth"
+                        aria-describedby="dob"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            dob: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
 
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlGender"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Gender
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlGender"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="gender"
+                      >
+                        <span className="mdi mdi-gender-male-female mdi-18px text-muted" />
+                      </span>
+                      <select
+                        className="form-select bg-transparent rounded-0 border-0"
+                        aria-label="Select your gender"
+                        aria-describedby="gender"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            gender: e.target.value,
+                          }));
+                        }}
+                      >
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="O">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+
+                  <div className="mb-3">
+                  <label htmlFor="district" className="form-label mb-1 mt-1">
+    District
+  </label>
+  <div className="input-group border bg-white rounded-3 py-1" id="district">
+    <Select
+      showSearch
+      placeholder="Select District"
+      optionFilterProp="children"
+      onChange={onChange}
+      // onSearch={onSearch}
+      // value={profileDataToChange.district}
+      style={{ width: '100%', border: "none", outline: "none" }}
+    >
+      {Object.keys(districts).map((district, index) => (
+        
+        <>
+        <Select.Option disabled={true} style={{height:"3rem"}}>
+          {district}
+        </Select.Option>
+        {districts[district].map((district, index) => (
+        <Select.Option key={index} value={district}>
+          {district}
+        </Select.Option>))}
+        </>
+      ))}
+    </Select>
+  </div>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleFormControlFullName"
+                      className="form-label mb-1 label-custom-boot"
+                    >
+                      Block
+                    </label>
+                    <div
+                      className="input-group border bg-white rounded-3 py-1"
+                      id="exampleFormControlFullName"
+                    >
+                      <span
+                        className="input-group-text bg-transparent rounded-0 border-0"
+                        id="fullName"
+                      >
+<span className="mdi mdi-map-marker-outline mdi-18px text-muted" />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control bg-transparent rounded-0 border-0 px-0"
+                        placeholder="Enter Block"
+                        aria-label="Enter Block"
+                        aria-describedby="fullName"
+                        onChange={(e) => {
+                          setFormValues((prev) => ({
+                            ...prev,
+                            block: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                </>
+      </Modal>
       <div className="p-3 mb-2">
         {latestAppointment?.id && (
           <Link
@@ -411,10 +731,11 @@ const Home = () => {
           })}
         </div>
 
-        <BottomNav path="home" />
       </div>
+      <BottomNav path="home" />
+
     </>
   );
 };
 
-export default transition(Home);
+export default Home;

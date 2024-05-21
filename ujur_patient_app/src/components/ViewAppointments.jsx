@@ -9,7 +9,6 @@ import useAxios from '../network/useAxios';
 import moment from 'moment';
 import { test_url_images } from '../config/environment';
 import { FaLocationDot } from 'react-icons/fa6';
-import transition from '../transition';
 
 const ViewAppointments = () => {
    const router = useRouter();
@@ -209,4 +208,4 @@ const ViewAppointments = () => {
 </>  )
 }
 
-export default transition(ViewAppointments)
+export default ViewAppointments

@@ -7,7 +7,6 @@ import useAxios from "../network/useAxios";
 import { useRouter } from "../hooks/use-router";
 import { fetchBookingPrice } from '../urls/urls';
 import { Alert } from "antd";
-import transition from "../transition";
 
 
 const VisitInfo = () => {
@@ -170,4 +169,4 @@ const VisitInfo = () => {
   );
 };
 
-export default transition(VisitInfo);
+export default VisitInfo;

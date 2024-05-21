@@ -6,7 +6,6 @@ import useAxios from '../network/useAxios';
 import { fetchFavDoctorAddRemove, fetchSingleDoctorDetails } from '../urls/urls';
 import { test_url_images } from '../config/environment';
 import { useRouter } from '../hooks/use-router';
-import transition from '../transition';
 
 
 const AboutDoctor = () => {
@@ -26,7 +25,6 @@ const AboutDoctor = () => {
     const router = useRouter();
     const addFavDoctor = () => {
       favDoctorActionFetch(fetchFavDoctorAddRemove({doctorId:doctorId, patientId:1, action:isFav?"remove":"add"}));
-      router.push('/favorite-doctor')
       };
 
     //useEffects
@@ -60,7 +58,7 @@ const AboutDoctor = () => {
                 <img src={test_url_images+doctorData?.profile_picture} alt="" class="img-fluid appointment-doctor-img" />
                 <div>
                    <h5 class="mb-1">Dr. {doctorData?.full_name}</h5>
-                   <p class="text-muted mb-2">{doctorData?.education}</p>
+                   <p class="text-muted mb-2">{doctorData?.department?.name}</p>
                 </div>
              </div>
           </div>
@@ -122,4 +120,4 @@ const AboutDoctor = () => {
    )
 }
 
-export default transition(AboutDoctor);
+export default AboutDoctor;

@@ -4,13 +4,15 @@ import useAxios from "../network/useAxios";
 import { phoneNumberOtp } from "../urls/urls";
 import { DotLoading } from "antd-mobile";
 import { Alert } from "antd";
-import transition from "../transition";
 import { Link } from "react-router-dom";
+import { updateToken } from "../redux/reducers/functionalities.reducer";
+import { useDispatch } from "react-redux";
 
 const LoginPhone = () => {
   //Constants & additionals
   const router = useRouter();
   
+  const dispatch = useDispatch();
 
   //useAxios
   const [phoneResponse, phoneError, phoneLoading, phoneFetch] = useAxios();
@@ -21,7 +23,6 @@ const LoginPhone = () => {
     isShow: false,
   });
   const [formValues, setFormValues] = useState({
-    phoneNumber: "",
     email: "",
     password: "",
   });
@@ -33,10 +34,19 @@ const LoginPhone = () => {
   };
 
 
-  //useEffects
   useEffect(() => {
-    if (phoneResponse?.result == "success") {
-      router.push(`/verify-otp/${formValues?.phoneNumber}`);
+    if (phoneResponse?.result === 'success') {
+      if (phoneResponse?.userType === 'user exists') {
+        localStorage.setItem('storedToken', phoneResponse?.token);
+        dispatch(updateToken(phoneResponse?.token));
+        router.push('/home');
+      }
+    }
+    else if(phoneResponse?.result === 'failure'){
+      setMessage({
+        message: phoneResponse?.message,
+        isShow: true,
+      });
     }
   }, [phoneResponse]);
 
@@ -139,41 +149,7 @@ const LoginPhone = () => {
             />
           </div>
         </div>
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlEmail"
-            className="form-label mb-1 label-custom-boot"
-          >
-            Phone Number
-          </label>
-          <div
-            className="input-group border bg-white rounded-3 py-1"
-            id="exampleFormControlEmail"
-          >
-            <span
-              className="input-group-text bg-transparent rounded-0 border-0"
-              id="mail"
-            >
-              <span className="mdi mdi-phone-outline mdi-18px text-muted" />
-            </span>
-            <input
-            // i change the type = number to "text"
-              type="text"
-              className="form-control bg-transparent rounded-0 border-0 px-0"
-              placeholder="Type your phone"
-              maxLength={10}
-              aria-label="Type your email or phone number"
-              aria-describedby="mail"
-              onChange={(e) => {
-                setFormValues((prev) => ({
-                  ...prev,
-                  phoneNumber: e.target.value,
-                }));
-              }}
-            />
-          </div>
-        </div>
-
+    
         <div>
           {message.isShow && (
             <Alert
@@ -200,13 +176,12 @@ const LoginPhone = () => {
             {phoneLoading ? (
               <DotLoading style={{ color: "white" }} />
             ) : (
-              "Verify"
+              "Login"
             )}
           </a>
-          <div className="" style={{display: "flex", gap: "13px", fontSize: "16px"}}>
+          <div className="" style={{display: "flex", fontSize: "10px",flexDirection:"column"}}>
 
-          <p>Forget Password?</p>
-         <p>New to UJUR? <Link to={`/sign-up/${formValues?.phoneNumber}`}>Sign Up Now</Link></p>
+         <p>New to UJUR? <Link to={`/sign-up`}>Sign Up Now</Link></p>
           </div>
         </div>
       </form>
@@ -214,4 +189,4 @@ const LoginPhone = () => {
   );
 };
 
-export default transition(LoginPhone);
+export default LoginPhone;

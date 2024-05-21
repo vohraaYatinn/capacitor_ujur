@@ -8,12 +8,13 @@ import { changeProfileValues, fetchprofiles } from '../urls/urls';
 import {districts} from '../demo/districts';
 import { Select } from 'antd';
 import { Alert } from "antd";
-import transition from '../transition';
 
 const ChangeCustomerProfile = () => {
   const dispatch = useDispatch();
   const [profileData, setProfileData] = useState([]);
   const [profileDataToChange, setProfileDataToChange] = useState([]);
+  const [isUploaded, setIsUploaded] = useState(false);
+
   const [date, setDate] = useState({
     year: null,
     month: null,
@@ -66,7 +67,17 @@ const ChangeCustomerProfile = () => {
    EditprofileFetch(changeProfileValues(profileDataToChange))
 
   }
-
+  const handleUpload = (e) => {
+   const file = e.target.files[0];
+   if (file) {
+     console.log("Selected file:", file);
+     setProfileDataToChange((prev) => ({
+       ...prev,
+       document: file,
+     }));
+     setIsUploaded(true);
+   }
+ };
   // Function to set date from string
   const setDateFromString = (dateString) => {
     const [year, month, day] = dateString.split('-');
@@ -130,6 +141,8 @@ const ChangeCustomerProfile = () => {
                   </span>
                   <input type="file" class="form-control bg-transparent rounded-0 border-0 px-0"
                      placeholder="Type your first name" aria-label="Type your first name" aria-describedby="firstname"
+
+                           onChange={handleUpload}
                      />
                </div>
             </div>
@@ -318,4 +331,4 @@ const ChangeCustomerProfile = () => {
 </>  )
 }
 
-export default transition(ChangeCustomerProfile)
+export default ChangeCustomerProfile

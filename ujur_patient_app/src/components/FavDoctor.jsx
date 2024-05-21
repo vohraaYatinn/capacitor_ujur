@@ -7,7 +7,6 @@ import useAxios from '../network/useAxios';
 import { fetchFavDoctor, fetchFavDoctorAddRemove } from '../urls/urls';
 import { test_url_images } from '../config/environment';
 import { Popup } from 'antd-mobile';
-import transition from '../transition';
 
 const FavDoctor = () => {
    const router = useRouter();
@@ -67,10 +66,10 @@ const FavDoctor = () => {
                console.log(each)
                return(
         <div class="d-flex align-items-center gap-3 bg-white p-3 my-1 shadow-sm" onClick={()=> router.push(`/about-doctor/${each.doctor.id}`)}>
-        <img src={test_url_images + each?.doctor?.profile_picture} alt="" class="img-fluid rounded-circle favorite-img" />
+        <img src={test_url_images + each?.doctor?.profile_picture} alt="" class="img-fluid rounded-circle favorite-img" style={{height:"3rem", width:"3rem", objectFit:"cover"}}/>
         <div>
            <h6 class="mb-1 fs-14 fw-bold">Dr. {each?.doctor?.full_name}</h6>
-           <div class="d-flex align-items-center gap-1 small">
+           {/* <div class="d-flex align-items-center gap-1 small">
               <span class="mdi mdi-star text-warning"></span>
               <span class="mdi mdi-star text-warning"></span>
               <span class="mdi mdi-star text-warning"></span>
@@ -78,7 +77,7 @@ const FavDoctor = () => {
               <span class="mdi mdi-star text-warning"></span>
               <span class="text-warning">4.9</span>
               <span>(5,380)</span>
-           </div>
+           </div> */}
            <small class="text-muted">{each?.doctor?.hospital?.name}</small>
         </div>
         <div class="ms-auto">
@@ -157,4 +156,4 @@ const FavDoctor = () => {
     )
 }
 
-export default transition(FavDoctor)
+export default FavDoctor

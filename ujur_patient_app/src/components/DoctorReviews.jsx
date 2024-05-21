@@ -1,17 +1,57 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import img1 from "../img/favorite/favorite-1.jpg"
 import { useRouter } from '../hooks/use-router';
 import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import BottomNav from './BottomNav';
-import transition from '../transition';
+import useAxios from '../network/useAxios';
+import { fetchReviews, fetchReviewsHospitals } from '../urls/urls';
+import moment from 'moment';
+import { Radio } from 'antd';
 
 const DoctorReviews = () => {
    const router = useRouter();
    const dispatch = useDispatch();
+   const [reviewData, setReviewData] = useState([])
+   const [doctorsResponse, doctorsError, doctorsLoading, doctorsFetch] = useAxios();
+   
+   const fetchNearbyDoctors = () => {
+      doctorsFetch(fetchReviews());
+    };
+   
+   const fetchNearbyHospitals = () => {
+      doctorsFetch(fetchReviewsHospitals());
+    };
+    const [value, setValue4] = useState("doctors")
+    const onChange4 = ({ target: { value } }) => {
+      console.log('radio4 checked', value);
+      setValue4(value);
+    };
+   useEffect(()=>{
+      if(value == "doctors"){
+         fetchNearbyDoctors()
+      }
+      else{
+         fetchNearbyHospitals()
+      }
+       },[value])
+       useEffect(()=>{
+         if(doctorsResponse?.result == "success"){
+            setReviewData(doctorsResponse?.data)
+         }
+        },[doctorsResponse])
+        const optionsWithDisabled = [
+         {
+           label: 'Doctors',
+           value: 'doctors',
+         },
+         {
+           label: 'Hospitals',
+           value: 'hospitals',
+         },
 
-
+       ];
   return (
 <>
 <div class="favorite-doctor d-flex flex-column vh-100">
@@ -28,63 +68,48 @@ const DoctorReviews = () => {
             </div>
          </div>
          <div class="vh-100 my-auto overflow-auto body-fix-osahan-footer">
-         <Link to="/write-reviews" className="link-dark">
-                  <div className="d-flex align-items-center gap-3 bg-white border-bottom shadow-sm p-3">
-                     {/* <img src={img1} alt="" className="img-fluid rounded-4 favorite-img" /> */}
-                     <div className="small">
-                        <h6 className="mb-1 fs-14">Dr. Taylor Samaro</h6>
-                        <div className="d-flex align-items-center gap-1 small">
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="text-warning">4.9</span>
-                            
-                        </div>
-                        <small className="text-muted">Dentist- Cumilla Medical Collage</small>
-                        <br/>
-                        <small className="text-muted">January 12, 2024</small>
+         <Radio.Group
+        options={optionsWithDisabled}
+        onChange={onChange4}
+        value={value}
+        size='large'
+        optionType="button"
+        buttonStyle="solid"
+        style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}
+      />
+            {reviewData.map((each)=>{
+return(
+   <Link className="link-dark">
+   <div className="d-flex align-items-center gap-3 bg-white border-bottom shadow-sm p-3">
 
-                     </div>
-                  </div>
-               </Link>
-               <Link to="/write-reviews" className="link-dark">
-                  <div className="d-flex align-items-center gap-3 bg-white border-bottom shadow-sm p-3">
-                     {/* <img src={img1} alt="" className="img-fluid rounded-4 favorite-img" /> */}
-                     <div className="small">
-                        <h6 className="mb-1 fs-14">Dr. Taylor Samaro</h6>
-                        <div className="d-flex align-items-center gap-1 small">
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="text-warning">4.9</span>
-                            
-                        </div>
-                        <small className="text-muted">Dentist- Cumilla Medical Collage</small>
-                     </div>
-                  </div>
-               </Link>
-               <Link to="/write-reviews" className="link-dark">
-                  <div className="d-flex align-items-center gap-3 bg-white border-bottom shadow-sm p-3">
-                     {/* <img src={img1} alt="" className="img-fluid rounded-4 favorite-img" /> */}
-                     <div className="small">
-                        <h6 className="mb-1 fs-14">Dr. Taylor Samaro</h6>
-                        <div className="d-flex align-items-center gap-1 small">
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="mdi mdi-star text-warning"></span>
-                           <span className="text-warning">4.9</span>
-                            
-                        </div>
-                        <small className="text-muted">Dentist- Cumilla Medical Collage</small>
-                     </div>
-                  </div>
-               </Link>
+      {/* <img src={img1} alt="" className="img-fluid rounded-4 favorite-img" /> */}
+      <div className="small">
+ 
+         <h6 className="mb-1 fs-14">
+            {value == "doctors" ? "Dr." +each?.doctor?.full_name : each?.hospital?.name}
+            
+            
+            </h6>
+         <div className="d-flex align-items-center gap-1 small">
+           {Array(each?.reviews_star).fill(null).map(()=>{
+            return(
+               <span className="mdi mdi-star text-warning"></span>
+
+            )
+           })}
+             
+         </div>
+         {value == "doctors" && <><small className="text-muted">{each?.doctor?.hospital?.name}</small>  <br/></>}
+        
+         <small className="text-muted">{moment(each?.created_at).format('DD MMMM YYYY')}</small>
+
+      </div>
+   </div>
+</Link>
+)
+            })}
+        
+
          </div>
          {/* <div class="footer mt-auto p-3 fix-osahan-footer">
             <div class="d-flex align-items-center justify-content-between rounded-4 shadow overflow-hidden bottom-nav-main">
@@ -149,4 +174,4 @@ const DoctorReviews = () => {
     )
 }
 
-export default transition(DoctorReviews)
+export default DoctorReviews
