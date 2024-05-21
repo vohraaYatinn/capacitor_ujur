@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '../src/css/style.css';
+import '../src/css/styleForPrescription.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Store from './redux/Store';

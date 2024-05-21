@@ -1,0 +1,7 @@
+.green-background-color-1{
+    background-color: #ccffd7;
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}

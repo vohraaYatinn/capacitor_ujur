@@ -239,8 +239,7 @@ const AppointmentDetails = () => {
                  >Add Hospital Review</Button>
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
-                  setHtmlData(appointmentDetails?.pdf_content)
-                  showModal()
+                  convertToPDF(appointmentDetails?.pdf_content, "prescription")
                  }}
                  >Download Prescription</Button>
                  </div> 
@@ -257,6 +256,9 @@ const AppointmentDetails = () => {
           open={cancle}
           okText="Upload"
           onOk={uploadLabReport}
+          onCancel={()=>{
+            setCancle(false)
+          }} 
         >
          
             <div className="modal-body py-5">

@@ -42,7 +42,7 @@ const Signup = () => {
     fullName:"",
     email:"",
     dob:"",
-    gender:"male",
+    gender:"M",
     district:districts.length > 0 ? districts[0] : ""
   });
 
@@ -368,8 +368,8 @@ const Signup = () => {
     }));
   }}
 >
-  <option value="male">Male</option>
-  <option value="female">Female</option>
+  <option value="M">Male</option>
+  <option value="F">Female</option>
 </select>
 
         </div>

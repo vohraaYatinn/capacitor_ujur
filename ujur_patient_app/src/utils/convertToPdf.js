@@ -1,44 +1,40 @@
+import { Filesystem, FilesystemDirectory, FilesystemEncoding } from '@capacitor/filesystem';
 import html2pdf from 'html2pdf.js';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
-const convertToPDF = async(htmlContent, fileName) => {
+const convertToPDF = async (htmlContent, fileName) => {
   const pdfOptions = {
     margin: 10,
-    filename: fileName,  // Use the provided fileName for naming the PDF
+    filename: fileName,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2 },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
   };
 
+  // Generate PDF from HTML using html2pdf and get the blob
+  const pdfBlob = await html2pdf().from(htmlContent).set(pdfOptions).output('blob');
+
+  // Convert blob to base64
+  const base64data = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      resolve(reader.result.split(',')[1]); // Remove data URL part
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(pdfBlob);
+  });
+
+  // Save PDF file using Capacitor's Filesystem API
   try {
-    // Generate PDF and get the blob
-    const pdf_blob = await html2pdf().from(htmlContent).set(pdfOptions).outputPdf('blob');
-
-    // Convert the blob to base64
-    const base64Data = await convertBlobToBase64(pdf_blob);
-
-    // Write the base64 data to the file system
     await Filesystem.writeFile({
-      path: fileName,
-      data: base64Data,
-      directory: Directory.Documents,
-      encoding: Encoding.UTF8
+      path: `${fileName}.pdf`,
+      data: base64data,
+      directory: FilesystemDirectory.Documents,
+      encoding: FilesystemEncoding.Base64, // Use Base64 encoding
     });
-
-    console.log("PDF file created successfully");
+    console.log('PDF saved successfully.');
   } catch (error) {
-    console.error("Failed to create PDF file", error);
+    console.error('Error saving PDF:', error);
   }
 };
-
-// Helper function to convert Blob to Base64
-function convertBlobToBase64(blob) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = () => reject('Failed to read blob as base64');
-    reader.onload = () => resolve(reader.result.split(',')[1]); // Get only the base64 string without the prefix
-    reader.readAsDataURL(blob);
-  });
-}
 
 export default convertToPDF;

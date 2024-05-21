@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Search from './components/Search';
@@ -25,7 +25,53 @@ import SignupPage from './components/Signup';
 import { AnimatePresence } from 'framer-motion';
 import "./index.css"
 import WriteReviewHospital from './components/WriteReviewHospital';
+import { Capacitor } from '@capacitor/core';
+import { Plugins, Directory, Encoding } from '@capacitor/core';
+import { Filesystem , FilesystemDirectory, FilesystemEncoding} from '@capacitor/filesystem';
+
+const { Permissions } = Plugins;
+
+
+const data = 'This is the content of the file.';
+
+// Define the path where you want to write the file
+const path = 'external/example.txt';
+
+const writeFile = async () => {
+  const data = 'Hello, World!';
+  const fileName = 'example.txt';
+  const directory = FilesystemDirectory.Documents;
+
+  // Ensure the parent directory exists
+  try {
+    await Filesystem.mkdir({
+      path: directory,
+      directory: FilesystemDirectory.Documents,
+      recursive: true // Create parent directories if they don't exist
+    });
+  } catch (error) {
+    console.error('Error creating directory:', error);
+    return;
+  }
+
+  // Now, write the file
+  try {
+    await Filesystem.writeFile({
+      path: fileName,
+      data: data,
+      directory: directory,
+      encoding: FilesystemEncoding.UTF8
+    });
+    console.log('File written successfully.');
+  } catch (error) {
+    console.error('Error writing file:', error);
+  }
+}
 function App() {
+  useEffect(()=>{
+    writeFile();
+
+  },[])
   return (
     <BrowserRouter>
     <Navbar />

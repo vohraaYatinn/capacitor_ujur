@@ -6,6 +6,11 @@ const config: CapacitorConfig = {
   webDir: 'build',
   server: {
     androidScheme: 'http'
+  },
+  plugins: {
+    Filesystem: {
+      webDir: "www"
+    }
   }
 };
 
