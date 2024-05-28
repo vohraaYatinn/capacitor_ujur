@@ -737,3 +737,12 @@ a{
     margin-left: 0rem !important;
     padding-left: 0rem !important;
 }
+
+.no-long-press {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10+ and Edge */
+    user-select: none; /* Standard syntax */
+    -webkit-touch-callout: none; /* iOS Safari */
+
+  }
+  

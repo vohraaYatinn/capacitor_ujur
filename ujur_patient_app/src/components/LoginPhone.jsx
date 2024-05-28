@@ -88,7 +88,7 @@ const LoginPhone = () => {
             htmlFor="exampleFormControlEmail"
             className="form-label mb-1 label-custom-boot"
           >
-            Email
+            Email/Ujur ID
           </label>
           <div
             className="input-group border bg-white rounded-3 py-1"
@@ -104,7 +104,7 @@ const LoginPhone = () => {
             // i change the type = number to "text"
               type="text"
               className="form-control bg-transparent rounded-0 border-0 px-0"
-              placeholder="Type your email"
+              placeholder="Type your email / Id"
               aria-label="Type your email or phone number"
               aria-describedby="mail"
               onChange={(e) => {
@@ -179,7 +179,7 @@ const LoginPhone = () => {
               "Login"
             )}
           </a>
-          <div className="" style={{display: "flex", fontSize: "10px",flexDirection:"column"}}>
+          <div className="" style={{display: "flex", fontSize: "20px",flexDirection:"column", marginTop:"1rem"}}>
 
          <p>New to UJUR? <Link to={`/sign-up`}>Sign Up Now</Link></p>
           </div>

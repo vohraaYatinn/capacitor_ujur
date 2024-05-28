@@ -298,11 +298,13 @@ const AppointmentDetails = () => {
                   <div class="d-flex align-items-center gap-4">
                      <div>
                         <p class="mb-1">Day</p>
-                        <p class="mb-0">Visit Time</p>
+                        <p class="mb-1">Visit</p>
+                        <p class="mb-0">Time</p>
                      </div>
                      <div>
                         <p class="mb-1">: {moment(appointmentDetails?.date_appointment).format("dddd, MMM D, YYYY")}</p>
-                        <p class="mb-0">: {appointmentDetails?.slot.toUpperCase()} -  {appointmentDetails?.slot == "morning"? slotDetails?.morning_timings :appointmentDetails?.slot == "afternoon"?slotDetails?.afternoon_timings:appointmentDetails?.slot=="evening"?slotDetails?.evening_timings:<></>}</p>
+                        <p class="mb-1">: {appointmentDetails?.slot.charAt(0).toUpperCase() + appointmentDetails?.slot.slice(1)}</p>
+                        <p class="mb-0">: {appointmentDetails?.slot == "morning"? slotDetails?.morning_timings :appointmentDetails?.slot == "afternoon"?slotDetails?.afternoon_timings:appointmentDetails?.slot=="evening"?slotDetails?.evening_timings:<></>}</p>
                      </div>
                   </div>
                </div>
@@ -311,6 +313,7 @@ const AppointmentDetails = () => {
                   <div class="d-flex align-items-center gap-4">
                      <div>
                         <p class="mb-1">Full Name</p>
+                        <p class="mb-1">UJUR ID</p>
                         <p class="mb-1">DOB</p>
                         <p class="m-0">Gender</p>
                         {/* <p class="m-0">Phone</p> */}
@@ -319,7 +322,8 @@ const AppointmentDetails = () => {
                         <p class="m-0">Height</p>
                      </div>
                      <div>
-                        <p class="mb-1">: MR {appointmentDetails?.patient?.full_name}</p>
+                        <p class="mb-1">: {appointmentDetails?.patient?.gender == "M" ? "Mr" :"Ms/Mrs"} {appointmentDetails?.patient?.full_name}</p>
+                        <p class="mb-1">: {appointmentDetails?.patient?.ujur_id}</p>
                         <p class="mb-1">: {appointmentDetails?.patient?.date_of_birth}</p>
                         <p class="m-0">: {appointmentDetails?.patient?.gender == "M" ? "Male" :"Female"}</p>
                         {/* <p class="m-0">: {appointmentDetails?.patient?.}</p> */}

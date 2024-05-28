@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { functionalitiesNavbar, updateNavbar } from '../redux/reducers/functionalities.reducer';
 import { Link } from 'react-router-dom';
 import logo from '../img/logo/logo.png'
+import { useRouter } from '../hooks/use-router';
 
 
 const Navbar = () => {
     const navBar = useSelector(functionalitiesNavbar);
     const dispatch = useDispatch();
+    const router = useRouter();
+
 
     const [open, setOpen] = useState(false);
     useEffect(()=>{
@@ -46,7 +49,10 @@ const Navbar = () => {
       </div>
     </div>
   </li>
-  <li style={{ marginTop: "0.5rem" }}>
+  <li style={{ marginTop: "0.5rem" }} onClick={()=>{
+    onClose()
+    router.push("/customer-profile")
+  }}>
     <Link to="/customer-profile" onClick={()=>{
        onClose()
     }} 
@@ -57,7 +63,10 @@ const Navbar = () => {
     <hr/>
 
   </li>
-  <li>
+  <li onClick={()=>{
+    onClose()
+    router.push("/view-appointments")
+  }}>
     <Link to="/view-appointments" onClick={()=>{
        onClose()
     }}
@@ -69,7 +78,10 @@ const Navbar = () => {
     <hr/>
 
   </li>
-  <li>
+  <li onClick={()=>{
+    onClose()
+    router.push("/favorite-doctor")
+  }}>
     <Link to="/favorite-doctor" onClick={()=>{
        onClose()
     }}
@@ -81,7 +93,10 @@ const Navbar = () => {
     <hr/>
 
   </li>
-  <li>
+  <li onClick={()=>{
+    onClose()
+    router.push("/doctor-reviews")
+  }}>
     <Link to="/doctor-reviews" onClick={()=>{
        onClose()
     }}
@@ -93,7 +108,10 @@ const Navbar = () => {
     <hr/>
 
   </li>
-  <li>
+  <li onClick={()=>{
+    onClose()
+    router.push("/lab-reports")
+  }}>
     <Link to="/lab-reports" onClick={()=>{
        onClose()
     }}

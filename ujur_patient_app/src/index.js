@@ -10,9 +10,9 @@ import { App as CapacitorApp } from '@capacitor/app';
 import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-document.addEventListener('contextmenu', function(event) {
-  event.preventDefault();
-});
+// document.addEventListener('contextmenu', function(event) {
+//   event.preventDefault();
+// });
 CapacitorApp.addListener('backButton', ({canGoBack}) => {
   if(!canGoBack){
     CapacitorApp.exitApp();

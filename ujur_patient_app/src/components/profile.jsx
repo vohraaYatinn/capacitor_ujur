@@ -178,7 +178,15 @@ const CustomerProfile = () => {
     style={{border:"1px solid transparent", borderRadius:"100px", height:"10rem", width:"10rem"}}
   />
   </div>
+           
               <div class="d-flex">
+              <div class="col">
+                  <p>
+                    <span class="text-muted small">Ujur Id</span>
+                    <br />
+                    {profileData?.ujur_id}
+                  </p>
+                </div>
                 <div class="col">
                   <p>
                     <span class="text-muted small">Name</span>
@@ -186,13 +194,7 @@ const CustomerProfile = () => {
                     {profileData?.full_name}
                   </p>
                 </div>
-                <div class="col">
-                  <p>
-                    <span class="text-muted small">Date of Birth</span>
-                    <br />
-                    {profileData?.date_of_birth}
-                  </p>
-                </div>
+
               </div>
               <div class="d-flex">
                 <div class="col">
@@ -228,6 +230,13 @@ const CustomerProfile = () => {
                 </div>
               </div>
               <div class="d-flex">
+              <div class="col">
+                  <p>
+                    <span class="text-muted small">Date of Birth</span>
+                    <br />
+                    {profileData?.date_of_birth}
+                  </p>
+                </div>
                 <div class="col">
                   <p>
                     <span class="text-muted small">Email</span>
@@ -235,6 +244,7 @@ const CustomerProfile = () => {
                     {profileData?.user?.email || "N/A"}
                   </p>
                 </div>
+            
                 </div>
                 <div class="d-flex">
 

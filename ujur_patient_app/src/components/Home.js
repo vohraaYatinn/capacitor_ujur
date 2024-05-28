@@ -1,5 +1,5 @@
 import { Swiper } from "antd-mobile";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import topDoctor1 from "../img/transparent/1.png";
 import topDoctor2 from "../img/transparent/2.png";
 import topDoctor3 from "../img/transparent/3.png";
@@ -8,7 +8,7 @@ import doctorImg2 from "../img/home/schedule.png";
 import doctorImg3 from "../img/home/medicine.png";
 import doctorImg4 from "../img/home/prescription.png";
 import doctorImg5 from  "../img/home/svg1.jpg";
-import doctorImg6 from  "../img/home/heart_svg.png";
+
 import { Button } from "antd-mobile";
 import { Modal, Select } from 'antd';
 import {districts} from '../demo/districts';
@@ -98,6 +98,28 @@ const Home = () => {
     gender: "M",
   });
 
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const element = ref.current;
+
+    const preventLongPress = (event) => {
+      event.preventDefault();
+    };
+
+    if (element) {
+      element.addEventListener('contextmenu', preventLongPress);
+    }
+
+    // Clean up the event listener
+    return () => {
+      if (element) {
+        element.removeEventListener('contextmenu', preventLongPress);
+      }
+    };
+  }, []);
+
   const [profileResponse, profileError, profileLoading, profileFetch] =
   useAxios();
   const fetchPatientprofile = () => {
@@ -183,10 +205,12 @@ const Home = () => {
 
   const topDoctor = [topDoctor1, topDoctor2, topDoctor3,];
 
-  const topDoctors = topDoctor.map((color, index) => (
+  const topDoctors = topDoctor.map((color, index=1) => (
     <Swiper.Item key={index}>
-      <div className="available-doctor-item">
-        <div className="btn-secondary text-white rounded-4 p-3 doctor-book-back">
+      <div className="available-doctor-item" >
+        <div className="btn-secondary text-white rounded-4 p-3 doctor-book-back" style={{
+        background:(index)%2==0 && "#122F97"
+      }}>
           <h1 className="mb-1 doctor-book-back-title">
           {index === 0 ? 'Cardiologist' : index === 1 ? 'Dermatologist' : index === 2 ? 'Pediatrician' : ''}
           {/* {index === 0 ? 'Cardiologist:' : index === 1 ? 'Dermatologist:' : index ===3 ? 'Pediatrician'} */}
@@ -254,7 +278,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="bg-white shadow-sm">
+      <div className="bg-white shadow-sm no-long-press" ref={ref}>
 
         <div className="d-flex align-items-center justify-content-between mb-auto p-3 osahan-header">
           <div className="d-flex align-items-center gap-2 me-auto">
@@ -266,7 +290,7 @@ const Home = () => {
               />
             </a>
            
-            <select
+            <div
               onChange={(e)=>{
                 changeLogin(e.target.value)
               }}
@@ -275,11 +299,12 @@ const Home = () => {
                   width: "8rem",
                   height: "1.5rem",
                   border: "transparent",
+                  background:"transparent"
                 }}
               >
-<option value="">
-                  <p class="mb-0 fw-bold">{profileData?.full_name}</p>
-                </option>
+{/* <option value=""> */}
+                  <p class="mb-0 ">Hi{" "}<span className="fw-bold">{profileData?.full_name}</span></p>
+                {/* </option>
                 {extraPatientsData.map((data)=>{
                 return(
                   <option value={data.id}>
@@ -292,10 +317,10 @@ const Home = () => {
                 <Button type="primary" onClick={showModal} style={{background:"rgb(12,109,253)", color:"white"}}>
         Add New Profile
       </Button>
-                </option>
+                </option> */}
               
               
-              </select>
+              </div>
             <div className="ps-1"></div>
           </div>
           <div className="d-flex align-items-center gap-2">
@@ -348,7 +373,6 @@ const Home = () => {
                 id="search"
                 style={{ textDecoration: "none" }}
               >
-                <span className="mdi mdi-filter-outline mdi-18px" />
               </a>
             </div>
           </form>

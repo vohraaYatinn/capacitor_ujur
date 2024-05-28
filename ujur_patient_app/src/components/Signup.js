@@ -136,10 +136,10 @@ const Signup = () => {
         </div>
       </div>
 
-
-    <div className="mb-3 mt-3">
+<div className='row'>
+    <div className="mb-3 mt-3 col-6">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
-          Full Name
+          First Name
         </label>
         <div
           className="input-group border bg-white rounded-3 py-1"
@@ -149,23 +149,54 @@ const Signup = () => {
             className="input-group-text bg-transparent rounded-0 border-0"
             id="name"
           >
-            <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+            <span className="mdi mdi-account mdi-18px text-muted" />
           </span>
           <input
             type="text"
             className="form-control bg-transparent rounded-0 border-0 px-0"
-            placeholder="Type your name"
+            placeholder="First name"
             aria-label="Type your name"
             aria-describedby="name"
-            value={formValues?.fullName}
+            value={formValues?.firstName}
             onChange={(e) => {
               setFormValues((prev) => ({
                 ...prev,
-                fullName: e.target.value,
+                firstName: e.target.value,
               }));
             }}
           />
         </div>
+      </div>
+    <div className="mb-3 mt-3 col-6">
+        <label htmlFor="exampleFormControlName" className="form-label mb-1">
+          Last Name
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlName"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-account-outline mdi-18px text-muted" />
+          </span>
+          <input
+            type="text"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Last name"
+            aria-label="Type your name"
+            aria-describedby="name"
+            value={formValues?.lastName}
+            onChange={(e) => {
+              setFormValues((prev) => ({
+                ...prev,
+                lastName: e.target.value,
+              }));
+            }}
+          />
+        </div>
+      </div>
       </div>
       <div className="mb-3">
         <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
@@ -209,7 +240,7 @@ const Signup = () => {
             className="input-group-text bg-transparent rounded-0 border-0"
             id="mail"
           >
-            <span className="mdi mdi-email-outline mdi-18px text-muted" />
+            <span className="mdi mdi-lock mdi-18px text-muted" />
           </span>
           <input
             type="password"
@@ -239,7 +270,7 @@ const Signup = () => {
             className="input-group-text bg-transparent rounded-0 border-0"
             id="mail"
           >
-            <span className="mdi mdi-email-outline mdi-18px text-muted" />
+            <span className="mdi mdi-phone mdi-18px text-muted" />
           </span>
           <input
             type="text"
@@ -269,7 +300,7 @@ const Signup = () => {
             className="input-group-text bg-transparent rounded-0 border-0"
             id="name"
           >
-            <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+            <span className="mdi mdi-ruler mdi-18px text-muted" />
           </span>
           <input type="text" class="form-control bg-transparent rounded-0 border-0 px-0"
                      placeholder="Enter Height" aria-label="Type your number" 
@@ -297,7 +328,7 @@ const Signup = () => {
             className="input-group-text bg-transparent rounded-0 border-0"
             id="name"
           >
-            <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+            <span className="mdi mdi-weight mdi-18px text-muted" />
           </span>
           <input type="text" class="form-control bg-transparent rounded-0 border-0 px-0"
                      placeholder="Enter Weight" aria-label="Type your number" 
@@ -325,7 +356,7 @@ const Signup = () => {
             className="input-group-text bg-transparent rounded-0 border-0"
             id="name"
           >
-            <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+            <span className="mdi mdi-calendar mdi-18px text-muted" />
           </span>
           <input
             type="date"
@@ -354,7 +385,7 @@ const Signup = () => {
             className="input-group-text bg-transparent rounded-0 border-0"
             id="gender"
           >
-            <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
+            <span className="mdi mdi-gender-male-female mdi-18px text-muted" />
           </span>
           <select
   className="form-control bg-transparent rounded-0 border-0 px-0"
@@ -378,7 +409,6 @@ const Signup = () => {
   <label htmlFor="district" className="form-label mb-1">
     District
   </label>
-  <div className="input-group border bg-white rounded-3 py-1" id="district">
     <Select
       showSearch
       placeholder="Select District"
@@ -386,7 +416,7 @@ const Signup = () => {
       onChange={onChange}
       onSearch={onSearch}
       value={formValues.district}
-      style={{ width: '100%', border: "none", outline: "none" }}
+      style={{ width: '100%', border: "none", outline: "none", height:"3rem" }}
     >
       {Object.keys(districts).map((district, index) => (
         
@@ -401,7 +431,6 @@ const Signup = () => {
         </>
       ))}
     </Select>
-  </div>
 </div>
 <div className="mb-3 mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
