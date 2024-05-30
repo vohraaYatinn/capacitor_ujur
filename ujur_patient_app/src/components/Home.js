@@ -7,16 +7,12 @@ import doctorImg1 from "../img/home/doctor.png";
 import doctorImg2 from "../img/home/schedule.png";
 import doctorImg3 from "../img/home/medicine.png";
 import doctorImg4 from "../img/home/prescription.png";
-import doctorImg5 from  "../img/home/svg1.jpg";
-
-import { Button } from "antd-mobile";
-import { Modal, Select } from 'antd';
+import user from "../img/home/user.png";
+import { Card, Image, Modal, Select } from 'antd';
 import {districts} from '../demo/districts';
-
-import { Link, Route } from "react-router-dom";
+import { Link, Route, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateNavbar, updateToken } from "../redux/reducers/functionalities.reducer";
-import BackNavbar from "./BackNavbar";
+import { updateNavbar, updateToken, updateUser } from "../redux/reducers/functionalities.reducer";
 import BottomNav from "./BottomNav";
 import useAxios from "../network/useAxios";
 import {
@@ -39,6 +35,7 @@ const Home = () => {
   const [latestAppointment, setLastestAppointment] = useState([]);
   const [extraPatientsData, setExtraPatientsData] = useState([]);
   const [profileData, setprofileData] = useState([]);
+  const { changeId } = useParams();
 
   //useAxios
   const [
@@ -83,6 +80,11 @@ const Home = () => {
      }));
    };
   //useEffects
+  const fetchFunctions = () => {
+    fetchAppointmentsFunc();
+    fetchHospitalsFunc();
+    fetchDoctorsFunc();
+  }
   useEffect(() => {
     fetchAppointmentsFunc();
     fetchHospitalsFunc();
@@ -140,15 +142,19 @@ const Home = () => {
   }, [fetchAppointmentResponse]);
   useEffect(() => {
     if (changeJwtResponse?.result == "success") {
+      setSelectPatientModalOpen(false);
       localStorage.removeItem('storedToken');
       localStorage.setItem('storedToken', changeJwtResponse?.token);
       dispatch(updateToken(changeJwtResponse?.token))
+      window.location.reload();
 
     }
   }, [changeJwtResponse]);
   useEffect(() => {
     if (profileResponse?.result == "success") {
       setprofileData(profileResponse?.data);
+      dispatch(updateUser(profileResponse?.data))
+
       setExtraPatientsData(profileResponse?.linked_patient)
       console.log(profileData)
     }
@@ -166,7 +172,18 @@ const Home = () => {
       setDoctorsData(doctorsResponse?.data);
     }
   }, [doctorsResponse]);
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectPatientModalOpen, setSelectPatientModalOpen] = useState(false);
+  useEffect(()=>{
+    if(changeId){
+      setTimeout(() => {
+       
+      }, 300);      
+      console.log("hello")
+      setSelectPatientModalOpen(true)
+    }
+  },[changeId])
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -177,6 +194,12 @@ const Home = () => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+  const handleCancelModals = () => {
+    if(changeId){
+      router.push("/home")
+    }
+    setSelectPatientModalOpen(false);
   };
   const changeJwtFunction = (id) => {
     changeJwtFetch(changeJwtOfPatient({
@@ -209,7 +232,7 @@ const Home = () => {
     <Swiper.Item key={index}>
       <div className="available-doctor-item" >
         <div className="btn-secondary text-white rounded-4 p-3 doctor-book-back" style={{
-        background:(index)%2==0 && "#122F97"
+        background: "#122F97"
       }}>
           <h1 className="mb-1 doctor-book-back-title">
           {index === 0 ? 'Cardiologist' : index === 1 ? 'Dermatologist' : index === 2 ? 'Pediatrician' : ''}
@@ -217,11 +240,14 @@ const Home = () => {
           {/* Cardiologist: */}
           <br />
             <span className="h4 text-warning overflow-hidden rounded-4 m-0">
-              <b className="bg-warning text-black px-1 rounded">
+              <b className="text-black px-1 rounded" style={{
+                background:"#FF8212"
+              }}>
+                
                 {/* Doctor for Your */}
                 {index === 0 ? 'Nearby cardiologist' : index === 1 ? 'Nearby Dermatologist' : index === 2 ? 'Nearby Pediatrician' : ''}
               </b>
-              <br/><b className="text-black">{" "}Needs!</b>
+              <br/><b className="text-white">{" "}Needs!</b>
             </span>
           </h1>
           {/* <p className="mb-2 text-white small">Book Now and Get 30% OFF</p> */}
@@ -285,15 +311,14 @@ const Home = () => {
             <a>
               <img
                 src={logo}
+                onClick={()=>setSelectPatientModalOpen(true)}
                 alt=""
                 className="img-fluid rounded-circle icon"
               />
             </a>
            
             <div
-              onChange={(e)=>{
-                changeLogin(e.target.value)
-              }}
+            
                 style={{
                   fontSize: "1rem",
                   width: "8rem",
@@ -303,7 +328,7 @@ const Home = () => {
                 }}
               >
 {/* <option value=""> */}
-                  <p class="mb-0 ">Hi{" "}<span className="fw-bold">{profileData?.full_name}</span></p>
+                  <p class="mb-0 ">Hi{" "}<span className="fw-bold">{profileData?.full_name && profileData?.full_name.replace(/\b\w/g, char => char.toUpperCase())}</span></p>
                 {/* </option>
                 {extraPatientsData.map((data)=>{
                 return(
@@ -637,6 +662,59 @@ const Home = () => {
                       />
                     </div>
                   </div>
+                </>
+      </Modal>
+      <Modal title="Change User Profile" open={selectPatientModalOpen} onOk={showModal} okText={"Add New Profile"} onCancel={handleCancelModals} cancelText={"Close"} 
+      
+      okButtonProps={{
+        disabled: extraPatientsData?.length >= 5 && true,
+      }}
+      >
+      <>
+      
+                {extraPatientsData.map((data)=>{
+                  
+                return(
+                  <Card
+                  bordered={true}
+                  style={{marginBottom:"0.3rem"}}
+                >
+                    <div value={data.id}
+                    onClick={()=>{
+                      changeLogin(data.id)
+                    }}
+                    style={{
+                      display:"flex",
+                      gap:"1rem",
+                      width:"100%",
+                      padding:"0.5rem",
+                    }}>
+                      <div>
+                          <Image
+    width={60}
+    style={{
+      border:"1px solid transparent",
+      borderRadius:"100%"
+    }}
+    src={data?.profile_picture ? test_url_images+data?.profile_picture : user}
+  />
+                      </div>
+                      <div style={{
+                        display:"flex",
+                        flexDirection:"column",
+                        alignContent:"center",
+                        justifyContent:"center"
+                      }}>
+                  <p class="mb-0 fw-bold" style={{fontSize:"1.1rem"}}>{data?.full_name}</p>
+                  <small class="mb-0">{data?.ujur_id} | {data?.gender}</small>
+                  </div>
+                </div>
+                </Card>
+                
+                
+                )
+                })}
+  
                 </>
       </Modal>
       <div className="p-3 mb-2">

@@ -40,7 +40,7 @@ const Search = () => {
       searchInput:""
     })
     useEffect(()=>{
-      if(formValues?.searchInput.length > 1){
+      if(formValues?.searchInput.length > 0){
          searchFetch(searchPatientFeature(formValues))
       }
       else if(formValues?.searchInput.length == 0){
@@ -105,7 +105,7 @@ const Search = () => {
       <div className="vh-100 my-auto overflow-auto body-fix-osahan-footer">
          <div className="py-3">
             <div>
-               <h6 className="mb-2 pb-1 px-3 fw-bold text-black">Search Result</h6>
+            {searchedData?.length > 0 && <h6 className="mb-2 pb-1 px-3 fw-bold text-black">Search Result</h6>}
                {searchedData?.length > 0 && searchedData.map((each)=>{
                   return(
    <Link to={each?.batch == "doctor"? `/about-doctor/${each?.id}` : `/hospital-overview/${each?.id}`} class="link-dark">
@@ -132,6 +132,14 @@ const Search = () => {
    </div>
 </Link>
                )})}
+               {searchedData?.length == 0 && formValues?.searchInput?.length>0 &&
+
+               <div className='pb-1 px-3 mt-4'>
+                 <h3> No Result Found </h3>
+                  <p>Suggestions:</p>
+                  </div>
+                  
+                  }
             {searchedData?.length == 0 && department.map((each)=>{
                   return(
    <a  class="link-dark"    

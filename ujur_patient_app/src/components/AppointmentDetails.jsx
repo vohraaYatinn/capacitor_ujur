@@ -14,6 +14,8 @@ import PrescriptionHistory from './PrescriptionHistory';
 import { Modal } from 'antd';
 import convertToPDF from '../utils/convertToPdf';
 import { Alert } from "antd";
+import PatientHistoryComponent from './PatientHistoryComponent';
+import "./styles/newcss.css"
 
 const AppointmentDetails = () => {
    const router = useRouter();
@@ -239,7 +241,9 @@ const AppointmentDetails = () => {
                  >Add Hospital Review</Button>
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
-                  convertToPDF(appointmentDetails?.pdf_content, "prescription")
+                  showModal()
+                  setHtmlData(appointmentDetails?.pdf_content)
+                  // convertToPDF(appointmentDetails?.pdf_content, "prescription")
                  }}
                  >Download Prescription</Button>
                  </div> 
@@ -249,7 +253,7 @@ const AppointmentDetails = () => {
             <div class="p-3" style={{paddingTop:'0.5rem !important'}}>
           
                              <Modal title="Doctor's Prescription" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText={"Download"}>
-                             <PrescriptionHistory htmlContent={htmlData} />
+                             <PatientHistoryComponent htmlContent={htmlData} />
 
       </Modal>
       <Modal

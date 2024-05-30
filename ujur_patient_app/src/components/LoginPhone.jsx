@@ -5,7 +5,7 @@ import { phoneNumberOtp } from "../urls/urls";
 import { DotLoading } from "antd-mobile";
 import { Alert } from "antd";
 import { Link } from "react-router-dom";
-import { updateToken } from "../redux/reducers/functionalities.reducer";
+import { updateToken, updateUser } from "../redux/reducers/functionalities.reducer";
 import { useDispatch } from "react-redux";
 
 const LoginPhone = () => {
@@ -34,11 +34,13 @@ const LoginPhone = () => {
   };
 
 
+
   useEffect(() => {
     if (phoneResponse?.result === 'success') {
       if (phoneResponse?.userType === 'user exists') {
         localStorage.setItem('storedToken', phoneResponse?.token);
         dispatch(updateToken(phoneResponse?.token));
+        dispatch(updateUser(phoneResponse?.patient));
         router.push('/home');
       }
     }

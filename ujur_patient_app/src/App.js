@@ -78,6 +78,7 @@ function App() {
     <AnimatePresence mode='wait'>
       <Routes>
         <Route path="/home" element={<Home />} />
+        <Route path="/home/:changeId" element={<Home />} />
         <Route path="/" element={<LandingSlides />} />
         <Route path="/search-doctor" element={<Search />} />
         <Route path="/search-doctor/:extra" element={<Search />} />

@@ -1,14 +1,18 @@
     import React, { useEffect, useState } from 'react'
-import { Drawer } from 'antd';
+import { Drawer, Image } from 'antd';
 import navImg from "../img/favorite/favorite-4.jpg"
 import { useDispatch, useSelector } from 'react-redux';
-import { functionalitiesNavbar, updateNavbar } from '../redux/reducers/functionalities.reducer';
+import { functionalitiesNavbar, updateNavbar, userData } from '../redux/reducers/functionalities.reducer';
 import { Link } from 'react-router-dom';
 import logo from '../img/logo/logo.png'
 import { useRouter } from '../hooks/use-router';
+import { test_url_images } from '../config/environment';
+import user99 from "../img/home/user.png"
 
 
 const Navbar = () => {
+  const user = useSelector(userData)
+
     const navBar = useSelector(functionalitiesNavbar);
     const dispatch = useDispatch();
     const router = useRouter();
@@ -43,9 +47,18 @@ const Navbar = () => {
      <ul className="second-nav p-0" style={{ listStyle: "none" }}>
   <li className="osahan-user-profile bg-primary" style={{ padding: "1rem" }}>
     <div className="d-flex align-items-center gap-2">
-      <div className="ps-1">
-        <h6 className="fw-bold text-white mb-0">Hey There!</h6>
-        <p className="text-white-50 m-0 small">Welcome to UJUR</p>
+      <div className="ps-1 d-flex" onClick={()=>{
+        onClose()
+        router.push("/home/modalTrue")
+      }}>
+      <img src={user?.profile_picture ? test_url_images + user?.profile_picture : user99} width={50} style={{
+        border:"1px solid transparent", borderRadius:"90%"
+      }}/>
+<div style={{marginLeft:"1rem", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
+<h6 className="fw-bold text-white mb-0"><span className=''>Hey</span>{" "}<span>{user?.full_name && user?.full_name.replace(/\b\w/g, char => char.toUpperCase())}</span>      <span className="dropdown-toggle" style={{marginLeft:"0.4rem"}} />
+</h6>
+        <p className="text-white-50 m-0 small">{user?.ujur_id}</p>
+        </div>
       </div>
     </div>
   </li>

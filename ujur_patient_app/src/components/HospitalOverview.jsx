@@ -185,6 +185,17 @@ const HospitalOverview = () => {
               <div className="top-doctor-item col-5" >
               <Link to={`/about-doctor/${data.id}`} className="link-dark">
                 <div className="card bg-white border-0 rounded-4 shadow-sm overflow-hidden">
+                <div className="position-absolute m-2">
+                    {data?.is_active ? (
+                      <span className="badge text-bg-success rounded-pill float-end">
+                        Available
+                      </span>
+                    ) : (
+                      <span className="badge text-bg-warning rounded-pill float-end">
+                        Offline
+                      </span>
+                    )}
+                  </div>
                   <img
                     src={test_url_images+data.profile_picture}
                     className="card-img-top top-doctor-img"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { updateNavbar } from '../redux/reducers/functionalities.reducer'
-import { useDispatch } from 'react-redux';
+import { updateNavbar, userData } from '../redux/reducers/functionalities.reducer'
+import { useDispatch, useSelector } from 'react-redux';
 import { Popup } from 'antd-mobile';
 import BackNavbar from './BackNavbar';
 import { useParams } from 'react-router-dom';
@@ -9,7 +9,6 @@ import useAxios from '../network/useAxios';
 import Moment from 'moment';
 import { useRouter } from '../hooks/use-router';
 
-
 const OverviewBooking = () => {
    const dispatch = useDispatch();
    const [visible1, setVisible1] = useState(false)
@@ -17,6 +16,7 @@ const OverviewBooking = () => {
    const [bookingPrice, setBookingPrice] = useState(false)
    const [paymentMode, setPaymentMode] = useState(false)
    const [afterBookingData, setAfterBookingData] = useState(false)
+   const user = useSelector(userData)
 
    //useAxios
   const [
@@ -97,44 +97,28 @@ const OverviewBooking = () => {
                      <span className="input-group-text bg-transparent rounded-0 border-0" id="name"><i className="bi bi-person-circle text-muted"></i></span>
                      <input type="text" className="form-control bg-transparent rounded-0 border-0 px-0"
                         placeholder="Type your name" aria-label="Type your name" aria-describedby="name"
-                        value="Self" disabled/>
+                        value={user?.full_name} disabled/>
                   </div>
                </div>
                <div className="bg-white rounded-4 p-3 mb-3 border">
-                  <h6 className="pb-1 mb-2 fs-6">Patient details</h6>
+                  <h6 className="pb-1 mb-2 fs-6">Payment details</h6>
                   <div className="pb-3">
                      <div className="d-flex align-items-center justify-content-between text-muted mb-1">
-                        <div>Consultation Fee</div>
+                        <div>Consultation Fee (inc. GST)</div>
                         <div>Rs {bookingPrice}/-</div>
                      </div>
 
                      <div className="d-flex align-items-center justify-content-between text-muted">
-                        <div>GST (5%)</div>
-                        <div>Rs {(bookingPrice*0.05).toFixed(2)}</div>
+                        <div>Booking Fee</div>
+                        <div>Rs 40.00</div>
                      </div>
                   </div>
                   <h6 className="d-flex align-items-center justify-content-between border-top pt-3 mb-0">
                      <div className="fw-normal">Total Payable</div>
-                     <div className="fw-bold">Rs {bookingPrice+20+parseFloat((bookingPrice*0.05).toFixed(2))}/-</div>
+                     <div className="fw-bold">Rs {bookingPrice+40}/-</div>
                   </h6>
                </div>
-               <div className="bg-white rounded-4 p-3 mb-3 border">
-                  <h6 className="pb-1 mb-2 fs-6">Booking Fees</h6>
 
-                     <div className="d-flex align-items-center justify-content-between text-muted">
-                        <div>Booking Fee</div>
-                        <div>Rs 20.00</div>
-                     </div>
-                     <div className="d-flex align-items-center justify-content-between text-muted">
-                        <div>GST</div>
-                        <div>Rs 2.80</div>
-                     </div>
-               
-                  <h6 className="d-flex align-items-center justify-content-between border-top pt-3 mb-0">
-                     <div className="fw-normal">Total Payable</div>
-                     <div className="fw-bold">Rs 22.80/-</div>
-                  </h6>
-               </div>
                <a href="#" className="link-dark">
                   <div className="bg-white border rounded-4 d-flex align-items-center justify-content-between p-3 mb-3">
                      <p className="m-0">Do you have promo code?</p>
@@ -143,21 +127,11 @@ const OverviewBooking = () => {
                </a>
                <div className="bg-white rounded-4 p-3 border">
                   <h6 className="pb-1 mb-0 fs-6">How would you like to pay?</h6>
-                  <p className="text-muted">To make a payment, tap your desired payment method</p>
                   <div>
-                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                          
-                          onClick={()=>{
-                           setPaymentMode("card")
-                          }}
-                          />
-                        <label className="form-check-label label-custom-boot" for="flexRadioDefault1">
-                        Credit / Debit Cards
-                        </label>
-                     </div>
+
                      <div className="form-check">
                         <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" 
+                        checked={true}
                               onClick={()=>{
                                  setPaymentMode("upi")
                                 }}
@@ -165,7 +139,7 @@ const OverviewBooking = () => {
                         <label className="form-check-label label-custom-boot" for="flexRadioDefault2"
          
                         >
-                        UPI
+                        Pay Online
                         </label>
                      </div>
                      <div className="form-check">
@@ -184,7 +158,7 @@ const OverviewBooking = () => {
          </div>
          <div className="footer mt-auto p-3">
             <div className="d-flex align-items-center justify-content-between mb-2">
-               <div>Total Payable <span className="text-muted">(Include Vat)</span></div>
+               <div>Total Payable <span className="text-muted">(Include GST)</span></div>
                <div className="text-primary">Rs 22.80/-</div>
             </div>
             <a onClick={()=>confirmBooking()} className="btn btn-info btn-lg w-100 rounded-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
