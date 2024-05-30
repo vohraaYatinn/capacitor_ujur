@@ -10,6 +10,9 @@ const config: CapacitorConfig = {
   plugins: {
     Filesystem: {
       webDir: "www"
+    },
+        Razorpay: {
+      key: 'rzp_live_6Q4vEajbmruIsE'
     }
   }
 };

@@ -8,6 +8,7 @@ import { fetchBookingConfirmationPagePrice, fetchBookingConfirmationStatus } fro
 import useAxios from '../network/useAxios';
 import Moment from 'moment';
 import { useRouter } from '../hooks/use-router';
+import PaymentButton from './razorpayComponent';
 
 const OverviewBooking = () => {
    const dispatch = useDispatch();
@@ -161,6 +162,7 @@ const OverviewBooking = () => {
                <div>Total Payable <span className="text-muted">(Include GST)</span></div>
                <div className="text-primary">Rs 22.80/-</div>
             </div>
+<PaymentButton/>
             <a onClick={()=>confirmBooking()} className="btn btn-info btn-lg w-100 rounded-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
                aria-controls="offcanvasBottom">Click Here to Pay</a>
          </div>

@@ -241,9 +241,9 @@ const AppointmentDetails = () => {
                  >Add Hospital Review</Button>
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
-                  showModal()
-                  setHtmlData(appointmentDetails?.pdf_content)
-                  // convertToPDF(appointmentDetails?.pdf_content, "prescription")
+                  // showModal()
+                  // setHtmlData(appointmentDetails?.pdf_content)
+                  convertToPDF(appointmentDetails?.pdf_content, "prescription")
                  }}
                  >Download Prescription</Button>
                  </div> 
