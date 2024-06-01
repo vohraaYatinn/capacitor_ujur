@@ -302,6 +302,8 @@ const Home = () => {
     </Swiper.Item>
   ));
 
+
+  
   return (
     <>
       <div className="bg-white shadow-sm no-long-press" ref={ref}>

@@ -12,9 +12,9 @@ import { Plugins } from '@capacitor/core';
 const { Permissions } = Plugins;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// document.addEventListener('contextmenu', function(event) {
-//   event.preventDefault();
-// });
+document.addEventListener('contextmenu', function(event) {
+  event.preventDefault();
+});
 
 
 async function requestPermissions() {

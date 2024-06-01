@@ -53,20 +53,6 @@ const writeFile = async () => {
     console.error('Error creating directory:', error);
   }
 
-  // Now, write the file
-  try {
-    console.log("sdsadasdasd")
-
-    await Filesystem.writeFile({
-      path: fileName,
-      data: data,
-      directory: directory,
-      encoding: FilesystemEncoding.UTF8
-    });
-    console.log('File written successfully.');
-  } catch (error) {
-    console.error('Error writing file:', error);
-  }
 }
 function App() {
   useEffect(()=>{

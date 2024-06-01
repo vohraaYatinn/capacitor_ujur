@@ -16,14 +16,16 @@ const OverviewBooking = () => {
    const dispatch = useDispatch();
    const [visible1, setVisible1] = useState(false)
    const { bookingId } = useParams();
+   const [doctorFees, setDoctorFees] = useState(false)
    const [bookingPrice, setBookingPrice] = useState(false)
-   const [paymentMode, setPaymentMode] = useState(false)
+   const [paymentMode, setPaymentMode] = useState("PayOnline")
    const [afterBookingData, setAfterBookingData] = useState(false)
    const user = useSelector(userData)
    let [cancle, setCancle] = useState(false);
+   const [reducePrice, setReducesPrice] = useState(0)
    const [couponResponse, couponError, couponLoading, couponFetch] = useAxios();
    const [couponApplied, setCouponApplied] = useState(false)
-   const [orderDetails, setOrderDetails] = useState({})
+   const [orderDetails, setOrderDetails] = useState(false)
    const payButtonRef = useRef()
    const [data, setData] = useState(null);
 
@@ -59,6 +61,8 @@ const OverviewBooking = () => {
       setCouponApplied(false)
       setCouponAdd("")
       setCancle(false)
+      setReducesPrice(0)
+      setBookingPrice(doctorFees + 40)
    }
    else{
       couponFetch(couponApply({
@@ -66,6 +70,18 @@ const OverviewBooking = () => {
       }))
    }
  }
+useEffect(()=>{
+   setCouponApplied(false)
+   setCouponAdd("")
+   setCancle(false)
+   setReducesPrice(0)
+   if(paymentMode == "PayOnline" ){
+      setBookingPrice(doctorFees + 40)
+   }
+   else if(paymentMode == "payathospital"){
+      setBookingPrice(40)
+   }
+},[paymentMode])
 
    //functions
    const getBookingAmount = () => {
@@ -77,7 +93,7 @@ const OverviewBooking = () => {
    }
    }
    const paymentOrderFunction = () => {
-      paymentOrderFetch(paymentOrder())
+      paymentOrderFetch(paymentOrder({amount:bookingPrice}))
    
    }
 
@@ -86,7 +102,7 @@ const OverviewBooking = () => {
    },[])
    useEffect(()=>{
       if(data){
-         confirmPaymentFetch(confirmPayment(data));
+         confirmPaymentFetch(confirmPayment({data:data}));
       }
    },[data])
      //useState
@@ -103,7 +119,13 @@ const OverviewBooking = () => {
          type:couponResponse?.percentage ? "success" : "error"
        });
        if(couponResponse?.percentage){
+         setPaymentMode("PayOnline")
+
          setCouponApplied(couponResponse?.percentage)
+         const discount = (couponResponse?.percentage / 100) * (doctorFees + 40);
+         setReducesPrice(discount)
+         const reducedPrice = (doctorFees + 40) - discount;
+         setBookingPrice(reducedPrice)
        }
        else{
          setCouponApplied(false)
@@ -114,7 +136,8 @@ const OverviewBooking = () => {
  },[couponResponse])
    useEffect(() => {
       if (fetchFinalPriceResponse?.result == "success") {
-         setBookingPrice(parseInt(fetchFinalPriceResponse?.price))
+         setDoctorFees(parseInt(fetchFinalPriceResponse?.price))
+         setBookingPrice(parseInt(fetchFinalPriceResponse?.price)+40)
       // router.push(`/overview-booking/${fetchBookingResponse?.booking_id}`);
       }
    }, [fetchFinalPriceResponse]);
@@ -126,16 +149,20 @@ const OverviewBooking = () => {
       }
    }, [bookingConfirmationResponse]);
    useEffect(() => {
-      if (confirmPaymentResponse?.result == "success" ) {
+      if (confirmPaymentResponse?.result == "success" && confirmPaymentResponse?.data ) {
          confirmBooking()
       }
    }, [confirmPaymentResponse]);
    useEffect(() => {
       if (paymentOrderResponse?.result == "success") {
          setOrderDetails(paymentOrderResponse?.data)
-         payButtonRef.current.click()
       }
    }, [paymentOrderResponse]);
+   useEffect(() => {
+      if (orderDetails) {
+         payButtonRef.current.click()
+      }
+   }, [orderDetails]);
 
   return (
 <>
@@ -196,19 +223,25 @@ const OverviewBooking = () => {
                <div className="bg-white rounded-4 p-3 mb-3 border">
                   <h6 className="pb-1 mb-2 fs-6">Payment details</h6>
                   <div className="pb-3">
+                     
                      <div className="d-flex align-items-center justify-content-between text-muted mb-1">
                         <div>Consultation Fee (inc. GST)</div>
-                        <div>Rs {bookingPrice}/-</div>
+                        <div>Rs {doctorFees}/-</div>
                      </div>
 
                      <div className="d-flex align-items-center justify-content-between text-muted">
                         <div>Booking Fee</div>
                         <div>Rs 40.00</div>
                      </div>
+                     {couponApplied &&
+                     <div className="d-flex align-items-center justify-content-between text-muted">
+                        <div>Discount Applied</div>
+                        <div style={{color:"red"}}>- Rs {reducePrice}</div>
+                     </div>}
                   </div>
                   <h6 className="d-flex align-items-center justify-content-between border-top pt-3 mb-0">
                      <div className="fw-normal">Total Payable</div>
-                     <div className="fw-bold">Rs {bookingPrice+40}/-</div>
+                     <div className="fw-bold">Rs {bookingPrice}/-</div>
                   </h6>
                </div>
 
@@ -226,11 +259,11 @@ const OverviewBooking = () => {
 
                      <div className="form-check">
                         <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" 
-                        checked={true}
+                        checked={paymentMode=="PayOnline" && true}
                               onClick={()=>{
-                                 setPaymentMode("upi")
+                                 setPaymentMode("PayOnline")
                                 }}
-                        />
+                        /> 
                         <label className="form-check-label label-custom-boot" for="flexRadioDefault2"
          
                         >
@@ -239,6 +272,7 @@ const OverviewBooking = () => {
                      </div>
                      <div className="form-check">
                         <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" 
+                                 checked={paymentMode=="payathospital" && true}
                                  onClick={()=>{
                                     setPaymentMode("payathospital")
                                    }}
@@ -246,16 +280,19 @@ const OverviewBooking = () => {
                         <label className="form-check-label label-custom-boot" for="flexRadioDefault2">
                         Pay at Hospital
                         </label>
+                        {
+                           paymentMode == "payathospital" &&   <p style={{
+                              color:"red"
+                           }}>Amount {doctorFees}/- to be paid at hospital</p>
+                        }
+                      
                      </div>
                   </div>
                </div>
             </form>
          </div>
          <div className="footer mt-auto p-3">
-            <div className="d-flex align-items-center justify-content-between mb-2">
-               <div>Total Payable <span className="text-muted">(Include GST)</span></div>
-               <div className="text-primary">Rs 22.80/-</div>
-            </div>
+     
             <PaymentComponent orderDetails={orderDetails} payButtonRef={payButtonRef} setData={setData}/>
             <a 
             onClick={()=>
@@ -284,6 +321,7 @@ const OverviewBooking = () => {
                 <div className="mt-4">
                   {couponApplied ? <p>Are you want to remove the applied coupon?</p> : 
                    <input placeholder='enter your coupon code here' className='form-control mt-2'
+                   value={couponAdd}
                    onChange={(e)=>{
                     setCouponAdd(e.target.value)
                    }}

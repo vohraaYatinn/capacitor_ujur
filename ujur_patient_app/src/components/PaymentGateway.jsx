@@ -22,8 +22,14 @@ const PaymentComponent = ({orderDetails, payButtonRef, setData}) => {
     
     try {
       let data = await Checkout.open(options);
-      console.log(data.response + " AcmeCorp");
-      setData(JSON.stringify(data))
+      const dataToSend = JSON.stringify(data)
+      if(dataToSend?.error){
+
+      }
+      else{
+        setData(dataToSend)
+
+      }
     } catch (error) {
       let errorObj = JSON.parse(error['code']);
       alert(`Error: ${errorObj.description}`);

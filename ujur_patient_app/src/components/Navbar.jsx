@@ -66,13 +66,11 @@ const Navbar = () => {
     onClose()
     router.push("/customer-profile")
   }}>
-    <Link to="/customer-profile" onClick={()=>{
-       onClose()
-    }} 
+    <p 
     style={{textDecoration: "none"}}
     >
       <span className="mdi mdi-calendar me-3"></span>My Profile
-    </Link>
+    </p>
     <hr/>
 
   </li>
@@ -80,14 +78,12 @@ const Navbar = () => {
     onClose()
     router.push("/view-appointments")
   }}>
-    <Link to="/view-appointments" onClick={()=>{
-       onClose()
-    }}
+    <p 
     style={{textDecoration: "none"}}
 
     >
       <span className="mdi mdi-file me-3"></span>My Appointments
-    </Link>
+    </p>
     <hr/>
 
   </li>
@@ -95,14 +91,12 @@ const Navbar = () => {
     onClose()
     router.push("/favorite-doctor")
   }}>
-    <Link to="/favorite-doctor" onClick={()=>{
-       onClose()
-    }}
+    <p 
     style={{textDecoration: "none"}}
 
     >
     <span className="mdi mdi-prescription me-3"></span>Favourite Doctors
-    </Link>
+    </p>
     <hr/>
 
   </li>
@@ -110,14 +104,12 @@ const Navbar = () => {
     onClose()
     router.push("/doctor-reviews")
   }}>
-    <Link to="/doctor-reviews" onClick={()=>{
-       onClose()
-    }}
+    <p 
     style={{textDecoration: "none"}}
 
     >
     <span className="mdi mdi-star me-3"></span>My Reviews
-    </Link>
+    </p>
     <hr/>
 
   </li>
@@ -125,14 +117,12 @@ const Navbar = () => {
     onClose()
     router.push("/lab-reports")
   }}>
-    <Link to="/lab-reports" onClick={()=>{
-       onClose()
-    }}
+    <p 
     style={{textDecoration: "none"}}
 
     >
     <span className="mdi mdi-flask me-3"></span>Lab Reports
-    </Link>
+    </p>
     <hr/>
 
   </li>
@@ -149,15 +139,17 @@ const Navbar = () => {
 
   </li> */}
   <li>
-    <Link to="/" onClick={()=>{
+    <p to="/" onClick={()=>{
       localStorage.removeItem('storedToken')
+
        onClose()
+       router.push("/")
     }}
     style={{textDecoration: "none"}}
 
     >
     <span className="mdi mdi-logout me-3"></span>Logout
-    </Link>
+    </p>
     <hr/>
 
   </li>
