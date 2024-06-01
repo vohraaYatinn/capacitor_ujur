@@ -694,6 +694,7 @@ const Home = () => {
                       <div>
                           <img
     width={60}
+    height={60}
     style={{
       border:"1px solid transparent",
       borderRadius:"100%"

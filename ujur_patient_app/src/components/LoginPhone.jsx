@@ -181,7 +181,7 @@ const LoginPhone = () => {
               "Login"
             )}
           </a>
-          <div className="" style={{display: "flex", fontSize: "20px",flexDirection:"column", marginTop:"1rem"}}>
+          <div className="" style={{display: "flex", fontSize: "16px",flexDirection:"column", marginTop:"1rem"}}>
 
          <p>New to UJUR? <Link to={`/sign-up`}>Sign Up Now</Link></p>
           </div>
