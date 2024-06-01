@@ -27,23 +27,23 @@ import "./index.css"
 import WriteReviewHospital from './components/WriteReviewHospital';
 import { Capacitor } from '@capacitor/core';
 import { Plugins, Directory, Encoding } from '@capacitor/core';
-import { Filesystem , FilesystemDirectory, FilesystemEncoding} from '@capacitor/filesystem';
+import {  FilesystemDirectory, FilesystemEncoding} from '@capacitor/filesystem';
 
-const { Permissions } = Plugins;
+const { Permissions, Filesystem } = Plugins;
 
 
 const data = 'This is the content of the file.';
 
 // Define the path where you want to write the file
-const path = 'external/example.txt';
 
 const writeFile = async () => {
   const data = 'Hello, World!';
-  const fileName = 'example.txt';
+  const fileName = 'example2.txt';
   const directory = FilesystemDirectory.Documents;
 
   // Ensure the parent directory exists
   try {
+    console.log("sdasd")
     await Filesystem.mkdir({
       path: directory,
       directory: FilesystemDirectory.Documents,
@@ -51,11 +51,12 @@ const writeFile = async () => {
     });
   } catch (error) {
     console.error('Error creating directory:', error);
-    return;
   }
 
   // Now, write the file
   try {
+    console.log("sdsadasdasd")
+
     await Filesystem.writeFile({
       path: fileName,
       data: data,

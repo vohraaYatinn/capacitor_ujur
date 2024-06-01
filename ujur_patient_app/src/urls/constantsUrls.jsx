@@ -11,6 +11,9 @@ export class Urls {
     static FETCH_CUSTOMER_REVIEWS = Urls.MPHRMS_API_PREFIX + 'patients/fetch_customer_reviews/';
     static FETCH_CUSTOMER_REVIEWS_HOSPITALS = Urls.MPHRMS_API_PREFIX + 'patients/fetch_customer_reviews_hospitals/';
     static UPLOAD_CUSTOMER_LAB_REPORT = Urls.MPHRMS_API_PREFIX + 'patients/upload_customer_lab_report/';
+    static APPLY_COUPONS = Urls.MPHRMS_API_PREFIX + 'patients/apply_coupons/';
+    static PAYMENT_ORDER_GATEWAY = Urls.MPHRMS_API_PREFIX + 'patients/payment-order-fetch/';
+    static CONFIRM_PAYMENT = Urls.MPHRMS_API_PREFIX + 'patients/confirm-payment/';
 
 
     //patients

@@ -8,9 +8,9 @@ import doctorImg2 from "../img/home/schedule.png";
 import doctorImg3 from "../img/home/medicine.png";
 import doctorImg4 from "../img/home/prescription.png";
 import user from "../img/home/user.png";
-import { Card, Image, Modal, Select } from 'antd';
+import { Card, Modal, Select } from 'antd';
 import {districts} from '../demo/districts';
-import { Link, Route, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateNavbar, updateToken, updateUser } from "../redux/reducers/functionalities.reducer";
 import BottomNav from "./BottomNav";
@@ -690,7 +690,7 @@ const Home = () => {
                       padding:"0.5rem",
                     }}>
                       <div>
-                          <Image
+                          <img
     width={60}
     style={{
       border:"1px solid transparent",

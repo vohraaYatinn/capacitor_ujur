@@ -11,7 +11,7 @@ import moment from 'moment';
 import { test_url_images } from '../config/environment';
 // import convertToPDF from '../utils/convertToPdf';
 import PrescriptionHistory from './PrescriptionHistory';
-import { Modal } from 'antd';
+import { Modal, Progress } from 'antd';
 import convertToPDF from '../utils/convertToPdf';
 import { Alert } from "antd";
 import PatientHistoryComponent from './PatientHistoryComponent';
@@ -32,6 +32,8 @@ const AppointmentDetails = () => {
    const [ slotDetails, setSlotDetails ] = useState();
    const [ slotNumber, setTotalSlots ] = useState();
    const [isModalOpen, setIsModalOpen] = useState(false);
+   const [percentageDownload, setPercentageDownload] = useState(0)
+   const [percentageIsError, setPercentageIsError] = useState(false)
    const uploadLabReport = () =>{
       uploadLabReportFetch(uploadCustomerLabReport(formValues))
    }
@@ -241,9 +243,16 @@ const AppointmentDetails = () => {
                  >Add Hospital Review</Button>
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
-                  // showModal()
+                  setPercentageDownload(0)
+                  showModal()
+                  
                   // setHtmlData(appointmentDetails?.pdf_content)
-                  convertToPDF(appointmentDetails?.pdf_content, "prescription")
+                  setTimeout(()=>{
+                    setPercentageDownload(75)
+                  },1000)
+                  setTimeout(()=>{
+                    convertToPDF(appointmentDetails?.pdf_content, "prescription", setPercentageDownload, setPercentageIsError)
+                  },1050)
                  }}
                  >Download Prescription</Button>
                  </div> 
@@ -252,8 +261,11 @@ const AppointmentDetails = () => {
     
             <div class="p-3" style={{paddingTop:'0.5rem !important'}}>
           
-                             <Modal title="Doctor's Prescription" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText={"Download"}>
-                             <PatientHistoryComponent htmlContent={htmlData} />
+                             <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText={"Download"} footer={<></>}>
+                          <div style={{width:"100%",display:"flex", alignItems:"center", justifyContent:"center"}}>
+                            <Progress type="circle" percent={percentageDownload} size={100} status={percentageIsError && "exception"} style={{marginTop:"1rem"}} />
+                            </div>  
+                            <p style={{textAlign:"center", marginTop:"1rem"}}>{percentageIsError ? "There is a error while downloading file" :percentageDownload == 100 && "File has been downloaded successfully"}</p> 
 
       </Modal>
       <Modal

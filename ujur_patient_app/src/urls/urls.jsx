@@ -84,6 +84,9 @@ export const fetchBookingConfirmationStatus = (payload_data) => {
 export const searchPatientFeature = (payload_data) => {
   return project.get(Urls.SEARCHING_DETAILS, payload_data);
 };
+export const confirmPayment = (payload_data) => {
+  return project.post(Urls.CONFIRM_PAYMENT, payload_data);
+};
 
 
 //hospital
@@ -102,4 +105,10 @@ export const fetchReviewsHospitals = (payload_data) => {
 };
 export const uploadCustomerLabReport = (payload_data) => {
   return project.multiPartFormData(Urls.UPLOAD_CUSTOMER_LAB_REPORT, payload_data);
+};
+export const couponApply = (payload_data) => {
+  return project.post(Urls.APPLY_COUPONS, payload_data);
+};
+export const paymentOrder = (payload_data) => {
+  return project.post(Urls.PAYMENT_ORDER_GATEWAY, payload_data);
 };

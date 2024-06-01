@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { updateNavbar, userData } from '../redux/reducers/functionalities.reducer'
 import { useDispatch, useSelector } from 'react-redux';
 import { Popup } from 'antd-mobile';
 import BackNavbar from './BackNavbar';
 import { useParams } from 'react-router-dom';
-import { fetchBookingConfirmationPagePrice, fetchBookingConfirmationStatus } from '../urls/urls';
+import { couponApply, fetchBookingConfirmationPagePrice, fetchBookingConfirmationStatus, uploadCustomerLabReport, paymentOrder, confirmPayment } from '../urls/urls';
 import useAxios from '../network/useAxios';
 import Moment from 'moment';
 import { useRouter } from '../hooks/use-router';
-import PaymentButton from './razorpayComponent';
+import { Modal } from 'antd';
+import { Alert } from "antd";
+import PaymentComponent from './PaymentGateway';
 
 const OverviewBooking = () => {
    const dispatch = useDispatch();
@@ -18,6 +20,12 @@ const OverviewBooking = () => {
    const [paymentMode, setPaymentMode] = useState(false)
    const [afterBookingData, setAfterBookingData] = useState(false)
    const user = useSelector(userData)
+   let [cancle, setCancle] = useState(false);
+   const [couponResponse, couponError, couponLoading, couponFetch] = useAxios();
+   const [couponApplied, setCouponApplied] = useState(false)
+   const [orderDetails, setOrderDetails] = useState({})
+   const payButtonRef = useRef()
+   const [data, setData] = useState(null);
 
    //useAxios
   const [
@@ -26,27 +34,84 @@ const OverviewBooking = () => {
    fetchFinalPriceLoading,
    fetchFinalPriceFetch,
  ] = useAxios();
+  const [
+   paymentOrderResponse,
+   paymentOrderError,
+   paymentOrderLoading,
+   paymentOrderFetch,
+ ] = useAxios();
  const [
    bookingConfirmationResponse,
    bookingConfirmationError,
    bookingConfirmationLoading,
    bookingConfirmationFetch,
  ] = useAxios();
+ const [
+   confirmPaymentResponse,
+   confirmPaymentError,
+   confirmPaymentLoading,
+   confirmPaymentFetch,
+ ] = useAxios();
+ const [couponAdd, setCouponAdd] = useState("")
  const router = useRouter();
+ const handleCoupons = () => {
+   if(couponApplied){
+      setCouponApplied(false)
+      setCouponAdd("")
+      setCancle(false)
+   }
+   else{
+      couponFetch(couponApply({
+         "coupon":couponAdd
+      }))
+   }
+ }
 
    //functions
    const getBookingAmount = () => {
       fetchFinalPriceFetch(fetchBookingConfirmationPagePrice({bookingId:bookingId}));
    };
    const confirmBooking = () => {
-      if(paymentMode == "payathospital"){
+      if(paymentMode){
       bookingConfirmationFetch(fetchBookingConfirmationStatus({bookingId:bookingId, paymentMode:paymentMode}))
    }
+   }
+   const paymentOrderFunction = () => {
+      paymentOrderFetch(paymentOrder())
+   
    }
 
    useEffect(()=>{
       getBookingAmount()
    },[])
+   useEffect(()=>{
+      if(data){
+         confirmPaymentFetch(confirmPayment(data));
+      }
+   },[data])
+     //useState
+  const [message, setMessage] = useState({
+   message: "",
+   isShow: false,
+   type:"success"
+ });
+ useEffect(()=>{
+   if(couponResponse?.result == "success"){
+      setMessage({
+         message: couponResponse?.message,
+         isShow: true,
+         type:couponResponse?.percentage ? "success" : "error"
+       });
+       if(couponResponse?.percentage){
+         setCouponApplied(couponResponse?.percentage)
+       }
+       else{
+         setCouponApplied(false)
+       }
+       
+      setCancle(false)
+   }
+ },[couponResponse])
    useEffect(() => {
       if (fetchFinalPriceResponse?.result == "success") {
          setBookingPrice(parseInt(fetchFinalPriceResponse?.price))
@@ -60,6 +125,17 @@ const OverviewBooking = () => {
       // router.push(`/overview-booking/${fetchBookingResponse?.booking_id}`);
       }
    }, [bookingConfirmationResponse]);
+   useEffect(() => {
+      if (confirmPaymentResponse?.result == "success" ) {
+         confirmBooking()
+      }
+   }, [confirmPaymentResponse]);
+   useEffect(() => {
+      if (paymentOrderResponse?.result == "success") {
+         setOrderDetails(paymentOrderResponse?.data)
+         payButtonRef.current.click()
+      }
+   }, [paymentOrderResponse]);
 
   return (
 <>
@@ -91,6 +167,22 @@ const OverviewBooking = () => {
 
 
          <div className="vh-100 my-auto overflow-auto p-3">
+         {message.isShow && (
+            <Alert
+              style={{ marginBottom: "1rem" }}
+              message={message?.message}
+              type={message?.type}
+              showIcon
+              closable
+              onClose={() => {
+                setMessage({
+                  message: "",
+                  isShow: false,
+                  type:"success"
+                });
+              }}
+            />
+          )}
             <form>
                <div className="mb-3">
                   <label for="exampleFormControlName" className="form-label mb-1 label-custom-boot">Patient info:</label>
@@ -120,9 +212,11 @@ const OverviewBooking = () => {
                   </h6>
                </div>
 
-               <a href="#" className="link-dark">
+               <a onClick={()=>{
+                  setCancle(true)
+               }} className="link-dark">
                   <div className="bg-white border rounded-4 d-flex align-items-center justify-content-between p-3 mb-3">
-                     <p className="m-0">Do you have promo code?</p>
+                     {couponApplied != false?<p className="m-0">Promocode applied <span className='bold' style={{fontWeight:"800"}}>{couponAdd}</span>?</p>:<p className="m-0">Do you have promo code?</p>}
                      <i className="bi bi-chevron-right"></i>
                   </div>
                </a>
@@ -162,11 +256,47 @@ const OverviewBooking = () => {
                <div>Total Payable <span className="text-muted">(Include GST)</span></div>
                <div className="text-primary">Rs 22.80/-</div>
             </div>
-<PaymentButton/>
-            <a onClick={()=>confirmBooking()} className="btn btn-info btn-lg w-100 rounded-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
+            <PaymentComponent orderDetails={orderDetails} payButtonRef={payButtonRef} setData={setData}/>
+            <a 
+            onClick={()=>
+               // confirmBooking()
+               paymentOrderFunction()
+            } 
+            
+            className="btn btn-info btn-lg w-100 rounded-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
                aria-controls="offcanvasBottom">Click Here to Pay</a>
          </div>
       </div>
+      <Modal
+          open={cancle}
+          okText={couponApplied ? "Remove" : "Apply"}
+          title="Apply Coupon"
+          onOk={handleCoupons}
+          
+          onCancel={()=>{
+            setCancle(false)
+          }} 
+        >
+         
+            <div className="modal-body">
+              <div className="text-center">
+
+                <div className="mt-4">
+                  {couponApplied ? <p>Are you want to remove the applied coupon?</p> : 
+                   <input placeholder='enter your coupon code here' className='form-control mt-2'
+                   onChange={(e)=>{
+                    setCouponAdd(e.target.value)
+                   }}
+                   />
+                  }
+                
+
+                  
+                </div>
+              </div>
+            </div>
+          
+        </Modal>
     
 </>  )
 }
