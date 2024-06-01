@@ -215,8 +215,8 @@ const Signup = () => {
           <input
             type="email"
             className="form-control bg-transparent rounded-0 border-0 px-0"
-            placeholder="Type your email or phone"
-            aria-label="Type your email or phone"
+            placeholder="Type your email"
+            aria-label="Type your email"
             aria-describedby="mail"
             value={formValues?.email}
             onChange={(e) => {
