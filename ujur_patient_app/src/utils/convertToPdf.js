@@ -32,7 +32,7 @@ const convertToPDF = async (htmlContent, fileName, setPercentageDownload=false, 
   // Save PDF file using Capacitor's Filesystem API
   try {
     await Filesystem.writeFile({
-      path: `${fileName}.pdf`,
+      path:  `${fileName}-${currentDate}.pdf`,
       data: base64data,
       directory: FilesystemDirectory.Documents,
       encoding: FilesystemEncoding.Base64, // Use Base64 encoding

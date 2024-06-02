@@ -8,6 +8,8 @@ import { changeProfileValues, fetchprofiles } from '../urls/urls';
 import {districts} from '../demo/districts';
 import { Select } from 'antd';
 import { Alert } from "antd";
+import { DotLoading } from "antd-mobile";
+
 
 const ChangeCustomerProfile = () => {
   const dispatch = useDispatch();
@@ -146,65 +148,170 @@ const ChangeCustomerProfile = () => {
                      />
                </div>
             </div>
-            <div class="mb-3">
-               <label for="exampleFormControlName" class="form-label mb-1 label-custom-boot">Full Name</label>
-               <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlName">
-                  <span class="input-group-text bg-transparent rounded-0 border-0" id="firstname">
-                     <span class="mdi mdi-account-outline mdi-18px"></span>
-                  </span>
-                  <input type="text" class="form-control bg-transparent rounded-0 border-0 px-0"
-                     placeholder="Type your first name" aria-label="Type your first name" aria-describedby="firstname"
-                     value={profileDataToChange?.full_name} 
-                     onChange={(e) => {
-                        setProfileDataToChange((prev) => ({
-                         ...prev,
-                         full_name: e.target.value,
-                       }));
-                     }}
-                     />
-               </div>
-            </div>
-   
-            <div class="mb-3">
-               <label for="exampleFormControlName1" class="form-label mb-1 label-custom-boot">Gender</label>
-               <div class="input-group border bg-white rounded-3 py-1">
-                  <label class="input-group-text bg-transparent rounded-0 border-0 label-custom-boot" for="inputGroupSelect01">
-                     <span class="mdi mdi-account-group-outline mdi-18px"></span>
-                  </label>
-                  <select class="form-select bg-transparent rounded-0 border-0 px-0" id="inputGroupSelect01"
-                        onChange={(e)=>{onChangeGender(e)}}
-
-                  >
-                     <option value="M" selected={profileDataToChange?.gender == "M"}>Male</option>
-                     <option value="F" selected={profileDataToChange?.gender == "F"}>Female</option>
-                  </select>
-               </div>
-            </div>
-            <div class="mb-3">
-               <label for="exampleFormControlName1" class="form-label mb-1 label-custom-boot">Date Of Birth</label>
-               <div class="input-group border bg-white rounded-3 py-1">
-               <input
-            type="date"
+            <div className='row'>
+    <div className="mb-3 mt-3 col-6">
+        <label htmlFor="exampleFormControlName" className="form-label mb-1">
+          First Name
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlName"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-account mdi-18px text-muted" />
+          </span>
+          <input
+            type="text"
             className="form-control bg-transparent rounded-0 border-0 px-0"
-            placeholder="Select Date of birth"
-            aria-label="Select Date of birth"
-            value={profileDataToChange?.date_of_birth}
+            placeholder="First name"
+            aria-label="Type your name"
+            aria-describedby="name"
+            value={profileDataToChange?.firstName || profileDataToChange?.full_name?.split(' ')[0]}
             onChange={(e) => {
-               setProfileDataToChange((prev) => ({
+              setProfileDataToChange((prev) => ({
                 ...prev,
-                date_of_birth: e.target.value,
+                firstName: e.target.value,
               }));
             }}
           />
-               </div>
-            </div>
-            <div class="row">
+        </div>
+      </div>
+    <div className="mb-3 mt-3 col-6">
+        <label htmlFor="exampleFormControlName" className="form-label mb-1">
+          Last Name
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlName"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-account-outline mdi-18px text-muted" />
+          </span>
+          <input
+            type="text"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Last name"
+            aria-label="Type your name"
+            aria-describedby="name"
+            value={profileDataToChange?.lastName || profileDataToChange?.full_name?.split(' ')[1]}
+            onChange={(e) => {
+              setProfileDataToChange((prev) => ({
+                ...prev,
+                lastName: e.target.value,
+              }));
+            }}
+          />
+        </div>
+      </div>
+      </div>
+            <div className="mb-3">
+        <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
+          Email
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlEmail"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="mail"
+          >
+            <span className="mdi mdi-email-outline mdi-18px text-muted" />
+          </span>
+          <input
+            type="email"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Type your email"
+            aria-label="Type your email"
+            aria-describedby="mail"
+            value={ profileDataToChange?.email || profileDataToChange?.user?.email}
+            onChange={(e) => {
+              setProfileDataToChange((prev) => ({
+                ...prev,
+                email: e.target.value,
+              }));
+            }}
+          />
+        </div>
+      </div>
+      <div className="mb-3">
+        <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
+          Password
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlEmail"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="mail"
+          >
+            <span className="mdi mdi-lock mdi-18px text-muted" />
+          </span>
+          <input
+            type="password"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Type your password"
+            aria-label="Type your email or phone"
+            aria-describedby="mail"
+            value={profileDataToChange?.password || profileDataToChange?.user?.password}
+            onChange={(e) => {
+              setProfileDataToChange((prev) => ({
+                ...prev,
+                password: e.target.value,
+              }));
+            }}
+          />
+        </div>
+      </div>
+   
+                    <div className="mb-3">
+        <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
+          Phone Number
+        </label>
+        <div
+          className="input-group border bg-white rounded-3 py-1"
+          id="exampleFormControlEmail"
+        >
+          <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="mail"
+          >
+            <span className="mdi mdi-phone mdi-18px text-muted" />
+          </span>
+          <input
+            type="text"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Type your Phone Number"
+            aria-label="Type your email or phone"
+            aria-describedby="mail"
+            value={profileDataToChange?.phoneNumber || profileDataToChange?.user?.phone}
+            onChange={(e) => {
+               setProfileDataToChange((prev) => ({
+                ...prev,
+                phoneNumber: e.target.value,
+              }));
+            }}
+          />
+        </div>
+      </div>
+        
+      <div class="row">
             <div className='col-12'>
                <label for="exampleFormControlNumber" class="form-label mb-1 label-custom-boot mt-2">Height (CM)</label>
                <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlNumber">
-                  <span class="input-group-text bg-transparent rounded-0 border-0" id="number"><span class="mdi mdi-scale-bathroom mdi-18px"></span>
-
-               </span>
+                  <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-ruler mdi-18px text-muted" />
+          </span>
                   <input type="text" class="form-control bg-transparent rounded-0 border-0 px-0"
                      placeholder="Enter Height" aria-label="Type your number" 
                      value={`${profileDataToChange?.height || ""}`} 
@@ -223,8 +330,8 @@ const ChangeCustomerProfile = () => {
             </div>
         
             </div>
-         <div class="row">
-            <div className='col-6'>
+         <div class="row mb-3">
+            <div className='col-12'>
                <label for="exampleFormControlNumber" class="form-label mb-1 label-custom-boot mt-2">Weight (KG)</label>
                <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlNumber">
                   <span class="input-group-text bg-transparent rounded-0 border-0" id="number"><span class="mdi mdi-scale-bathroom mdi-18px"></span>
@@ -246,9 +353,8 @@ const ChangeCustomerProfile = () => {
                </div>
                
             </div>
-            <div className='col-6'>
+            <div className='col-12'>
                <label for="exampleFormControlNumber" class="form-label mb-1 label-custom-boot mt-2">Blood Group</label>
-               <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlNumber">
                   {/* <span class="input-group-text bg-transparent rounded-0 border-0" id="number"><span class="mdi mdi-blood-bag mdi-18px"></span> */}
 
                {/* </span> */}
@@ -258,7 +364,7 @@ const ChangeCustomerProfile = () => {
       optionFilterProp="children"
       onChange={onChangeBlood}
       value={profileDataToChange.blood_group}
-      style={{ width: '100%', border: "none", outline: "none" }}
+      style={{ width: '100%', border: "none", outline: "none", height:"3rem" }}
     >
       {bloodGroups.map((district, index) => (
         
@@ -269,23 +375,65 @@ const ChangeCustomerProfile = () => {
         </>
       ))}
     </Select>
-               </div>
+               
                
             </div>
             </div>
+            <div class="mb-3">
+               <label for="exampleFormControlName1" class="form-label mb-1 label-custom-boot">Date Of Birth</label>
+               <div class="input-group border bg-white rounded-3 py-1">
+               <span
+            className="input-group-text bg-transparent rounded-0 border-0"
+            id="name"
+          >
+            <span className="mdi mdi-calendar mdi-18px text-muted" />
+          </span>
+               <input
+            type="date"
+            className="form-control bg-transparent rounded-0 border-0 px-0"
+            placeholder="Select Date of birth"
+            aria-label="Select Date of birth"
+            value={profileDataToChange?.date_of_birth}
+            onChange={(e) => {
+               setProfileDataToChange((prev) => ({
+                ...prev,
+                date_of_birth: e.target.value,
+              }));
+            }}
+          />
+               </div>
+            </div>
+            <div class="mb-3">
+               <label for="exampleFormControlName1" class="form-label mb-1 label-custom-boot">Gender</label>
+               <div class="input-group border bg-white rounded-3 py-1">
+                  <label class="input-group-text bg-transparent rounded-0 border-0 label-custom-boot" for="inputGroupSelect01">
+                     <span class="mdi mdi-account-group-outline mdi-18px"></span>
+                  </label>
+                  <select class="form-select bg-transparent rounded-0 border-0 px-0" id="inputGroupSelect01"
+                        onChange={(e)=>{onChangeGender(e)}}
+
+                  >
+                     <option value="M" selected={profileDataToChange?.gender == "M"}>Male</option>
+                     <option value="F" selected={profileDataToChange?.gender == "F"}>Female</option>
+                     <option value="O" selected={profileDataToChange?.gender == "O"}>Other</option>
+                  </select>
+               </div>
+            </div>
+
+
             <div className='col'>
-            <label htmlFor="district" className="form-label mb-1 mt-3">
+            <label htmlFor="district" className="form-label mb-1">
     District
   </label>
-  <div className="input-group border bg-white rounded-3 py-1" id="district">
     <Select
       showSearch
       placeholder="Select District"
       optionFilterProp="children"
       onChange={onChange}
       onSearch={onSearch}
+
       value={profileDataToChange.district}
-      style={{ width: '100%', border: "none", outline: "none" }}
+      style={{ width: '100%', border: "none", outline: "none", height:"3rem" }}
     >
       {Object.keys(districts).map((district, index) => (
         
@@ -300,7 +448,6 @@ const ChangeCustomerProfile = () => {
         </>
       ))}
     </Select>
-  </div>
                
             </div>
             <div class="mt-3">
@@ -326,7 +473,13 @@ const ChangeCustomerProfile = () => {
       <div class="footer mt-auto p-3">
          <Link onClick={()=>{
             EditProfile()
-         }} class="btn btn-info btn-lg w-100 rounded-4">Save Change</Link>
+         }} class="btn btn-info btn-lg w-100 rounded-4">
+              {EditprofileLoading ? (
+              <DotLoading style={{ color: "white" }} />
+            ) : (
+              "Save Change"
+            )}
+            </Link>
       </div>
 </>  )
 }

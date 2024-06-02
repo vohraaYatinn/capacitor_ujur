@@ -8,6 +8,7 @@ import { updateToken } from '../redux/reducers/functionalities.reducer';
 import {districts} from '../demo/districts';
 import { Select } from 'antd';
 import { Alert } from "antd";
+import { DotLoading } from 'antd-mobile';
 
 
 const Signup = () => {
@@ -401,6 +402,7 @@ const Signup = () => {
 >
   <option value="M">Male</option>
   <option value="F">Female</option>
+  <option value="O">Others</option>
 </select>
 
         </div>
@@ -474,7 +476,12 @@ const Signup = () => {
             signupFunction()
           }}
         >
-          Create Account
+          {signUpLoading ? (
+              <DotLoading style={{ color: "white" }} />
+            ) : (
+              "Create Account"
+            )}
+         
         </a>
         <p className="text-muted text-center small">
           Already have an account?{" "}

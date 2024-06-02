@@ -243,6 +243,7 @@ const AppointmentDetails = () => {
                  >Add Hospital Review</Button>
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
+                  setPercentageIsError(false)
                   setPercentageDownload(0)
                   showModal()
                   

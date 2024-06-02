@@ -225,12 +225,12 @@ useEffect(()=>{
                   <div className="pb-3">
                      
                      <div className="d-flex align-items-center justify-content-between text-muted mb-1">
-                        <div>Consultation Fee (inc. GST)</div>
+                        <div>Consultation Fee (Inc. GST)</div>
                         <div>Rs {doctorFees}/-</div>
                      </div>
 
                      <div className="d-flex align-items-center justify-content-between text-muted">
-                        <div>Booking Fee</div>
+                        <div>Booking Fee (Inc. GST)</div>
                         <div>Rs 40.00</div>
                      </div>
                      {couponApplied &&
@@ -320,7 +320,7 @@ useEffect(()=>{
 
                 <div className="mt-4">
                   {couponApplied ? <p>Are you want to remove the applied coupon?</p> : 
-                   <input placeholder='enter your coupon code here' className='form-control mt-2'
+                   <input placeholder="Enter your coupon code here" className='form-control mt-2'
                    value={couponAdd}
                    onChange={(e)=>{
                     setCouponAdd(e.target.value)

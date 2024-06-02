@@ -11,6 +11,7 @@ import useAxios from "../network/useAxios";
 import { Image, Modal, Select } from 'antd';
 import {districts} from '../demo/districts';
 import { test_url_images } from "../config/environment";
+import user from "../img/home/user.png";
 
 const CustomerProfile = () => {
   const router = useRouter();
@@ -174,7 +175,7 @@ const CustomerProfile = () => {
               <h6 class="pb-2">Personal Info</h6>
               <div style={{display:"flex", alignItems:"center", justifyContent:"center", width:"100%", marginBottom:"2rem"}}>
               <Image
-    src={test_url_images + profileData.profile_picture}
+    src={ profileData.profile_picture ? test_url_images + profileData.profile_picture : user}
     style={{border:"1px solid transparent", borderRadius:"100px", height:"10rem", width:"10rem"}}
   />
   </div>
