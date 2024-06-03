@@ -262,6 +262,15 @@ const Home = () => {
     </Swiper.Item>
   ));
 
+  const topHospitalsLoader = Array(4).map((each, index) => (
+    <Swiper.Item key={index}>
+      <div className="top-doctor-item">
+        <Link className="link-dark">
+         <Skeleton />
+        </Link>
+      </div>
+    </Swiper.Item>
+  ));
   const topHospitals = hospitalDetails.map((each, index) => (
     <Swiper.Item key={index}>
       <div className="top-doctor-item">
@@ -740,7 +749,7 @@ const Home = () => {
           stuckAtBoundary={false}
           indicator={() => null}
         >
-          {topHospitals}
+          {hospitalsLoading?topHospitalsLoader: topHospitals}
         </Swiper>
       </div>
       <div className="p-3">
