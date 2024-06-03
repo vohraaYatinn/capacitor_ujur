@@ -35,7 +35,11 @@ const { Permissions, Filesystem } = Plugins;
 const data = 'This is the content of the file.';
 
 // Define the path where you want to write the file
-
+document.addEventListener('mousedown', (event) => {
+  if (event.buttons > 1) { // Check for multiple buttons pressed (long press)
+    event.preventDefault();
+  }
+}, false);
 const writeFile = async () => {
   const data = 'Hello, World!';
   const fileName = 'example2.txt';

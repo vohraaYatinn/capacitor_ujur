@@ -279,11 +279,16 @@ const Signup = () => {
             placeholder="Type your Phone Number"
             aria-label="Type your email or phone"
             aria-describedby="mail"
+            maxLength={14}
+
             value={formValues?.phoneNumber}
             onChange={(e) => {
+              const value = e.target.value;
+              const prefix = value.slice(0, 4);
+              const numericPart = value.slice(4).replace(/[^0-9]/g, '');
               setFormValues((prev) => ({
                 ...prev,
-                phoneNumber: e.target.value,
+                phoneNumber: prefix + numericPart,
               }));
             }}
           />

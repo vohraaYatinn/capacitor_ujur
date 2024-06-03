@@ -266,7 +266,8 @@ const AppointmentDetails = () => {
                           <div style={{width:"100%",display:"flex", alignItems:"center", justifyContent:"center"}}>
                             <Progress type="circle" percent={percentageDownload} size={100} status={percentageIsError && "exception"} style={{marginTop:"1rem"}} />
                             </div>  
-                            <p style={{textAlign:"center", marginTop:"1rem"}}>{percentageIsError ? "There is a error while downloading file" :percentageDownload == 100 && "File has been downloaded successfully"}</p> 
+                            <p style={{textAlign:"center", marginTop:"1rem", fontSize:"1.1rem"}}>{percentageIsError ? "There is a error while downloading file" :percentageDownload == 100 && "Prescription has been downloaded successfully"}</p> 
+                            <p style={{textAlign:"center", marginTop:"-1rem"}}>{(!percentageIsError && percentageDownload == 100) && "The file has been saved to the Documents folder on your device."}</p> 
 
       </Modal>
       <Modal

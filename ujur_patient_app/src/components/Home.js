@@ -8,7 +8,7 @@ import doctorImg2 from "../img/home/schedule.png";
 import doctorImg3 from "../img/home/medicine.png";
 import doctorImg4 from "../img/home/prescription.png";
 import user from "../img/home/user.png";
-import { Card, Modal, Select } from 'antd';
+import { Card, Modal, Select, Skeleton } from 'antd';
 import {districts} from '../demo/districts';
 import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -502,38 +502,7 @@ const Home = () => {
                       />
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="exampleFormControlFullName"
-                      className="form-label mb-1 label-custom-boot"
-                    >
-                     Email
-                    </label>
-                    <div
-                      className="input-group border bg-white rounded-3 py-1"
-                      id="exampleFormControlFullName"
-                    >
-                      <span
-                        className="input-group-text bg-transparent rounded-0 border-0"
-                        id="fullName"
-                      >
-<span className="mdi mdi-email-outline mdi-18px text-muted" />
-                      </span>
-                      <input
-                        type="text"
-                        className="form-control bg-transparent rounded-0 border-0 px-0"
-                        placeholder="Type your email"
-                        aria-label="Type your email"
-                        aria-describedby="email"
-                        onChange={(e) => {
-                          setFormValues((prev) => ({
-                            ...prev,
-                            email: e.target.value,
-                          }));
-                        }}
-                      />
-                    </div>
-                  </div>
+
                   <div className="mb-3">
                     <label
                       htmlFor="exampleFormControlDOB"
@@ -595,8 +564,8 @@ const Home = () => {
                           }));
                         }}
                       >
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
                         <option value="O">Other</option>
                       </select>
                     </div>
@@ -607,15 +576,15 @@ const Home = () => {
                   <label htmlFor="district" className="form-label mb-1 mt-1">
     District
   </label>
-  <div className="input-group border bg-white rounded-3 py-1" id="district">
     <Select
       showSearch
       placeholder="Select District"
       optionFilterProp="children"
+      
       onChange={onChange}
       // onSearch={onSearch}
       // value={profileDataToChange.district}
-      style={{ width: '100%', border: "none", outline: "none" }}
+      style={{ width: '100%', border: "none", outline: "none", height:"3rem" }}
     >
       {Object.keys(districts).map((district, index) => (
         
@@ -630,7 +599,6 @@ const Home = () => {
         </>
       ))}
     </Select>
-  </div>
                   </div>
                   <div className="mb-3">
                     <label
@@ -778,7 +746,40 @@ const Home = () => {
       <div className="p-3">
         <h6 className="mb-2 pb-2 fw-bold text-black">Available Doctor</h6>
         <div className="row row-cols-2 g-3" style={{marginBottom:"6rem"}}>
-          {doctorsData.map((each) => {
+        {doctorsLoading ?
+        <>
+        <div className="col" >
+                <div
+                  className="card rounded-4 border-0 position-relative shadow-sm overflow-hidden"
+                >
+                  <Skeleton />
+                </div>
+              </div>
+        <div className="col" >
+                <div
+                  className="card rounded-4 border-0 position-relative shadow-sm overflow-hidden"
+                >
+                  <Skeleton />
+                </div>
+              </div>
+        <div className="col" >
+                <div
+                  className="card rounded-4 border-0 position-relative shadow-sm overflow-hidden"
+                >
+                  <Skeleton />
+                </div>
+              </div>
+        <div className="col" >
+                <div
+                  className="card rounded-4 border-0 position-relative shadow-sm overflow-hidden"
+                >
+                  <Skeleton />
+                </div>
+              </div>
+              </>
+  :
+       
+          (doctorsData.map((each) => {
             console.log(each)
             return (
               <div className="col" >
@@ -833,7 +834,7 @@ const Home = () => {
                 </div>
               </div>
             );
-          })}
+            }))}
         </div>
 
       </div>

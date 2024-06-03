@@ -28,6 +28,11 @@ const ChangeCustomerProfile = () => {
       gender: e.target.value,
     }));
   };
+  const [message, setMessage] = useState({
+    message: "",
+    isShow: false,
+  });
+
   const onChange = (value) => {
    setProfileDataToChange((prev) => ({
       ...prev,
@@ -118,6 +123,14 @@ const ChangeCustomerProfile = () => {
       setDateFromString(profileResponse.data.date_of_birth);
     }
   }, [profileResponse]);
+    useEffect(() => {
+    if (EditprofileError) {
+      setMessage({
+        message: EditprofileError?.response?.data?.message,
+        isShow: true,
+      });
+    }
+  }, [EditprofileError]);
 
   return (
 <>
@@ -135,6 +148,21 @@ const ChangeCustomerProfile = () => {
          </div>
       </div>
 <form style={{padding:"1rem"}}>
+{message.isShow && (
+            <Alert
+              style={{ marginBottom: "1rem" }}
+              message={message?.message}
+              type="error"
+              showIcon
+              closable
+              onClose={() => {
+                setMessage({
+                  message: "",
+                  isShow: false,
+                });
+              }}
+            />
+          )}
             <div class="mb-3">
                <label for="exampleFormControlName" class="form-label mb-1 label-custom-boot">Image</label>
                <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlName">
@@ -174,6 +202,7 @@ const ChangeCustomerProfile = () => {
               setProfileDataToChange((prev) => ({
                 ...prev,
                 firstName: e.target.value,
+                lastName:" "
               }));
             }}
           />
@@ -291,11 +320,16 @@ const ChangeCustomerProfile = () => {
             placeholder="Type your Phone Number"
             aria-label="Type your email or phone"
             aria-describedby="mail"
+            maxLength={14}
+
             value={profileDataToChange?.phoneNumber || profileDataToChange?.user?.phone}
             onChange={(e) => {
+              const value = e.target.value;
+              const prefix = value.slice(0, 4);
+              const numericPart = value.slice(4).replace(/[^0-9]/g, '');
                setProfileDataToChange((prev) => ({
                 ...prev,
-                phoneNumber: e.target.value,
+                phoneNumber:  prefix + numericPart,
               }));
             }}
           />

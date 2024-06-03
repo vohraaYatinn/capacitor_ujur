@@ -55,7 +55,7 @@ const Navbar = () => {
         border:"1px solid transparent", borderRadius:"90%"
       }}/>
 <div style={{marginLeft:"1rem", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
-<h6 className="fw-bold text-white mb-0"><span className=''>Hey</span>{" "}<span>{user?.full_name && user?.full_name.replace(/\b\w/g, char => char.toUpperCase())}</span>      <span className="dropdown-toggle" style={{marginLeft:"0.4rem"}} />
+<h6 className="fw-bold text-white mb-0"><span className=''>Hey</span>{" "}<span>{user?.full_name && user?.full_name?.split(' ')[0].replace(/\b\w/g, char => char.toUpperCase())}</span>      <span className="dropdown-toggle" style={{marginLeft:"0.4rem"}} />
 </h6>
         <p className="text-white-50 m-0 small">{user?.ujur_id}</p>
         </div>
