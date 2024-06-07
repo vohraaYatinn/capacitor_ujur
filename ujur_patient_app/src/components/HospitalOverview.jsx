@@ -41,20 +41,20 @@ const HospitalOverview = () => {
     {/* body */}
     <div className="vh-100 my-auto overflow-auto">
       {/* banner */}
-      <div className="px-4 bg-primary mt-4 p-2">
+      <div className="px-4 bg-primary mt-1 p-2">
         <div className="d-flex align-items-center gap-4">
           <img
             src={test_url_images+hospitalData.logo}
             alt=""
             className="img-fluid appointment-doctor-img"
           />
-          <div>
-            <h6 className="text-white">Book Appointment</h6>
-            <h1 className="text-warning mb-0 fw-bold">
+          <div className=''>
+            <h6 className="text-white mb-0 pt-2">Book Appointment</h6>
+            <h1 className="text-warning mb-0 fw-bold" style={{fontSize: "1rem"}}>
               Doctor
-              <span className="text-white-50 fw-normal fs-6"> Choose from the list</span>
             </h1>
-            <p className="mt-1">
+              <span className="text-white-50 fw-normal" style={{fontSize: "0.8rem"}}> Choose from the list</span>
+            <p className="">
               {hospitalData?.average_review_stars && Array(Math.floor(hospitalData?.average_review_stars)).fill(null).map(()=>{
             return(
               <span className="mdi mdi-star text-warning me-1" />

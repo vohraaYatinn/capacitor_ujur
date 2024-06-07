@@ -17,6 +17,7 @@ const Signup = () => {
   const { phone } = useParams();
   const dispatch = useDispatch();
   const [isUploaded, setIsUploaded] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   
   //useAxios
@@ -128,13 +129,14 @@ const Signup = () => {
             <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
           </span>
           <input type="file" class="form-control bg-transparent rounded-0 border-0 px-0"
-                     placeholder="Type your first name" aria-label="Type your first name" aria-describedby="firstname"
+                     placeholder="Type your first name" aria-label="Type your first name" accept="image/jpeg, image/png" aria-describedby="firstname"
                     onChange={
                       handleUpload
                     }
                     
                     />
         </div>
+        <small className="text-muted">Accepted formats: JPEG, PNG</small>
       </div>
 
 <div className='row'>
@@ -244,20 +246,27 @@ const Signup = () => {
             <span className="mdi mdi-lock mdi-18px text-muted" />
           </span>
           <input
-            type="password"
-            className="form-control bg-transparent rounded-0 border-0 px-0"
-            placeholder="Type your password"
-            aria-label="Type your email or phone"
-            aria-describedby="mail"
-            value={formValues?.password}
-            onChange={(e) => {
-              setFormValues((prev) => ({
-                ...prev,
-                password: e.target.value,
-              }));
-            }}
-          />
+              type={showPassword ? "text" : "password"} // Conditional type based on state
+              className="form-control bg-transparent rounded-0 border-0 px-0"
+              placeholder="Type your password"
+              aria-label="Type your password"
+              aria-describedby="pass"
+              onChange={(e) => {
+                setFormValues((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }));
+              }}
+            />
         </div>
+          <p
+              type=""
+              className="mt-1"
+              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              style={{ textDecoration: "none", textAlign: "end" }}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </p>
       </div>
       <div className="mb-3">
         <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
@@ -274,24 +283,32 @@ const Signup = () => {
             <span className="mdi mdi-phone mdi-18px text-muted" />
           </span>
           <input
-            type="text"
-            className="form-control bg-transparent rounded-0 border-0 px-0"
-            placeholder="Type your Phone Number"
-            aria-label="Type your email or phone"
-            aria-describedby="mail"
-            maxLength={14}
+  type="text"
+  className="form-control bg-transparent rounded-0 border-0 px-0"
+  placeholder="Type your Phone Number"
+  aria-label="Type your email or phone"
+  aria-describedby="mail"
+  maxLength={14}
+  value={formValues?.phoneNumber}
+  onChange={(e) => {
+    const value = e.target.value;
+    const prefix = "+91-"; // Fixed prefix
+    const numericPart = value.slice(4).replace(/[^0-9]/g, ''); // Extract the numeric part
+    setFormValues((prev) => ({
+      ...prev,
+      phoneNumber: prefix + numericPart, // Update phone number with fixed prefix
+    }));
+  }}
+  onKeyDown={(e) => {
+    // Prevent backspace from deleting the prefix
+    if (e.keyCode === 8 && e.target.selectionStart <= 4) {
+      e.preventDefault();
+    }
+  }}
 
-            value={formValues?.phoneNumber}
-            onChange={(e) => {
-              const value = e.target.value;
-              const prefix = value.slice(0, 4);
-              const numericPart = value.slice(4).replace(/[^0-9]/g, '');
-              setFormValues((prev) => ({
-                ...prev,
-                phoneNumber: prefix + numericPart,
-              }));
-            }}
-          />
+/>
+
+
         </div>
       </div>
       <div className="mb-3 mt-3">

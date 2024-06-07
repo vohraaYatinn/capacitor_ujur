@@ -9,15 +9,14 @@ import { updateToken, updateUser } from "../redux/reducers/functionalities.reduc
 import { useDispatch } from "react-redux";
 
 const LoginPhone = () => {
-  //Constants & additionals
+  // Constants & additionals
   const router = useRouter();
-  
   const dispatch = useDispatch();
 
-  //useAxios
+  // useAxios
   const [phoneResponse, phoneError, phoneLoading, phoneFetch] = useAxios();
 
-  //useState
+  // useState
   const [message, setMessage] = useState({
     message: "",
     isShow: false,
@@ -26,14 +25,12 @@ const LoginPhone = () => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
 
-
-  //functions
+  // Functions
   const submitForOtp = () => {
     phoneFetch(phoneNumberOtp(formValues));
   };
-
-
 
   useEffect(() => {
     if (phoneResponse?.result === 'success') {
@@ -43,8 +40,7 @@ const LoginPhone = () => {
         dispatch(updateUser(phoneResponse?.patient));
         router.push('/home');
       }
-    }
-    else if(phoneResponse?.result === 'failure'){
+    } else if (phoneResponse?.result === 'failure') {
       setMessage({
         message: phoneResponse?.message,
         isShow: true,
@@ -90,7 +86,7 @@ const LoginPhone = () => {
             htmlFor="exampleFormControlEmail"
             className="form-label mb-1 label-custom-boot"
           >
-            Email/Ujur ID
+            Mobile No/Ujur ID
           </label>
           <div
             className="input-group border bg-white rounded-3 py-1"
@@ -103,7 +99,6 @@ const LoginPhone = () => {
               <span className="mdi mdi-email-outline mdi-18px text-muted" />
             </span>
             <input
-            // i change the type = number to "text"
               type="text"
               className="form-control bg-transparent rounded-0 border-0 px-0"
               placeholder="Type your email / Id"
@@ -120,7 +115,7 @@ const LoginPhone = () => {
         </div>
         <div className="mb-3">
           <label
-            htmlFor="exampleFormControlEmail"
+            htmlFor="exampleFormControlPassword"
             className="form-label mb-1 label-custom-boot"
           >
             Password
@@ -136,11 +131,10 @@ const LoginPhone = () => {
               <span className="mdi mdi-eye-outline mdi-18px text-muted" />
             </span>
             <input
-            // i change the type = number to "text"
-              type="password"
+              type={showPassword ? "text" : "password"} // Conditional type based on state
               className="form-control bg-transparent rounded-0 border-0 px-0"
               placeholder="Type your password"
-              aria-label="Type your email or Password number"
+              aria-label="Type your password"
               aria-describedby="pass"
               onChange={(e) => {
                 setFormValues((prev) => ({
@@ -150,8 +144,16 @@ const LoginPhone = () => {
               }}
             />
           </div>
+            <p
+              type=""
+              className="mt-1"
+              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              style={{ textDecoration: "none", textAlign: "end" }}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </p>
         </div>
-    
+
         <div>
           {message.isShow && (
             <Alert
@@ -168,10 +170,11 @@ const LoginPhone = () => {
               }}
             />
           )}
-          <a
+          <button
             className="btn btn-info btn-lg w-100 rounded-4 mb-2"
-            disabled={true}
-            onClick={() => {
+            disabled={phoneLoading}
+            onClick={(e) => {
+              e.preventDefault(); // Prevent form submission
               submitForOtp();
             }}
           >
@@ -180,10 +183,19 @@ const LoginPhone = () => {
             ) : (
               "Login"
             )}
-          </a>
-          <div className="" style={{display: "flex", fontSize: "16px",flexDirection:"column", marginTop:"0.4rem"}}>
-
-         <p>New to UJUR? <Link to={`/sign-up`}>Sign Up Now</Link></p>
+          </button>
+          <div
+            className=""
+            style={{
+              display: "flex",
+              fontSize: "16px",
+              flexDirection: "column",
+              marginTop: "0.4rem",
+            }}
+          >
+            <p>
+              New to UJUR? <Link to={`/sign-up`}>Sign Up Now</Link>
+            </p>
           </div>
         </div>
       </form>
