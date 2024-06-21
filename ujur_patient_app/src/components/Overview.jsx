@@ -62,7 +62,7 @@ const OverviewBooking = () => {
       setCouponAdd("")
       setCancle(false)
       setReducesPrice(0)
-      setBookingPrice(doctorFees + 40)
+      setBookingPrice(doctorFees + 15)
    }
    else{
       couponFetch(couponApply({
@@ -76,10 +76,10 @@ useEffect(()=>{
    setCancle(false)
    setReducesPrice(0)
    if(paymentMode == "PayOnline" ){
-      setBookingPrice(doctorFees + 40)
+      setBookingPrice(doctorFees + 15)
    }
    else if(paymentMode == "payathospital"){
-      setBookingPrice(40)
+      setBookingPrice(15)
    }
 },[paymentMode])
 
@@ -122,9 +122,9 @@ useEffect(()=>{
          setPaymentMode("PayOnline")
 
          setCouponApplied(couponResponse?.percentage)
-         const discount = (couponResponse?.percentage / 100) * (doctorFees + 40);
+         const discount = (couponResponse?.percentage / 100) * (doctorFees + 15);
          setReducesPrice(discount)
-         const reducedPrice = (doctorFees + 40) - discount;
+         const reducedPrice = (doctorFees + 15) - discount;
          setBookingPrice(reducedPrice)
        }
        else{
@@ -137,7 +137,7 @@ useEffect(()=>{
    useEffect(() => {
       if (fetchFinalPriceResponse?.result == "success") {
          setDoctorFees(parseInt(fetchFinalPriceResponse?.price))
-         setBookingPrice(parseInt(fetchFinalPriceResponse?.price)+40)
+         setBookingPrice(parseInt(fetchFinalPriceResponse?.price)+15)
       // router.push(`/overview-booking/${fetchBookingResponse?.booking_id}`);
       }
    }, [fetchFinalPriceResponse]);
@@ -185,7 +185,7 @@ useEffect(()=>{
             </div>
          </div>
          <div className="offcanvas-footer">
-            <a href="/customer-profile" className="btn btn-info btn-lg w-100 rounded-4">Go to my account</a>
+            <a href="/view-appointments" className="btn btn-info btn-lg w-100 rounded-4">Go to my account</a>
          </div>
             </Popup>
 <div className="overview d-flex flex-column vh-100">
@@ -231,7 +231,7 @@ useEffect(()=>{
 
                      <div className="d-flex align-items-center justify-content-between text-muted">
                         <div>Booking Fee (Inc. GST)</div>
-                        <div>Rs 40.00</div>
+                        <div>Rs 15.00</div>
                      </div>
                      {couponApplied &&
                      <div className="d-flex align-items-center justify-content-between text-muted">
@@ -301,7 +301,7 @@ useEffect(()=>{
             } 
             
             className="btn btn-info btn-lg w-100 rounded-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
-               aria-controls="offcanvasBottom">Click Here to Pay</a>
+               aria-controls="offcanvasBottom">Book Now</a>
          </div>
       </div>
       <Modal

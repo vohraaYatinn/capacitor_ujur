@@ -85,6 +85,8 @@ const CustomerProfile = () => {
     }
   }, [changeJwtResponse]);
 
+  console.log("Profile Data: ", profileData)
+
   return (
     <>
       <div class="my-profile d-flex flex-column vh-100">
@@ -240,9 +242,9 @@ const CustomerProfile = () => {
                 </div>
                 <div class="col">
                   <p>
-                    <span class="text-muted small">Email</span>
+                    <span class="text-muted small">Mobile No.</span>
                     <br />
-                    {profileData?.user?.email || "N/A"}
+                    {profileData?.user?.phone || "N/A"}
                   </p>
                 </div>
             
@@ -261,6 +263,16 @@ const CustomerProfile = () => {
                     <span class="text-muted small">Block</span>
                     <br />
                     {profileData?.block}
+                  </p>
+                </div>
+              </div>
+                <div class="d-flex">
+
+                <div class="col">
+                  <p>
+                    <span class="text-muted small">Email</span>
+                    <br />
+                    {profileData?.user?.email}
                   </p>
                 </div>
               </div>
