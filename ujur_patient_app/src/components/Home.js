@@ -322,7 +322,7 @@ const Home = () => {
           <div className="d-flex align-items-center gap-2 me-auto">
             <a>
               <img
-                src={profileData?.profile_picture ? test_url_images + user?.profile_picture : user99}
+                src={user?.profile_picture ? test_url_images + user?.profile_picture : user99}
                 onClick={()=>setSelectPatientModalOpen(true)}
                 alt=""
                 className="img-fluid rounded-circle icon"
@@ -340,7 +340,7 @@ const Home = () => {
                 }}
               >
 {/* <option value=""> */}
-                  <p class="mb-0 fw-bold">Hi{" "}<span className="fw-bold">{profileData?.full_name && profileData?.full_name?.split(' ')[0].replace(/\b\w/g, char => char.toUpperCase())}</span></p>
+                  <p class="mb-0">Hi{" "}<span className="fw-bold">{profileData?.full_name && profileData?.full_name?.split(' ')[0].replace(/\b\w/g, char => char.toUpperCase())}</span></p>
                 {/* </option>
                 {extraPatientsData.map((data)=>{
                 return(
@@ -742,9 +742,15 @@ const Home = () => {
                   </div> */}
                 </div>
                 {latestAppointment?.status == "pending" && (
-                  <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">
+                  <>
+                  <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2 mb-2">
                     UPCOMING
                   </span>
+                  <p style={{
+                    fontWeight:800,
+                    fontSize:"0.9rem"
+                  }}>Token No. {latestAppointment?.appointment_slot}</p>
+                  </>
                 )}
               </div>
             </div>

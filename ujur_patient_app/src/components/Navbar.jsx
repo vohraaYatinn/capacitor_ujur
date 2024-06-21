@@ -12,8 +12,14 @@ import logo from "../img/logo/logo.png";
 import { useRouter } from "../hooks/use-router";
 import { test_url_images } from "../config/environment";
 import user99 from "../img/home/user.png";
+import { ScreenOrientation } from '@capacitor/screen-orientation';
 
 const Navbar = () => {
+  useEffect(() => {
+    ScreenOrientation.lock({ orientation: 'portrait' }).catch((error) => {
+      console.error('Error locking screen orientation:', error);
+    });
+  }, []);
 	const user = useSelector(userData);
 
 	const navBar = useSelector(functionalitiesNavbar);

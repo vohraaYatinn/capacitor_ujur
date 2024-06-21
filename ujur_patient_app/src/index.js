@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Provider } from 'react-redux';
 import { Plugins } from '@capacitor/core';
+
 const { Permissions } = Plugins;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

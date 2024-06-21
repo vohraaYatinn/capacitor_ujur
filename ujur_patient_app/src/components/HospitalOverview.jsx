@@ -53,8 +53,8 @@ const HospitalOverview = () => {
             <h1 className="text-warning mb-0 fw-bold" style={{fontSize: "1rem"}}>
               Doctor
             </h1>
-              <span className="text-white-50 fw-normal" style={{fontSize: "0.8rem"}}> Choose from the list</span>
-            <p className="">
+              {/* <span className="text-white-50 fw-normal" style={{fontSize: "0.8rem"}}> Choose from the list</span> */}
+            <p className="mt-2">
               {hospitalData?.average_review_stars && Array(Math.floor(hospitalData?.average_review_stars)).fill(null).map(()=>{
             return(
               <span className="mdi mdi-star text-warning me-1" />
