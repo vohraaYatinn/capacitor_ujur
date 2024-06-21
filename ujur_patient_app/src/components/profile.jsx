@@ -202,7 +202,7 @@ const CustomerProfile = () => {
                   <p>
                     <span class="text-muted small">Gender</span>
                     <br />
-                    {profileData?.gender == "male" ? "Male" : "Female"}
+                    {profileData?.gender == "M" ? "Male" : profileData?.gender == "F"  ? "Female" : "Other" }
                   </p>
                 </div>
                 <div class="col">
