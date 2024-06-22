@@ -79,7 +79,7 @@ const Signup = () => {
       errors.block = "Block is required"
     }
     if(!values.phoneNumber){
-      errors.phoneNumber = "Block is required"
+      errors.phoneNumber = "Phone number is required"
     }else if(values.phoneNumber.length < 14){
       errors.phoneNumber = "Number should be 10 Digits"
     }

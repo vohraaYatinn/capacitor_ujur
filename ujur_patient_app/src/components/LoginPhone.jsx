@@ -190,7 +190,6 @@ const LoginPhone = () => {
               onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
               style={{ textDecoration: "none", textAlign: "end" }}
             >
-              {showPassword ? "Hide" : "Show"}
             </p>
 
         </div>
