@@ -4,9 +4,10 @@ import useAxios from "../network/useAxios";
 import { phoneNumberOtp } from "../urls/urls";
 import { DotLoading } from "antd-mobile";
 import { Alert } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useAsyncError } from "react-router-dom";
 import { updateToken, updateUser } from "../redux/reducers/functionalities.reducer";
 import { useDispatch } from "react-redux";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const LoginPhone = () => {
   // Constants & additionals
@@ -21,15 +22,41 @@ const LoginPhone = () => {
     message: "",
     isShow: false,
   });
+
+  const [showPass, setShowPass] = useState(false);
+  const [errors, setErrors]= useState({
+    email: "",
+    password: ""
+  });
+
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
 
-  // Functions
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if(!values.email){
+      errors.email = "Email is required";
+    }
+    if(!values.password){
+      errors.password = "Password is required"
+    }else if(values.password.length < 6){
+      errors.password = "Password must have more than 6 characters"
+    }
+    return errors;
+  }
+
   const submitForOtp = () => {
-    phoneFetch(phoneNumberOtp(formValues));
+    const errors = validate(formValues)
+    if(Object.keys(errors).length !== 0){
+      setErrors(errors)
+    }else{
+      setErrors({})
+      phoneFetch(phoneNumberOtp(formValues));
+    }
   };
 
   useEffect(() => {
@@ -112,6 +139,9 @@ const LoginPhone = () => {
               }}
             />
           </div>
+            {
+              errors.email && (<div className="text-danger text-start mt-1">{errors.email}</div>)
+            }
         </div>
         <div className="mb-3">
           <label
@@ -131,7 +161,7 @@ const LoginPhone = () => {
               <span className="mdi mdi-eye-outline mdi-18px text-muted" />
             </span>
             <input
-              type={showPassword ? "text" : "password"} // Conditional type based on state
+              type={showPass ? "text" : "password"}
               className="form-control bg-transparent rounded-0 border-0 px-0"
               placeholder="Type your password"
               aria-label="Type your password"
@@ -143,7 +173,17 @@ const LoginPhone = () => {
                 }));
               }}
             />
+            <span onClick={() => setShowPass(!showPass)}>
+              {
+                showPass ? <IoEyeOutline style={{width: "2rem", padding:"5px", cursor:"pointer",display: "flex", alignItems: "center", justifyContent:"center", height:"100%"}} />
+                :<IoEyeOffOutline style={{width: "2rem", padding:"5px", cursor:"pointer",display: "flex", alignItems: "center", justifyContent:"center", height:"100%"}} />
+              }
+            </span>
           </div>
+          {
+              errors.password && (<div className="text-danger text-start mt-1">{errors.password}</div>)
+            }
+          <p className="text-end mt-1"><Link to={`/forgot-password`}>forgot password?</Link></p>
             <p
               type=""
               className="mt-1"
@@ -152,6 +192,7 @@ const LoginPhone = () => {
             >
               {showPassword ? "Hide" : "Show"}
             </p>
+
         </div>
 
         <div>

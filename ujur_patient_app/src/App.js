@@ -28,6 +28,8 @@ import WriteReviewHospital from './components/WriteReviewHospital';
 import { Capacitor } from '@capacitor/core';
 import { Plugins, Directory, Encoding } from '@capacitor/core';
 import {  FilesystemDirectory, FilesystemEncoding} from '@capacitor/filesystem';
+import ForgotPassword from './components/ForgotPassword';
+import ChangePassword from './components/ChangePassword';
 
 const { Permissions, Filesystem } = Plugins;
 
@@ -90,6 +92,8 @@ function App() {
         <Route path="/write-reviews/:appointmentId" element={<WriteReview />} />
         <Route path="/write-reviews-hospital/:appointmentId" element={<WriteReviewHospital />} />
         <Route path="/sign-up/" element={<SignupPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/hospital-overview/:hospitalId" element={<HospitalOverview />} />
       </Routes>
       </AnimatePresence>

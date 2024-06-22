@@ -17,8 +17,8 @@ const Signup = () => {
   const { phone } = useParams();
   const dispatch = useDispatch();
   const [isUploaded, setIsUploaded] = useState(false);
+  const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-
   
   //useAxios
   const [signUpResponse, signUpError, signUpLoading, signUpFetch] = useAxios();
@@ -55,6 +55,43 @@ const Signup = () => {
     }));
   };
   
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if(!values.email){
+      errors.email = "Email is required";
+    }else{
+      errors.email = "Invalid email format"
+    }
+    if(!values.firstName){
+      errors.firstName = "First name is required"
+    }
+    if(!values.lastName){
+      errors.lastName = "Last name is required"
+    }
+    if(!values.dob){
+      errors.dob = "Date of Birth is required"
+    }
+    if(!values.district){
+      errors.district = "District is required"
+    }
+    if(!values.block){
+      errors.block = "Block is required"
+    }
+    if(!values.phoneNumber){
+      errors.phoneNumber = "Block is required"
+    }else if(values.phoneNumber.length < 14){
+      errors.phoneNumber = "Number should be 10 Digits"
+    }
+    
+    if(!values.password){
+      errors.password = "Password is required"
+    }else if(values.password.length < 6){
+      errors.password = "Password must have more than 6 characters"
+    }
+    return errors;
+  }
+
   const onSearch = (value) => {
     console.log('search:', value);
     // Perform any search-related functionality if needed
@@ -63,7 +100,12 @@ const Signup = () => {
 
   //functions
   const signupFunction = () => {
-    signUpFetch(patientSignUp(formValues));
+    const errors = validate(formValues)
+    if(Object.keys(errors).length !== 0){
+      setErrors(errors)
+    }else{
+      setErrors({})
+    signUpFetch(patientSignUp(formValues));}
   };
 
   //useEffects
@@ -169,6 +211,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.firstName && (<div className="text-danger text-start mt-1">{errors.firstName}</div>)
+            }
       </div>
     <div className="mb-3 mt-3 col-6">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
@@ -199,6 +244,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.lastName && (<div className="text-danger text-start mt-1">{errors.lastName}</div>)
+            }
       </div>
       </div>
       <div className="mb-3">
@@ -230,6 +278,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.email && (<div className="text-danger text-start mt-1">{errors.email}</div>)
+            }
       </div>
       <div className="mb-3">
         <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
@@ -259,6 +310,9 @@ const Signup = () => {
               }}
             />
         </div>
+        {
+              errors.password && (<div className="text-danger text-start mt-1">{errors.password}</div>)
+            }
           <p
               type=""
               className="mt-1"
@@ -310,6 +364,9 @@ const Signup = () => {
 
 
         </div>
+        {
+              errors.phoneNumber && (<div className="text-danger text-start mt-1">{errors.phoneNumber}</div>)
+            }
       </div>
       <div className="mb-3 mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
@@ -395,6 +452,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.dob && (<div className="text-danger text-start mt-1">{errors.dob}</div>)
+            }
       </div>
       <div className="mb-3 mt-3">
         <label htmlFor="gender" className="form-label mb-1">
@@ -428,6 +488,9 @@ const Signup = () => {
 </select>
 
         </div>
+        {
+              errors.gender && (<div className="text-danger text-start mt-1">{errors.gender}</div>)
+            }
       </div>
       <div className="mb-3 mt-3">
   <label htmlFor="district" className="form-label mb-1">
@@ -455,6 +518,9 @@ const Signup = () => {
         </>
       ))}
     </Select>
+{
+              errors.district && (<div className="text-danger text-start mt-1">{errors.district}</div>)
+            }
 </div>
 <div className="mb-3 mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
@@ -485,6 +551,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.block && (<div className="text-danger text-start mt-1">{errors.block}</div>)
+            }
       </div>
 
 
