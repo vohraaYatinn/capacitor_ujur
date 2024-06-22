@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Provider } from 'react-redux';
 import { Plugins } from '@capacitor/core';
+
 const { Permissions } = Plugins;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,13 +18,13 @@ document.addEventListener('contextmenu', function(event) {
 });
 
 
-async function requestPermissions() {
-  const { results } = await Permissions.request({
-    permissions: ['android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.READ_EXTERNAL_STORAGE'],
-  });
-  console.log(results);
-}
-requestPermissions();
+// async function requestPermissions() {
+//   const { results } = await Permissions.request({
+//     permissions: ['android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.READ_EXTERNAL_STORAGE'],
+//   });
+//   console.log(results);
+// }
+// requestPermissions();
 
 CapacitorApp.addListener('backButton', ({canGoBack}) => {
   if(!canGoBack){

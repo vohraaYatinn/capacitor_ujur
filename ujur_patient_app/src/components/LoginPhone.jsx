@@ -4,36 +4,60 @@ import useAxios from "../network/useAxios";
 import { phoneNumberOtp } from "../urls/urls";
 import { DotLoading } from "antd-mobile";
 import { Alert } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useAsyncError } from "react-router-dom";
 import { updateToken, updateUser } from "../redux/reducers/functionalities.reducer";
 import { useDispatch } from "react-redux";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const LoginPhone = () => {
-  //Constants & additionals
+  // Constants & additionals
   const router = useRouter();
-  
   const dispatch = useDispatch();
 
-  //useAxios
+  // useAxios
   const [phoneResponse, phoneError, phoneLoading, phoneFetch] = useAxios();
 
-  //useState
+  // useState
   const [message, setMessage] = useState({
     message: "",
     isShow: false,
   });
+
+  const [showPass, setShowPass] = useState(false);
+  const [errors, setErrors]= useState({
+    email: "",
+    password: ""
+  });
+
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
 
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if(!values.email){
+      errors.email = "Email is required";
+    }
+    if(!values.password){
+      errors.password = "Password is required"
+    }else if(values.password.length < 6){
+      errors.password = "Password must have more than 6 characters"
+    }
+    return errors;
+  }
 
-  //functions
   const submitForOtp = () => {
-    phoneFetch(phoneNumberOtp(formValues));
+    const errors = validate(formValues)
+    if(Object.keys(errors).length !== 0){
+      setErrors(errors)
+    }else{
+      setErrors({})
+      phoneFetch(phoneNumberOtp(formValues));
+    }
   };
-
-
 
   useEffect(() => {
     if (phoneResponse?.result === 'success') {
@@ -43,8 +67,7 @@ const LoginPhone = () => {
         dispatch(updateUser(phoneResponse?.patient));
         router.push('/home');
       }
-    }
-    else if(phoneResponse?.result === 'failure'){
+    } else if (phoneResponse?.result === 'failure') {
       setMessage({
         message: phoneResponse?.message,
         isShow: true,
@@ -90,7 +113,7 @@ const LoginPhone = () => {
             htmlFor="exampleFormControlEmail"
             className="form-label mb-1 label-custom-boot"
           >
-            Email/Ujur ID
+            Mobile No/Ujur ID
           </label>
           <div
             className="input-group border bg-white rounded-3 py-1"
@@ -103,7 +126,6 @@ const LoginPhone = () => {
               <span className="mdi mdi-email-outline mdi-18px text-muted" />
             </span>
             <input
-            // i change the type = number to "text"
               type="text"
               className="form-control bg-transparent rounded-0 border-0 px-0"
               placeholder="Type your email / Id"
@@ -117,10 +139,13 @@ const LoginPhone = () => {
               }}
             />
           </div>
+            {
+              errors.email && (<div className="text-danger text-start mt-1">{errors.email}</div>)
+            }
         </div>
         <div className="mb-3">
           <label
-            htmlFor="exampleFormControlEmail"
+            htmlFor="exampleFormControlPassword"
             className="form-label mb-1 label-custom-boot"
           >
             Password
@@ -136,11 +161,10 @@ const LoginPhone = () => {
               <span className="mdi mdi-eye-outline mdi-18px text-muted" />
             </span>
             <input
-            // i change the type = number to "text"
-              type="password"
+              type={showPass ? "text" : "password"}
               className="form-control bg-transparent rounded-0 border-0 px-0"
               placeholder="Type your password"
-              aria-label="Type your email or Password number"
+              aria-label="Type your password"
               aria-describedby="pass"
               onChange={(e) => {
                 setFormValues((prev) => ({
@@ -149,9 +173,28 @@ const LoginPhone = () => {
                 }));
               }}
             />
+            <span onClick={() => setShowPass(!showPass)}>
+              {
+                showPass ? <IoEyeOutline style={{width: "2rem", padding:"5px", cursor:"pointer",display: "flex", alignItems: "center", justifyContent:"center", height:"100%"}} />
+                :<IoEyeOffOutline style={{width: "2rem", padding:"5px", cursor:"pointer",display: "flex", alignItems: "center", justifyContent:"center", height:"100%"}} />
+              }
+            </span>
           </div>
+          {
+              errors.password && (<div className="text-danger text-start mt-1">{errors.password}</div>)
+            }
+          <p className="text-end mt-1"><Link to={`/forgot-password`}>forgot password?</Link></p>
+            <p
+              type=""
+              className="mt-1"
+              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              style={{ textDecoration: "none", textAlign: "end" }}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </p>
+
         </div>
-    
+
         <div>
           {message.isShow && (
             <Alert
@@ -168,10 +211,11 @@ const LoginPhone = () => {
               }}
             />
           )}
-          <a
+          <button
             className="btn btn-info btn-lg w-100 rounded-4 mb-2"
-            disabled={true}
-            onClick={() => {
+            disabled={phoneLoading}
+            onClick={(e) => {
+              e.preventDefault(); // Prevent form submission
               submitForOtp();
             }}
           >
@@ -180,10 +224,19 @@ const LoginPhone = () => {
             ) : (
               "Login"
             )}
-          </a>
-          <div className="" style={{display: "flex", fontSize: "16px",flexDirection:"column", marginTop:"0.4rem"}}>
-
-         <p>New to UJUR? <Link to={`/sign-up`}>Sign Up Now</Link></p>
+          </button>
+          <div
+            className=""
+            style={{
+              display: "flex",
+              fontSize: "16px",
+              flexDirection: "column",
+              marginTop: "0.4rem",
+            }}
+          >
+            <p>
+              New to UJUR? <Link to={`/sign-up`}>Sign Up Now</Link>
+            </p>
           </div>
         </div>
       </form>

@@ -112,3 +112,6 @@ export const couponApply = (payload_data) => {
 export const paymentOrder = (payload_data) => {
   return project.post(Urls.PAYMENT_ORDER_GATEWAY, payload_data);
 };
+export const cancelAppointmentPatient = (payload_data) => {
+  return project.post(Urls.CANCEL_APPOINTMENT_PATIENT, payload_data);
+};

@@ -7,6 +7,9 @@ const config: CapacitorConfig = {
   plugins: {
     Filesystem: {
       webDir: "www"
+    },
+    ScreenOrientation: {
+      orientation: 'portrait'
     }
   }
 };

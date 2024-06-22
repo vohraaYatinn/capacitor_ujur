@@ -325,12 +325,18 @@ const ChangeCustomerProfile = () => {
             value={profileDataToChange?.phoneNumber || profileDataToChange?.user?.phone}
             onChange={(e) => {
               const value = e.target.value;
-              const prefix = value.slice(0, 4);
-              const numericPart = value.slice(4).replace(/[^0-9]/g, '');
-               setProfileDataToChange((prev) => ({
+              const prefix = "+91-"; // Fixed prefix
+              const numericPart = value.slice(4).replace(/[^0-9]/g, ''); // Extract the numeric part
+              setProfileDataToChange((prev) => ({
                 ...prev,
-                phoneNumber:  prefix + numericPart,
+                phoneNumber: prefix + numericPart, // Update phone number with fixed prefix
               }));
+            }}
+            onKeyDown={(e) => {
+              // Prevent backspace from deleting the prefix
+              if (e.keyCode === 8 && e.target.selectionStart <= 4) {
+                e.preventDefault();
+              }
             }}
           />
         </div>

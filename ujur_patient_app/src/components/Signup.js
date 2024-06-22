@@ -17,7 +17,8 @@ const Signup = () => {
   const { phone } = useParams();
   const dispatch = useDispatch();
   const [isUploaded, setIsUploaded] = useState(false);
-
+  const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   
   //useAxios
   const [signUpResponse, signUpError, signUpLoading, signUpFetch] = useAxios();
@@ -54,6 +55,43 @@ const Signup = () => {
     }));
   };
   
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if(!values.email){
+      errors.email = "Email is required";
+    }else{
+      errors.email = "Invalid email format"
+    }
+    if(!values.firstName){
+      errors.firstName = "First name is required"
+    }
+    if(!values.lastName){
+      errors.lastName = "Last name is required"
+    }
+    if(!values.dob){
+      errors.dob = "Date of Birth is required"
+    }
+    if(!values.district){
+      errors.district = "District is required"
+    }
+    if(!values.block){
+      errors.block = "Block is required"
+    }
+    if(!values.phoneNumber){
+      errors.phoneNumber = "Block is required"
+    }else if(values.phoneNumber.length < 14){
+      errors.phoneNumber = "Number should be 10 Digits"
+    }
+    
+    if(!values.password){
+      errors.password = "Password is required"
+    }else if(values.password.length < 6){
+      errors.password = "Password must have more than 6 characters"
+    }
+    return errors;
+  }
+
   const onSearch = (value) => {
     console.log('search:', value);
     // Perform any search-related functionality if needed
@@ -62,7 +100,12 @@ const Signup = () => {
 
   //functions
   const signupFunction = () => {
-    signUpFetch(patientSignUp(formValues));
+    const errors = validate(formValues)
+    if(Object.keys(errors).length !== 0){
+      setErrors(errors)
+    }else{
+      setErrors({})
+    signUpFetch(patientSignUp(formValues));}
   };
 
   //useEffects
@@ -128,13 +171,14 @@ const Signup = () => {
             <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
           </span>
           <input type="file" class="form-control bg-transparent rounded-0 border-0 px-0"
-                     placeholder="Type your first name" aria-label="Type your first name" aria-describedby="firstname"
+                     placeholder="Type your first name" aria-label="Type your first name" accept="image/jpeg, image/png" aria-describedby="firstname"
                     onChange={
                       handleUpload
                     }
                     
                     />
         </div>
+        <small className="text-muted">Accepted formats: JPEG, PNG</small>
       </div>
 
 <div className='row'>
@@ -167,6 +211,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.firstName && (<div className="text-danger text-start mt-1">{errors.firstName}</div>)
+            }
       </div>
     <div className="mb-3 mt-3 col-6">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
@@ -197,6 +244,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.lastName && (<div className="text-danger text-start mt-1">{errors.lastName}</div>)
+            }
       </div>
       </div>
       <div className="mb-3">
@@ -228,6 +278,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.email && (<div className="text-danger text-start mt-1">{errors.email}</div>)
+            }
       </div>
       <div className="mb-3">
         <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
@@ -244,20 +297,30 @@ const Signup = () => {
             <span className="mdi mdi-lock mdi-18px text-muted" />
           </span>
           <input
-            type="password"
-            className="form-control bg-transparent rounded-0 border-0 px-0"
-            placeholder="Type your password"
-            aria-label="Type your email or phone"
-            aria-describedby="mail"
-            value={formValues?.password}
-            onChange={(e) => {
-              setFormValues((prev) => ({
-                ...prev,
-                password: e.target.value,
-              }));
-            }}
-          />
+              type={showPassword ? "text" : "password"} // Conditional type based on state
+              className="form-control bg-transparent rounded-0 border-0 px-0"
+              placeholder="Type your password"
+              aria-label="Type your password"
+              aria-describedby="pass"
+              onChange={(e) => {
+                setFormValues((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }));
+              }}
+            />
         </div>
+        {
+              errors.password && (<div className="text-danger text-start mt-1">{errors.password}</div>)
+            }
+          <p
+              type=""
+              className="mt-1"
+              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              style={{ textDecoration: "none", textAlign: "end" }}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </p>
       </div>
       <div className="mb-3">
         <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
@@ -274,25 +337,36 @@ const Signup = () => {
             <span className="mdi mdi-phone mdi-18px text-muted" />
           </span>
           <input
-            type="text"
-            className="form-control bg-transparent rounded-0 border-0 px-0"
-            placeholder="Type your Phone Number"
-            aria-label="Type your email or phone"
-            aria-describedby="mail"
-            maxLength={14}
+  type="text"
+  className="form-control bg-transparent rounded-0 border-0 px-0"
+  placeholder="Type your Phone Number"
+  aria-label="Type your email or phone"
+  aria-describedby="mail"
+  maxLength={14}
+  value={formValues?.phoneNumber}
+  onChange={(e) => {
+    const value = e.target.value;
+    const prefix = "+91-"; // Fixed prefix
+    const numericPart = value.slice(4).replace(/[^0-9]/g, ''); // Extract the numeric part
+    setFormValues((prev) => ({
+      ...prev,
+      phoneNumber: prefix + numericPart, // Update phone number with fixed prefix
+    }));
+  }}
+  onKeyDown={(e) => {
+    // Prevent backspace from deleting the prefix
+    if (e.keyCode === 8 && e.target.selectionStart <= 4) {
+      e.preventDefault();
+    }
+  }}
 
-            value={formValues?.phoneNumber}
-            onChange={(e) => {
-              const value = e.target.value;
-              const prefix = value.slice(0, 4);
-              const numericPart = value.slice(4).replace(/[^0-9]/g, '');
-              setFormValues((prev) => ({
-                ...prev,
-                phoneNumber: prefix + numericPart,
-              }));
-            }}
-          />
+/>
+
+
         </div>
+        {
+              errors.phoneNumber && (<div className="text-danger text-start mt-1">{errors.phoneNumber}</div>)
+            }
       </div>
       <div className="mb-3 mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
@@ -378,6 +452,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.dob && (<div className="text-danger text-start mt-1">{errors.dob}</div>)
+            }
       </div>
       <div className="mb-3 mt-3">
         <label htmlFor="gender" className="form-label mb-1">
@@ -411,6 +488,9 @@ const Signup = () => {
 </select>
 
         </div>
+        {
+              errors.gender && (<div className="text-danger text-start mt-1">{errors.gender}</div>)
+            }
       </div>
       <div className="mb-3 mt-3">
   <label htmlFor="district" className="form-label mb-1">
@@ -438,6 +518,9 @@ const Signup = () => {
         </>
       ))}
     </Select>
+{
+              errors.district && (<div className="text-danger text-start mt-1">{errors.district}</div>)
+            }
 </div>
 <div className="mb-3 mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
@@ -468,6 +551,9 @@ const Signup = () => {
             }}
           />
         </div>
+        {
+              errors.block && (<div className="text-danger text-start mt-1">{errors.block}</div>)
+            }
       </div>
 
 

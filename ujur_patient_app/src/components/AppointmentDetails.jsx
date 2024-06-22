@@ -6,7 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import { FaLocationDot, FaUpload } from "react-icons/fa6";
 import { Button } from 'antd-mobile';
 import useAxios from '../network/useAxios';
-import { fetchAppointmentDetails, uploadCustomerLabReport } from '../urls/urls';
+import { fetchAppointmentDetails, uploadCustomerLabReport, cancelAppointmentPatient } from '../urls/urls';
 import moment from 'moment';
 import { test_url_images } from '../config/environment';
 // import convertToPDF from '../utils/convertToPdf';
@@ -21,6 +21,7 @@ const AppointmentDetails = () => {
    const router = useRouter();
   let [cancle, setCancle] = useState(false);
   const [uploadLabReportResponse, uploadLabReportError, uploadLabReportLoading, uploadLabReportFetch] = useAxios();
+  const [cancelBookingResponse, cancelBookingError, cancelBookingLoading, cancelBookingFetch] = useAxios();
   //useState
   const [message, setMessage] = useState({
    message: "",
@@ -36,6 +37,9 @@ const AppointmentDetails = () => {
    const [percentageIsError, setPercentageIsError] = useState(false)
    const uploadLabReport = () =>{
       uploadLabReportFetch(uploadCustomerLabReport(formValues))
+   }
+   const cancelAppointment = () =>{
+    cancelBookingFetch(cancelAppointmentPatient(formValues))
    }
    const showModal = () => {
      setIsModalOpen(true);
@@ -107,6 +111,16 @@ const AppointmentDetails = () => {
       }
     },[uploadLabReportResponse])
     useEffect(()=>{
+      if(cancelBookingResponse?.result == "success"){
+         setMessage({
+            message: cancelBookingResponse?.message,
+            isShow: true,
+            type:"success"
+          });
+          fetchLatestAppointment()
+      }
+    },[cancelBookingResponse])
+    useEffect(()=>{
       if(uploadLabReportError){
          setMessage({
             message: uploadLabReportError?.response?.data,
@@ -169,8 +183,8 @@ const AppointmentDetails = () => {
                      <div class="d-flex justify-content-end">
 
                      </div>
-                     <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">
-                     {appointmentDetails?.status == "pending" && "PENDING"}
+                     <span class={`badge  ${appointmentDetails?.status == " bg-success-subtle pending" ?"text-success":"bg-danger-subtle text-danger"} fw-normal rounded-pill px-2`}>
+                     {appointmentDetails?.status == "pending" ? "PENDING" : appointmentDetails?.status == "cancel" ? "CANCELLED" : ""}
                         
                         
                         </span>
@@ -198,6 +212,7 @@ const AppointmentDetails = () => {
                </div>
             </div>
             {appointmentDetails?.status == "pending" ?
+            <>
                    <div className="row row-cols-2 g-2 mt-3 p-3">
             
                    <div className="col">
@@ -218,8 +233,27 @@ const AppointmentDetails = () => {
                        </Link>
                      </div>
                    </div>
-     
+                  
                  </div>
+                 <div class="mt-1 p-3">
+
+<Button style={{width:"100%", background:"#0d6efd", color:"white"}}
+onClick={()=>{
+
+  cancelAppointment()
+  }}
+
+  
+>Cancel Booking</Button>
+                 <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
+onClick={()=>{
+  cancelAppointment()
+}}
+>Download Invoice</Button>
+</div> 
+
+                 </>
+                 
                  :
                  <div class="bg-white mt-1 p-3">
 
@@ -315,11 +349,15 @@ const AppointmentDetails = () => {
                   <p class="mb-2 fs-14 fw-bold text-black">Visit Time</p>
                   <div class="d-flex align-items-center gap-4">
                      <div>
+                        <p class="mb-1">Hospital</p>
                         <p class="mb-1">Day</p>
                         <p class="mb-1">Visit</p>
                         <p class="mb-0">Time</p>
                      </div>
                      <div>
+                        <p class="mb-1 " style={{
+                          fontWeight:"700"
+                        }}>: {appointmentDetails?.doctor?.hospital?.name}</p>
                         <p class="mb-1">: {moment(appointmentDetails?.date_appointment).format("dddd, MMM D, YYYY")}</p>
                         <p class="mb-1">: {appointmentDetails?.slot.charAt(0).toUpperCase() + appointmentDetails?.slot.slice(1)}</p>
                         <p class="mb-0">: {appointmentDetails?.slot == "morning"? slotDetails?.morning_timings :appointmentDetails?.slot == "afternoon"?slotDetails?.afternoon_timings:appointmentDetails?.slot=="evening"?slotDetails?.evening_timings:<></>}</p>
@@ -351,6 +389,7 @@ const AppointmentDetails = () => {
                      </div>
                   </div>
                </div>
+
        
                {/* <a href="recording.html" class="btn btn-info btn-lg w-100 rounded-4">Call Now (Start at 2:00 PM)</a> */}
             </div>

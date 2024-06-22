@@ -27,6 +27,8 @@ import { useRouter } from "../hooks/use-router";
 import { test_url_images } from "../config/environment";
 import moment from "moment";
 import logo from "../img/logo/logo.png";
+import { RxCross2} from 'react-icons/rx'
+import user99 from "../img/home/user.png"
 
 const Home = () => {
   const router = useRouter();
@@ -312,7 +314,6 @@ const Home = () => {
   ));
 
 
-  
   return (
     <>
       <div className="bg-white shadow-sm no-long-press" ref={ref}>
@@ -321,7 +322,7 @@ const Home = () => {
           <div className="d-flex align-items-center gap-2 me-auto">
             <a>
               <img
-                src={logo}
+                src={user?.profile_picture ? test_url_images + user?.profile_picture : user99}
                 onClick={()=>setSelectPatientModalOpen(true)}
                 alt=""
                 className="img-fluid rounded-circle icon"
@@ -339,7 +340,7 @@ const Home = () => {
                 }}
               >
 {/* <option value=""> */}
-                  <p class="mb-0 ">Hi{" "}<span className="fw-bold">{profileData?.full_name && profileData?.full_name?.split(' ')[0].replace(/\b\w/g, char => char.toUpperCase())}</span></p>
+                  <p class="mb-0">Hi{" "}<span className="fw-bold">{profileData?.full_name && profileData?.full_name?.split(' ')[0].replace(/\b\w/g, char => char.toUpperCase())}</span></p>
                 {/* </option>
                 {extraPatientsData.map((data)=>{
                 return(
@@ -643,60 +644,71 @@ const Home = () => {
                   </div>
                 </>
       </Modal>
-      <Modal title="Change User Profile" open={selectPatientModalOpen} onOk={showModal} okText={"Add New Profile"} onCancel={handleCancelModals} cancelText={"Close"} 
-      
-      okButtonProps={{
-        disabled: extraPatientsData?.length >= 5 && true,
-      }}
-      >
-      <>
-      
-                {extraPatientsData.map((data)=>{
-                  
-                return(
-                  <Card
-                  bordered={true}
-                  style={{marginBottom:"0.3rem"}}
-                >
-                    <div value={data.id}
-                    onClick={()=>{
-                      changeLogin(data.id)
-                    }}
-                    style={{
-                      display:"flex",
-                      gap:"1rem",
-                      width:"100%",
-                      padding:"0.5rem",
-                    }}>
-                      <div>
-                          <img
-    width={60}
-    height={60}
-    style={{
-      border:"1px solid transparent",
-      borderRadius:"100%"
-    }}
-    src={data?.profile_picture ? test_url_images+data?.profile_picture : user}
-  />
-                      </div>
-                      <div style={{
-                        display:"flex",
-                        flexDirection:"column",
-                        alignContent:"center",
-                        justifyContent:"center"
-                      }}>
-                  <p class="mb-0 fw-bold" style={{fontSize:"1.1rem"}}>{data?.full_name}</p>
-                  <small class="mb-0">{data?.ujur_id} | {data?.gender}</small>
-                  </div>
-                </div>
-                </Card>
-                
-                
-                )
-                })}
-  
-                </>
-      </Modal>
+      <Modal
+  title="Change User Profile"
+  open={selectPatientModalOpen}
+  onOk={showModal}
+  okText={"Add New Profile"}
+  onCancel={handleCancelModals}
+  cancelButtonProps={{ style: { display: 'none' } }}  // Remove the Close button
+  okButtonProps={{
+    style: { width: 'auto', margin: '0 auto', display: 'block' },
+    disabled: extraPatientsData?.length >= 5 && true,
+  }}
+  closeIcon={<span style={{ fontWeight: 'bold', color: "black" }}><RxCross2 size={26}/></span>}  // Make the cross icon bold
+>
+  <>
+    {extraPatientsData.map((data) => {
+      return (
+        <Card
+          bordered={true}
+          style={{ marginBottom: "0.3rem" }}
+          key={data.id} // Add a key for better performance
+        >
+          <div
+            value={data.id}
+            onClick={() => {
+              changeLogin(data.id);
+            }}
+            style={{
+              display: "flex",
+              gap: "1rem",
+              width: "100%",
+              padding: "0.5rem",
+            }}
+          >
+            <div>
+              <img
+                width={60}
+                height={60}
+                style={{
+                  border: "1px solid transparent",
+                  borderRadius: "100%",
+                }}
+                src={data?.profile_picture ? test_url_images + data?.profile_picture : user}
+                alt="Profile"
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              <p className="mb-0 fw-bold" style={{ fontSize: "1.1rem" }}>{data?.full_name}</p>
+              <small className="mb-0">{data?.ujur_id} | {data?.gender}</small>
+            </div>
+          </div>
+        </Card>
+      );
+    })}
+  </>
+</Modal>
+
+
+
       <div className="p-3 mb-2">
         {latestAppointment?.id && (
           <Link
@@ -730,9 +742,15 @@ const Home = () => {
                   </div> */}
                 </div>
                 {latestAppointment?.status == "pending" && (
-                  <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">
+                  <>
+                  <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2 mb-2">
                     UPCOMING
                   </span>
+                  <p style={{
+                    fontWeight:800,
+                    fontSize:"0.9rem"
+                  }}>Token No. {latestAppointment?.appointment_slot}</p>
+                  </>
                 )}
               </div>
             </div>

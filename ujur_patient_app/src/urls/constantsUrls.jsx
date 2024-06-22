@@ -13,6 +13,7 @@ export class Urls {
     static UPLOAD_CUSTOMER_LAB_REPORT = Urls.MPHRMS_API_PREFIX + 'patients/upload_customer_lab_report/';
     static APPLY_COUPONS = Urls.MPHRMS_API_PREFIX + 'patients/apply_coupons/';
     static PAYMENT_ORDER_GATEWAY = Urls.MPHRMS_API_PREFIX + 'patients/payment-order-fetch/';
+    static CANCEL_APPOINTMENT_PATIENT = Urls.MPHRMS_API_PREFIX + 'patients/cancel-appointment-patient/';
     static CONFIRM_PAYMENT = Urls.MPHRMS_API_PREFIX + 'patients/confirm-payment/';
 
 
