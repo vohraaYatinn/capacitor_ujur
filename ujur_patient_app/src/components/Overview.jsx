@@ -3,7 +3,7 @@ import { updateNavbar, userData } from '../redux/reducers/functionalities.reduce
 import { useDispatch, useSelector } from 'react-redux';
 import { Popup } from 'antd-mobile';
 import BackNavbar from './BackNavbar';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { couponApply, fetchBookingConfirmationPagePrice, fetchBookingConfirmationStatus, uploadCustomerLabReport, paymentOrder, confirmPayment } from '../urls/urls';
 import useAxios from '../network/useAxios';
 import Moment from 'moment';
@@ -18,7 +18,7 @@ const OverviewBooking = () => {
    const { bookingId } = useParams();
    const [doctorFees, setDoctorFees] = useState(false)
    const [bookingPrice, setBookingPrice] = useState(false)
-   const [paymentMode, setPaymentMode] = useState("PayOnline")
+   const [paymentMode, setPaymentMode] = useState("Online")
    const [afterBookingData, setAfterBookingData] = useState(false)
    const user = useSelector(userData)
    let [cancle, setCancle] = useState(false);
@@ -62,7 +62,7 @@ const OverviewBooking = () => {
       setCouponAdd("")
       setCancle(false)
       setReducesPrice(0)
-      setBookingPrice(doctorFees + 40)
+      setBookingPrice(doctorFees + 15)
    }
    else{
       couponFetch(couponApply({
@@ -75,11 +75,11 @@ useEffect(()=>{
    setCouponAdd("")
    setCancle(false)
    setReducesPrice(0)
-   if(paymentMode == "PayOnline" ){
-      setBookingPrice(doctorFees + 40)
+   if(paymentMode == "Online" ){
+      setBookingPrice(doctorFees + 15)
    }
-   else if(paymentMode == "payathospital"){
-      setBookingPrice(40)
+   else if(paymentMode == "Offline"){
+      setBookingPrice(15)
    }
 },[paymentMode])
 
@@ -119,12 +119,12 @@ useEffect(()=>{
          type:couponResponse?.percentage ? "success" : "error"
        });
        if(couponResponse?.percentage){
-         setPaymentMode("PayOnline")
+         setPaymentMode("Online")
 
          setCouponApplied(couponResponse?.percentage)
-         const discount = (couponResponse?.percentage / 100) * (doctorFees + 40);
+         const discount = (couponResponse?.percentage / 100) * (doctorFees + 15);
          setReducesPrice(discount)
-         const reducedPrice = (doctorFees + 40) - discount;
+         const reducedPrice = (doctorFees + 15) - discount;
          setBookingPrice(reducedPrice)
        }
        else{
@@ -137,7 +137,7 @@ useEffect(()=>{
    useEffect(() => {
       if (fetchFinalPriceResponse?.result == "success") {
          setDoctorFees(parseInt(fetchFinalPriceResponse?.price))
-         setBookingPrice(parseInt(fetchFinalPriceResponse?.price)+40)
+         setBookingPrice(parseInt(fetchFinalPriceResponse?.price)+15)
       // router.push(`/overview-booking/${fetchBookingResponse?.booking_id}`);
       }
    }, [fetchFinalPriceResponse]);
@@ -185,7 +185,7 @@ useEffect(()=>{
             </div>
          </div>
          <div className="offcanvas-footer">
-            <a href="/customer-profile" className="btn btn-info btn-lg w-100 rounded-4">Go to my account</a>
+            <Link to="/view-appointments" className="btn btn-info btn-lg w-100 rounded-4">Go to appointments</Link>
          </div>
             </Popup>
 <div className="overview d-flex flex-column vh-100">
@@ -226,12 +226,12 @@ useEffect(()=>{
                      
                      <div className="d-flex align-items-center justify-content-between text-muted mb-1">
                         <div>Consultation Fee (Inc. GST)</div>
-                        <div>Rs {doctorFees}/-</div>
+                        <div>Rs {doctorFees + doctorFees * 0.18} </div>
                      </div>
 
                      <div className="d-flex align-items-center justify-content-between text-muted">
                         <div>Booking Fee (Inc. GST)</div>
-                        <div>Rs 40.00</div>
+                        <div>Rs {15 + 15*0.18} </div>
                      </div>
                      {couponApplied &&
                      <div className="d-flex align-items-center justify-content-between text-muted">
@@ -241,7 +241,7 @@ useEffect(()=>{
                   </div>
                   <h6 className="d-flex align-items-center justify-content-between border-top pt-3 mb-0">
                      <div className="fw-normal">Total Payable</div>
-                     <div className="fw-bold">Rs {bookingPrice}/-</div>
+                     <div className="fw-bold">Rs {bookingPrice + bookingPrice*0.18}</div>
                   </h6>
                </div>
 
@@ -259,9 +259,9 @@ useEffect(()=>{
 
                      <div className="form-check">
                         <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" 
-                        checked={paymentMode=="PayOnline" && true}
+                        checked={paymentMode=="Online" && true}
                               onClick={()=>{
-                                 setPaymentMode("PayOnline")
+                                 setPaymentMode("Online")
                                 }}
                         /> 
                         <label className="form-check-label label-custom-boot" for="flexRadioDefault2"
@@ -272,16 +272,16 @@ useEffect(()=>{
                      </div>
                      <div className="form-check">
                         <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" 
-                                 checked={paymentMode=="payathospital" && true}
+                                 checked={paymentMode=="Offline" && true}
                                  onClick={()=>{
-                                    setPaymentMode("payathospital")
+                                    setPaymentMode("Offline")
                                    }}
                         />
                         <label className="form-check-label label-custom-boot" for="flexRadioDefault2">
                         Pay at Hospital
                         </label>
                         {
-                           paymentMode == "payathospital" &&   <p style={{
+                           paymentMode == "Offline" &&   <p style={{
                               color:"red"
                            }}>Amount {doctorFees}/- to be paid at hospital</p>
                         }
@@ -301,7 +301,7 @@ useEffect(()=>{
             } 
             
             className="btn btn-info btn-lg w-100 rounded-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
-               aria-controls="offcanvasBottom">Click Here to Pay</a>
+               aria-controls="offcanvasBottom">Book Now</a>
          </div>
       </div>
       <Modal

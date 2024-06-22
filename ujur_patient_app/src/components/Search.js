@@ -102,7 +102,7 @@ const Search = () => {
             </form>
          </div>
       </div>
-      <div className="vh-100 my-auto overflow-auto body-fix-osahan-footer">
+      {/* <div className="vh-100 my-auto overflow-auto body-fix-osahan-footer">
          <div className="py-3">
             <div>
             {searchedData?.length > 0 && <h6 className="mb-2 pb-1 px-3 fw-bold text-black">Search Result</h6>}
@@ -174,7 +174,7 @@ const Search = () => {
             </div>
          </div>
       
-      </div>
+      </div> */}
       <BottomNav path="search"/>
 
    </div>
