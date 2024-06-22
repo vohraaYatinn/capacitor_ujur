@@ -22,7 +22,6 @@ z-index: 9999999;
    transform-origin: left;
 }
 
-
 body {
    user-select: none; 
    -webkit-user-select: none; 
@@ -34,7 +33,6 @@ a {
    -webkit-user-drag: none;
    -moz-user-drag: none;
    -ms-user-drag: none;
-     user-drag: none;
-
-}
+   user-drag: none;
+ }
 
