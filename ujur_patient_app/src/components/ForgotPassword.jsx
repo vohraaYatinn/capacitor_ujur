@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const ForgotPassword = () => {
 	const [formValues, setFormValues] = useState({
 		email: "",
-		phone: "",
+		phone: "+91-",
 		dob: "",
 	});
 	const [errors, setErrors] = useState({});

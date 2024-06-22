@@ -9,6 +9,7 @@ import {districts} from '../demo/districts';
 import { Select } from 'antd';
 import { Alert } from "antd";
 import { DotLoading } from 'antd-mobile';
+import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
 
 const Signup = () => {
@@ -28,6 +29,8 @@ const Signup = () => {
     message: "",
     isShow: false,
   });
+  const [showCPass, setShowCPass] = useState(false);
+
   const handleUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -297,7 +300,7 @@ const Signup = () => {
             <span className="mdi mdi-lock mdi-18px text-muted" />
           </span>
           <input
-              type={showPassword ? "text" : "password"} // Conditional type based on state
+              type={showCPass ? "text" : "password"}// Conditional type based on state
               className="form-control bg-transparent rounded-0 border-0 px-0"
               placeholder="Type your password"
               aria-label="Type your password"
@@ -309,18 +312,38 @@ const Signup = () => {
                 }));
               }}
             />
+            <span onClick={() => setShowCPass(!showCPass)}>
+                            {showCPass ? (
+                                <IoEyeOutline
+                                    style={{
+                                        width: "2rem",
+                                        padding: "5px",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        height: "100%",
+                                    }}
+                                />
+                            ) : (
+                                <IoEyeOffOutline
+                                    style={{
+                                        width: "2rem",
+                                        padding: "5px",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        height: "100%",
+                                    }}
+                                />
+                            )}
+                        </span>
         </div>
         {
               errors.password && (<div className="text-danger text-start mt-1">{errors.password}</div>)
             }
-          <p
-              type=""
-              className="mt-1"
-              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
-              style={{ textDecoration: "none", textAlign: "end" }}
-            >
-              {showPassword ? "Hide" : "Show"}
-            </p>
+         
       </div>
       <div className="mb-3">
         <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
