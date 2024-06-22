@@ -18,22 +18,6 @@ const Search = () => {
 
     ])
     const [department, setDepartment] = useState([
-      {
-         name:"Emergency Department",
-         batch:"department"
-      },
-      {
-         name:"Neurology Department",
-         batch:"department"
-      },
-      {
-         name:"Oncology Department",
-         batch:"department"
-      },
-      {
-         name:"Obstetrics and Gynecology",
-         batch:"department"
-      },
     ])
     
     const [formValues, setFormValues] = useState({
@@ -102,7 +86,7 @@ const Search = () => {
             </form>
          </div>
       </div>
-      {/* <div className="vh-100 my-auto overflow-auto body-fix-osahan-footer">
+      <div className="vh-100 my-auto overflow-auto body-fix-osahan-footer">
          <div className="py-3">
             <div>
             {searchedData?.length > 0 && <h6 className="mb-2 pb-1 px-3 fw-bold text-black">Search Result</h6>}
@@ -136,7 +120,6 @@ const Search = () => {
 
                <div className='pb-1 px-3 mt-4'>
                  <h3> No Result Found </h3>
-                  <p>Suggestions:</p>
                   </div>
                   
                   }
@@ -174,7 +157,7 @@ const Search = () => {
             </div>
          </div>
       
-      </div> */}
+      </div>
       <BottomNav path="search"/>
 
    </div>

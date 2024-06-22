@@ -35,9 +35,9 @@ const ForgotPassword = () => {
 						Forgot Password
 					</h2>
 					<p className="text-muted mb-0">
-						Welcome Back, You've
+						Please enter the details
 						<br />
-						been missed!
+						of your account
 					</p>
 				</div>
 			</div>

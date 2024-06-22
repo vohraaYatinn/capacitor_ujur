@@ -182,7 +182,7 @@ const Signup = () => {
       </div>
 
 <div className='row'>
-    <div className="mb-3 mt-3 col-6">
+    <div className=" mt-3 col-6">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
           First Name
         </label>

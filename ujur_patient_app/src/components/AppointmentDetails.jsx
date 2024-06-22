@@ -183,7 +183,7 @@ const AppointmentDetails = () => {
                      <div class="d-flex justify-content-end">
 
                      </div>
-                     <span class={`badge  ${appointmentDetails?.status == " bg-success-subtle pending" ?"text-success":"bg-danger-subtle text-danger"} fw-normal rounded-pill px-2`}>
+                     <span class={`badge  ${appointmentDetails?.status == "pending" ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger" } fw-normal rounded-pill px-2`}>
                      {appointmentDetails?.status == "pending" ? "PENDING" : appointmentDetails?.status == "cancel" ? "CANCELLED" : ""}
                         
                         
@@ -245,16 +245,13 @@ onClick={()=>{
 
   
 >Cancel Booking</Button>
-                 <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
-onClick={()=>{
-  cancelAppointment()
-}}
->Download Invoice</Button>
+
 </div> 
 
                  </>
                  
                  :
+                 appointmentDetails?.status != "cancel" &&
                  <div class="bg-white mt-1 p-3">
 
                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
@@ -263,6 +260,11 @@ onClick={()=>{
                   setCancle(!cancle)
                  }}
                  >Upload Lab Report</Button>
+                                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
+onClick={()=>{
+  cancelAppointment()
+}}
+>Download Invoice</Button>
                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                  
@@ -275,6 +277,7 @@ onClick={()=>{
                     router.push("/write-reviews-hospital/"+appointmentId)
                  }}
                  >Add Hospital Review</Button>
+{appointmentDetails?.payment_status == "Paid" &&
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                   setPercentageIsError(false)
@@ -290,7 +293,9 @@ onClick={()=>{
                   },1050)
                  }}
                  >Download Prescription</Button>
+}
                  </div> 
+                
                }
          
     
@@ -344,7 +349,24 @@ onClick={()=>{
             </div>
           
         </Modal>
-                            
+                  { appointmentDetails?.status == "cancel" &&          
+               <div class="bg-white rounded-4 border p-3 mb-2">
+                  <p class="mb-2 fs-14 fw-bold text-black">Appointment Status             <span class={`badge  ${appointmentDetails?.status == "pending" ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger" } fw-normal rounded-pill px-2`}>
+                     {appointmentDetails?.status == "pending" ? "PENDING" : appointmentDetails?.status == "cancel" ? "CANCELLED" : ""}
+                        
+                        
+                        </span></p>
+                  <div class="d-flex align-items-center gap-4">
+                     <div>
+                        <p class="mb-1">Reson</p>
+                     </div>
+                     <div>
+                        
+                        <p class="mb-1">: {appointmentDetails?.cancel_reason}</p>
+                     </div>
+                  </div>
+               </div>
+               }
                <div class="bg-white rounded-4 border p-3 mb-2">
                   <p class="mb-2 fs-14 fw-bold text-black">Visit Time</p>
                   <div class="d-flex align-items-center gap-4">

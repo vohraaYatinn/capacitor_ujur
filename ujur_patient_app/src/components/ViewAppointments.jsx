@@ -9,9 +9,21 @@ import useAxios from '../network/useAxios';
 import moment from 'moment';
 import { test_url_images } from '../config/environment';
 import { FaLocationDot } from 'react-icons/fa6';
+import { App as CapacitorApp } from '@capacitor/app';
+
 
 const ViewAppointments = () => {
    const router = useRouter();
+
+   useEffect(()=>{
+      CapacitorApp.addListener('backButton', ({canGoBack}) => {
+         if(!canGoBack){
+           CapacitorApp.exitApp();
+         } else {
+            router.push("/home")
+         }
+         });
+   },[])
    const dispatch = useDispatch();
    const [addNav, setAddNAv] = useState(0)
    const [appointments, setAppointment] = useState([])
@@ -27,6 +39,10 @@ const ViewAppointments = () => {
    }
    else if(addNav == 1){
       appointmentType = "completed"
+
+   }
+   else if(addNav == 2){
+      appointmentType = "cancelled"
 
    }
    fetchAppointmentFetch(fetchAppointments({patientId:1, appointmentType:appointmentType}));
@@ -81,6 +97,16 @@ const ViewAppointments = () => {
                      data-bs-target="#pills-past" type="button" role="tab" aria-controls="pills-past"
                      aria-selected="false">Completed</button>
                </li>
+               <li class="nav-item col" role="presentation">
+               <button class={`nav-link w-100 ${addNav == 2 && "active"}`}
+               onClick={()=>{
+                  setAddNAv(2)
+
+               }}
+               id="pills-past-tab" data-bs-toggle="pill"
+                     data-bs-target="#pills-past" type="button" role="tab" aria-controls="pills-past"
+                     aria-selected="false">Cancelled</button>
+               </li>
             </ul>
             <div class="tab-content" id="pills-tabContent">
                <div class="tab-pane fade show active" id="pills-upcoming" role="tabpanel"
@@ -103,6 +129,10 @@ const ViewAppointments = () => {
                                  </div>
                                 {addNav==0 &&
                                                                  <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">UPCOMING</span>
+
+                                }
+                                {addNav==2 &&
+                                                                 <span class="badge bg-danger-subtle text-danger fw-normal rounded-pill px-2">CANCELLED</span>
 
                                 }
                               </div>
