@@ -14,6 +14,7 @@ export class Urls {
     static APPLY_COUPONS = Urls.MPHRMS_API_PREFIX + 'patients/apply_coupons/';
     static PAYMENT_ORDER_GATEWAY = Urls.MPHRMS_API_PREFIX + 'patients/payment-order-fetch/';
     static CANCEL_APPOINTMENT_PATIENT = Urls.MPHRMS_API_PREFIX + 'patients/cancel-appointment-patient/';
+    static FORGOT_PASSWORD_ACCOUNT_GET = Urls.MPHRMS_API_PREFIX + 'patients/forgot-password-account-get/';
     static CONFIRM_PAYMENT = Urls.MPHRMS_API_PREFIX + 'patients/confirm-payment/';
 
 

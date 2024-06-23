@@ -60,8 +60,6 @@ const Signup = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if(!values.email){
       errors.email = "Email is required";
-    }else{
-      errors.email = "Invalid email format"
     }
     if(!values.firstName){
       errors.firstName = "First name is required"
