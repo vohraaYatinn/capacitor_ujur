@@ -115,3 +115,6 @@ export const paymentOrder = (payload_data) => {
 export const cancelAppointmentPatient = (payload_data) => {
   return project.post(Urls.CANCEL_APPOINTMENT_PATIENT, payload_data);
 };
+export const forgotPasswordGetAccount = (payload_data) => {
+  return project.get(Urls.FORGOT_PASSWORD_ACCOUNT_GET, payload_data);
+};

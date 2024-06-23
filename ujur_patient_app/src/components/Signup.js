@@ -63,8 +63,6 @@ const Signup = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if(!values.email){
       errors.email = "Email is required";
-    }else{
-      errors.email = "Invalid email format"
     }
     if(!values.firstName){
       errors.firstName = "First name is required"
@@ -185,7 +183,7 @@ const Signup = () => {
       </div>
 
 <div className='row'>
-    <div className="mb-3 mt-3 col-6">
+    <div className=" mt-3 col-6">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
           First Name
         </label>
