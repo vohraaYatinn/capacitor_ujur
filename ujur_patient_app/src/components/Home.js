@@ -11,8 +11,8 @@ import user from "../img/home/user.png";
 import { Card, Modal, Select, Skeleton } from 'antd';
 import {districts} from '../demo/districts';
 import { Link, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateNavbar, updateToken, updateUser } from "../redux/reducers/functionalities.reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { updateNavbar, updateToken, updateUser, userData } from "../redux/reducers/functionalities.reducer";
 import BottomNav from "./BottomNav";
 import useAxios from "../network/useAxios";
 import {
@@ -32,6 +32,8 @@ import user99 from "../img/home/user.png"
 
 const Home = () => {
   const router = useRouter();
+  const userDispatch = useSelector(userData);
+
   const [doctorsData, setDoctorsData] = useState([]);
   const [hospitalDetails, setHospitalDetails] = useState([]);
   const [latestAppointment, setLastestAppointment] = useState([]);
@@ -322,7 +324,7 @@ const Home = () => {
           <div className="d-flex align-items-center gap-2 me-auto">
             <a>
               <img
-                src={user?.profile_picture ? test_url_images + user?.profile_picture : user99}
+                src={userDispatch?.profile_picture ? test_url_images + userDispatch?.profile_picture : user99}
                 onClick={()=>setSelectPatientModalOpen(true)}
                 alt=""
                 className="img-fluid rounded-circle icon"
@@ -386,6 +388,7 @@ const Home = () => {
         </div>
 
         <div className="px-3 pb-3">
+          
           <form>
             <div className="input-group rounded-4 shadow py-1 px-3 bg-light">
               <span
@@ -741,17 +744,22 @@ const Home = () => {
                   {/* <div class="bg-info-subtle rounded-circle icon mb-3">
                   </div> */}
                 </div>
-                {latestAppointment?.status == "pending" && (
+                {latestAppointment?.status == "pending" ? (
                   <>
                   <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2 mb-2">
                     UPCOMING
-                  </span>
+                  </span>:
                   <p style={{
                     fontWeight:800,
                     fontSize:"0.9rem"
                   }}>Token No. {latestAppointment?.appointment_slot}</p>
                   </>
-                )}
+                ) : latestAppointment?.status == "cancel" ?
+                <span class="badge bg-danger-subtle text-danger fw-normal rounded-pill px-2 mb-2">
+                CANCELLED
+              </span>:""
+              
+              }
               </div>
             </div>
           </Link>
@@ -759,7 +767,20 @@ const Home = () => {
       </div>
 
       <div className="mb-3">
+        <div style={{
+          display:"flex",
+          alignItems:"center",
+          justifyContent:"space-between"
+        }}>
         <h6 className="mb-2 pb-1 fw-bold px-3 text-black">Top Hospitals</h6>
+        <p className="px-3" 
+          onClick={()=>{
+            router.push(`/all-hospital-fetch`);
+          }}
+        style={{
+          color:"blue"
+        }}>{"View All >"}</p>
+        </div>
         <Swiper
           slideSize={90}
           trackOffset={15}
@@ -771,7 +792,20 @@ const Home = () => {
         </Swiper>
       </div>
       <div className="p-3">
-        <h6 className="mb-2 pb-2 fw-bold text-black">Available Doctor</h6>
+        <div style={{
+      display:"flex",
+          alignItems:"center",
+          justifyContent:"space-between"
+        }}>
+        <h6 className="mb-2 pb-1 fw-bold text-black">Available Doctor</h6>
+        <p className="px-3" 
+        onClick={()=>{
+          router.push(`/all-doctors-fetch`);
+        }}
+        style={{
+          color:"blue"
+        }}>{"View All >"}</p>
+        </div>
         <div className="row row-cols-2 g-3" style={{marginBottom:"6rem"}}>
         {doctorsLoading ?
         <>

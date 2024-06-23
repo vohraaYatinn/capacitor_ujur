@@ -87,6 +87,12 @@ export const searchPatientFeature = (payload_data) => {
 export const confirmPayment = (payload_data) => {
   return project.post(Urls.CONFIRM_PAYMENT, payload_data);
 };
+export const getAllDoctor = (payload_data) => {
+  return project.get(Urls.GET_ALL_DOCTOR, payload_data);
+};
+export const getAllHospital = (payload_data) => {
+  return project.get(Urls.GET_ALL_HOSPITAL, payload_data);
+};
 
 
 //hospital
@@ -117,4 +123,7 @@ export const cancelAppointmentPatient = (payload_data) => {
 };
 export const forgotPasswordGetAccount = (payload_data) => {
   return project.get(Urls.FORGOT_PASSWORD_ACCOUNT_GET, payload_data);
+};
+export const changePassword = (payload_data) => {
+  return project.post(Urls.CHANGE_PASSWORD, payload_data);
 };

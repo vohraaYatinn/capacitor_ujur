@@ -6,11 +6,13 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../redux/reducers/functionalities.reducer';
 import {districts} from '../demo/districts';
-import { Select } from 'antd';
+import { Button, Select } from 'antd';
 import { Alert } from "antd";
 import { DotLoading } from 'antd-mobile';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
-
+import { Upload } from 'antd';
+import ImgCrop from 'antd-img-crop';
+import { UploadOutlined } from '@ant-design/icons';
 
 const Signup = () => {
 //Constants & additionals
@@ -20,7 +22,26 @@ const Signup = () => {
   const [isUploaded, setIsUploaded] = useState(false);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+
+    const handleUpload = (info) => {
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    };
   
+    const customRequest = ({ file, onSuccess, onError }) => {
+      // const formData = new FormData();
+      // formData.append('image', file);
+      setFormValues((prev) => ({
+        ...prev,
+        document: file,
+      }));
+      onSuccess("ok");
+    };
+
+
   //useAxios
   const [signUpResponse, signUpError, signUpLoading, signUpFetch] = useAxios();
 
@@ -31,17 +52,17 @@ const Signup = () => {
   });
   const [showCPass, setShowCPass] = useState(false);
 
-  const handleUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Selected file:", file);
-      setFormValues((prev) => ({
-        ...prev,
-        document: file,
-      }));
-      setIsUploaded(true);
-    }
-  };
+  // const handleUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     console.log("Selected file:", file);
+  //     setFormValues((prev) => ({
+  //       ...prev,
+  //       document: file,
+  //     }));
+  //     setIsUploaded(true);
+  //   }
+  // };
   const [formValues, setFormValues] = useState({
     phoneNumber:"+91-",
     fullName:"",
@@ -156,14 +177,17 @@ const Signup = () => {
             />
           )}
     <form>
-    <div className="mb-3 mt-3">
+    <div className="mt-3">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
           Profile Photo
         </label>
         <div
           className="input-group border bg-white rounded-3 py-1"
           id="exampleFormControlName"
-          
+          style={{
+            alignItems: "center",
+            display: "flex"
+          }}
         >
           <span
             className="input-group-text bg-transparent rounded-0 border-0"
@@ -171,13 +195,19 @@ const Signup = () => {
           >
             <span className="mdi mdi-account-circle-outline mdi-18px text-muted" />
           </span>
-          <input type="file" class="form-control bg-transparent rounded-0 border-0 px-0"
-                     placeholder="Type your first name" aria-label="Type your first name" accept="image/jpeg, image/png" aria-describedby="firstname"
-                    onChange={
-                      handleUpload
-                    }
-                    
-                    />
+          <ImgCrop>
+          <Upload
+          
+      customRequest={customRequest}
+      multiple={false}
+    >
+      <Button style={{
+        background:"transparent",
+        border:"0px solid"
+      }} icon={<UploadOutlined />}>Click to Upload</Button>
+    </Upload>  </ImgCrop>
+
+          
         </div>
         <small className="text-muted">Accepted formats: JPEG, PNG</small>
       </div>

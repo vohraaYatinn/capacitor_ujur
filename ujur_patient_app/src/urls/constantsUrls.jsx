@@ -16,11 +16,15 @@ export class Urls {
     static CANCEL_APPOINTMENT_PATIENT = Urls.MPHRMS_API_PREFIX + 'patients/cancel-appointment-patient/';
     static FORGOT_PASSWORD_ACCOUNT_GET = Urls.MPHRMS_API_PREFIX + 'patients/forgot-password-account-get/';
     static CONFIRM_PAYMENT = Urls.MPHRMS_API_PREFIX + 'patients/confirm-payment/';
+    static CHANGE_PASSWORD = Urls.MPHRMS_API_PREFIX + 'patients/change-password/';
 
 
     //patients
     static PATIENT_LATEST_APPOINTMENTS = Urls.MPHRMS_API_PREFIX + 'doctors/fetch_latest_appointment/';
     static APPOINTMENT_DETAILS = Urls.MPHRMS_API_PREFIX + 'doctors/fetch_appointment_details/';
+    static GET_ALL_DOCTOR = Urls.MPHRMS_API_PREFIX + 'doctors/get-all-doctor-patient/';
+    static GET_ALL_HOSPITAL = Urls.MPHRMS_API_PREFIX + 'doctors/get-all-hospital-patient/';
+
     static FETCH_FAV_DOCTOR = Urls.MPHRMS_API_PREFIX + 'doctors/fav-doctor/';
     static FETCH_APPOINTMENTS_PATIENTS = Urls.MPHRMS_API_PREFIX + 'doctors/fetch_appointments_patients/';
     static GET_PERSONAL_PROFILE = Urls.MPHRMS_API_PREFIX + 'patients/fetch-personal-info-patients/';

@@ -1,15 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAxios from "../network/useAxios";
+import { forgotPasswordGetAccount } from "../urls/urls";
+import { Alert } from "antd";
 
 const ForgotPassword = () => {
+	const [forgotPassAccountGetResponse, forgotPassAccountGetError, forgotPassAccountGetLoading, forgotPassAccountGetFetch] = useAxios();
+	const forgotPassAccountGetFun = (e) => {
+		e.preventDefault();
+		const errors = validate(formValues);
+		if (Object.keys(errors).length !== 0) {
+			setErrors(errors);
+		} else {
+			setErrors({});
+		forgotPassAccountGetFetch(forgotPasswordGetAccount(formValues));
+			
+	}}
 	const [formValues, setFormValues] = useState({
 		email: "",
 		phone: "+91-",
 		dob: "",
 	});
+	const [message, setMessage] = useState({
+		message: "",
+		isShow: false,
+	  });
 	const [errors, setErrors] = useState({});
 	const navigate = useNavigate();
-
+	useEffect(() => {
+		if (forgotPassAccountGetError) {
+		  setMessage({
+			message: forgotPassAccountGetError?.response?.data?.message,
+			isShow: true,
+		  });
+		}
+	  }, [forgotPassAccountGetError]);
+	useEffect(() => {
+		if (forgotPassAccountGetResponse && forgotPassAccountGetResponse?.result == "success") {
+			navigate("/change-password/" + forgotPassAccountGetResponse?.user);
+		}
+	  }, [forgotPassAccountGetResponse]);
+	
 	const validate = (values) => {
 		const errors = {};
 		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -65,7 +96,21 @@ const ForgotPassword = () => {
 					</p>
 				</div>
 			</div>
-			<form>
+			{message.isShow && (
+            <Alert
+              style={{ marginBottom: "1rem" }}
+              message={message?.message}
+              type="error"
+              showIcon
+              closable
+              onClose={() => {
+                setMessage({
+                  message: "",
+                  isShow: false,
+                });
+              }}
+            />
+          )}
 				<div className="mb-3">
 					<label
 						htmlFor="exampleFormControlEmail"
@@ -171,11 +216,10 @@ const ForgotPassword = () => {
             }
 				</div>
 				<button
-					onClick={handleClick}
-					className="btn btn-info btn-lg w-100 rounded-4 mb-2">
+					onClick={forgotPassAccountGetFun}
+					className="btn btn-info btn-lg w-100 rounded-4 mb-2 mt-4">
 					Continue
 				</button>
-			</form>
 		</div>
 	);
 };

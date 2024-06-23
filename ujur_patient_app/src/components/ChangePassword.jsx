@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import useAxios from "../network/useAxios";
+import { changePassword, forgotPasswordGetAccount } from "../urls/urls";
+import { useRouter } from "../hooks/use-router";
+import { Popup } from "antd-mobile";
 
 const ForgotPassword = () => {
+    const [changePasswordResponse, changePasswordError, changePasswordLoading, changePasswordFetch] = useAxios();
+    const router = useRouter();
+
     const [showPass, setShowPass] = useState(false);
     const [showCPass, setShowCPass] = useState(false);
+    const { userId } = useParams();
+    const [visible1, setVisible1] = useState(false)
+	useEffect(() => {
+		if (changePasswordResponse && changePasswordResponse?.result == "success") {
+			setVisible1(true)
+		}
+	  }, [changePasswordResponse]);
     const [formValues, setFormValues] = useState({
         password: "",
         confirmPassword: "",
+        userId:userId
     });
     const [passwordError, setPasswordError] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -41,7 +56,7 @@ const ForgotPassword = () => {
         }
 
         if (isValid) {
-            console.log("Password changed successfully!");
+            changePasswordFetch(changePassword(formValues));
             // navigate to another page if needed
         }
     };
@@ -196,6 +211,28 @@ const ForgotPassword = () => {
                         <div className="text-danger mb-3">{confirmPasswordError}</div>
                     )}
                 </div>
+                <Popup
+              visible={visible1}
+              onMaskClick={() => {
+               router.push(`/login-phone`)              }}
+              onClose={() => {
+               router.push(`/login-phone`)
+            }}
+              bodyStyle={{  paddingBottom: '50px'}}
+            >
+         <div className="offcanvas-body text-center d-flex align-items-center justify-content-center p-4">
+            <div>
+               <i className="bi bi-hand-thumbs-up text-primary display-1"></i>
+               <h5 className="py-3">Your Password has been changed successfully</h5>
+               <p className="text-muted fs-6" style={{
+                marginBottom:"0rem"
+               }}>Please Sign in with the new password</p>
+            </div>
+         </div>
+         <div className="offcanvas-footer">
+            <Link to="/view-appointments" className="btn btn-info btn-lg w-100 rounded-4">Login</Link>
+         </div>
+            </Popup>
                 <button
                     onClick={handleClick}
                     className="btn btn-info btn-lg w-100 rounded-4 mb-2"

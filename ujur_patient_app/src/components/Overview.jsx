@@ -283,7 +283,7 @@ useEffect(()=>{
                         {
                            paymentMode == "Offline" &&   <p style={{
                               color:"red"
-                           }}>Amount {doctorFees}/- to be paid at hospital</p>
+                           }}>Amount {doctorFees + doctorFees*0.18}/- to be paid at hospital</p>
                         }
                       
                      </div>

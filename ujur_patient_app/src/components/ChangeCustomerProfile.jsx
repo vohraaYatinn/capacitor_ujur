@@ -6,10 +6,13 @@ import { updateNavbar } from '../redux/reducers/functionalities.reducer';
 import useAxios from '../network/useAxios';
 import { changeProfileValues, fetchprofiles } from '../urls/urls';
 import {districts} from '../demo/districts';
-import { Select } from 'antd';
+import { Button, Select } from 'antd';
 import { Alert } from "antd";
 import { DotLoading } from "antd-mobile";
-
+import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
+import { Upload } from 'antd';
+import ImgCrop from 'antd-img-crop';
+import { UploadOutlined } from '@ant-design/icons';
 
 const ChangeCustomerProfile = () => {
   const dispatch = useDispatch();
@@ -74,17 +77,17 @@ const ChangeCustomerProfile = () => {
    EditprofileFetch(changeProfileValues(profileDataToChange))
 
   }
-  const handleUpload = (e) => {
-   const file = e.target.files[0];
-   if (file) {
-     console.log("Selected file:", file);
-     setProfileDataToChange((prev) => ({
-       ...prev,
-       document: file,
-     }));
-     setIsUploaded(true);
-   }
- };
+//   const handleUpload = (e) => {
+//    const file = e.target.files[0];
+//    if (file) {
+//      console.log("Selected file:", file);
+//      setProfileDataToChange((prev) => ({
+//        ...prev,
+//        document: file,
+//      }));
+//      setIsUploaded(true);
+//    }
+//  };
   // Function to set date from string
   const setDateFromString = (dateString) => {
     const [year, month, day] = dateString.split('-');
@@ -132,6 +135,17 @@ const ChangeCustomerProfile = () => {
     }
   }, [EditprofileError]);
 
+
+  const customRequest = ({ file, onSuccess, onError }) => {
+    // const formData = new FormData();
+    // formData.append('image', file);
+    setProfileDataToChange((prev) => ({
+      ...prev,
+      document: file,
+    }));
+    onSuccess("ok");
+  };
+
   return (
 <>
 <div class="d-flex align-items-center justify-content-between mb-auto p-3 bg-white shadow-sm osahan-header">
@@ -163,17 +177,20 @@ const ChangeCustomerProfile = () => {
               }}
             />
           )}
-            <div class="mb-3">
-               <label for="exampleFormControlName" class="form-label mb-1 label-custom-boot">Image</label>
+            <div class="">
+               <label for="exampleFormControlName" class="form-label mb-1 label-custom-boot">Profile Photo</label>
                <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlName">
-                  <span class="input-group-text bg-transparent rounded-0 border-0" id="firstname">
-                     <span class="mdi mdi-account-outline mdi-18px"></span>
-                  </span>
-                  <input type="file" class="form-control bg-transparent rounded-0 border-0 px-0"
-                     placeholder="Type your first name" aria-label="Type your first name" aria-describedby="firstname"
-
-                           onChange={handleUpload}
-                     />
+                  <ImgCrop>
+          <Upload
+          
+      customRequest={customRequest}
+      multiple={false}
+    >
+      <Button style={{
+        background:"transparent",
+        border:"0px solid"
+      }} icon={<UploadOutlined />}>Click to Upload</Button>
+    </Upload>  </ImgCrop>
                </div>
             </div>
             <div className='row'>

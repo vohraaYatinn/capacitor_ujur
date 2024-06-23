@@ -30,6 +30,8 @@ import { Plugins, Directory, Encoding } from '@capacitor/core';
 import {  FilesystemDirectory, FilesystemEncoding} from '@capacitor/filesystem';
 import ForgotPassword from './components/ForgotPassword';
 import ChangePassword from './components/ChangePassword';
+import AllDoctorsFetch from './components/AllDoctorsFetch';
+import AllHospitalFetchComponent from './components/AllHospitalFetch';
 
 const { Permissions, Filesystem } = Plugins;
 
@@ -93,8 +95,10 @@ function App() {
         <Route path="/write-reviews-hospital/:appointmentId" element={<WriteReviewHospital />} />
         <Route path="/sign-up/" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/change-password/:userId" element={<ChangePassword />} />
         <Route path="/hospital-overview/:hospitalId" element={<HospitalOverview />} />
+        <Route path="/all-doctors-fetch" element={<AllDoctorsFetch />} />
+        <Route path="/all-hospital-fetch" element={<AllHospitalFetchComponent />} />
       </Routes>
       </AnimatePresence>
     </BrowserRouter>

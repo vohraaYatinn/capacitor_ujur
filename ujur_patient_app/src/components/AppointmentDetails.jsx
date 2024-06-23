@@ -4,7 +4,7 @@ import BackNavbar from './BackNavbar';
 import BottomNav from './BottomNav';
 import { Link, useParams } from 'react-router-dom';
 import { FaLocationDot, FaUpload } from "react-icons/fa6";
-import { Button } from 'antd-mobile';
+import { Button, Popup } from 'antd-mobile';
 import useAxios from '../network/useAxios';
 import { fetchAppointmentDetails, uploadCustomerLabReport, cancelAppointmentPatient } from '../urls/urls';
 import moment from 'moment';
@@ -19,6 +19,8 @@ import "./styles/newcss.css"
 
 const AppointmentDetails = () => {
    const router = useRouter();
+   const [visible1, setVisible1] = useState(false)
+  const [cancelReason, setCancelReason] = useState("I am busy")
   let [cancle, setCancle] = useState(false);
   const [uploadLabReportResponse, uploadLabReportError, uploadLabReportLoading, uploadLabReportFetch] = useAxios();
   const [cancelBookingResponse, cancelBookingError, cancelBookingLoading, cancelBookingFetch] = useAxios();
@@ -39,11 +41,12 @@ const AppointmentDetails = () => {
       uploadLabReportFetch(uploadCustomerLabReport(formValues))
    }
    const cancelAppointment = () =>{
-    cancelBookingFetch(cancelAppointmentPatient(formValues))
+    cancelBookingFetch(cancelAppointmentPatient({...formValues, reason:cancelReason}))
    }
    const showModal = () => {
      setIsModalOpen(true);
    };
+   
    const handleUpload = (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -117,6 +120,7 @@ const AppointmentDetails = () => {
             isShow: true,
             type:"success"
           });
+          setVisible1(false)
           fetchLatestAppointment()
       }
     },[cancelBookingResponse])
@@ -240,8 +244,7 @@ const AppointmentDetails = () => {
 <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
 onClick={()=>{
 
-  cancelAppointment()
-  }}
+  setVisible1(true)  }}
 
   
 >Cancel Booking</Button>
@@ -309,6 +312,80 @@ onClick={()=>{
                             <p style={{textAlign:"center", marginTop:"-1rem"}}>{(!percentageIsError && percentageDownload == 100) && "The file has been saved to the Documents folder on your device."}</p> 
 
       </Modal>
+      <Popup
+              visible={visible1}
+              onMaskClick={() => {
+                setVisible1(false)
+                
+              }}
+              onClose={() => {
+                setVisible1(false)
+            }}
+              bodyStyle={{  paddingBottom: '50px'}}
+            >
+         <div className="offcanvas-body text-center d-flex align-items-center justify-content-center p-4">
+            <div>
+            <i className="bi bi-x-circle text-danger display-1"></i>
+            <h5 className="py-3">Please select the reason for canceling the booking</h5>
+            <div style={{
+              display:"flex",
+              alignItems:"center"
+            }}
+            onClick={()=>{
+              setCancelReason("I am busy")
+            }}
+            >
+              <input type='radio' checked={cancelReason == "I am busy"} onClick={()=>{
+                setCancelReason("I am busy")
+              }}/><label style={{marginLeft:"1rem"}}>I am busy </label>
+              </div>
+            <div 
+            onClick={()=>{
+              setCancelReason("Changed my mind")
+            }}
+            style={{
+              display:"flex",
+              alignItems:"center"
+            }}>
+              <input type='radio' name='Changed my mind' checked={cancelReason == "Changed my mind"} onClick={()=>{
+                setCancelReason("Changed my mind")
+              }}/><label style={{marginLeft:"1rem"}} for="Changed my mind">Changed my mind
+              </label>
+              </div>
+            <div style={{
+              display:"flex",
+              alignItems:"center"
+            }}
+            onClick={()=>{
+              setCancelReason("Visited another doctor")
+            }}
+            >
+              <input type='radio' checked={cancelReason == "Visited another doctor"} onClick={()=>{
+                setCancelReason("Visited another doctor")
+              }}/><label style={{marginLeft:"1rem"}}>Visited another doctor
+              </label>
+              </div>
+            <div style={{
+              display:"flex",
+              alignItems:"center"
+            }}
+            onClick={()=>{
+              setCancelReason("Doctor asked me to cancel")
+            }}
+            >
+              <input type='radio' checked={cancelReason == "Doctor asked me to cancel"} onClick={()=>{
+                setCancelReason("Doctor asked me to cancel")
+              }}/><label style={{marginLeft:"1rem"}}>Doctor asked me to cancel
+              </label>
+              </div>
+            </div>
+         </div>
+         <div className="offcanvas-footer">
+            <Link onClick={()=>{
+              cancelAppointment()
+            }} className="btn btn-info btn-lg w-100 rounded-4">Confirm cancellation</Link>
+         </div>
+            </Popup>
       <Modal
           open={cancle}
           okText="Upload"
@@ -358,7 +435,7 @@ onClick={()=>{
                         </span></p>
                   <div class="d-flex align-items-center gap-4">
                      <div>
-                        <p class="mb-1">Reson</p>
+                        <p class="mb-1">Reason</p>
                      </div>
                      <div>
                         
