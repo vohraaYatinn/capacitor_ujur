@@ -89,7 +89,7 @@ useEffect(()=>{
    };
    const confirmBooking = () => {
       if(paymentMode){
-      bookingConfirmationFetch(fetchBookingConfirmationStatus({bookingId:bookingId, paymentMode:paymentMode}))
+      bookingConfirmationFetch(fetchBookingConfirmationStatus({bookingId:bookingId, paymentMode:paymentMode, bookingAmount : bookingPrice + bookingPrice*0.18 }))
    }
    }
    const paymentOrderFunction = () => {
@@ -122,9 +122,9 @@ useEffect(()=>{
          setPaymentMode("Online")
 
          setCouponApplied(couponResponse?.percentage)
-         const discount = (couponResponse?.percentage / 100) * (doctorFees + 15);
+         const discount = (couponResponse?.percentage / 100) * (doctorFees);
          setReducesPrice(discount)
-         const reducedPrice = (doctorFees + 15) - discount;
+         const reducedPrice = (doctorFees - discount) + 15;
          setBookingPrice(reducedPrice)
        }
        else{
@@ -226,7 +226,7 @@ useEffect(()=>{
                      
                      <div className="d-flex align-items-center justify-content-between text-muted mb-1">
                         <div>Consultation Fee (Inc. GST)</div>
-                        <div>Rs {doctorFees + doctorFees * 0.18} </div>
+                        <div>Rs {(doctorFees + doctorFees * 0.18).toFixed(2)} </div>
                      </div>
 
                      <div className="d-flex align-items-center justify-content-between text-muted">
@@ -236,12 +236,12 @@ useEffect(()=>{
                      {couponApplied &&
                      <div className="d-flex align-items-center justify-content-between text-muted">
                         <div>Discount Applied</div>
-                        <div style={{color:"red"}}>- Rs {reducePrice}</div>
+                        <div style={{color:"red"}}>- Rs {reducePrice.toFixed(2)}</div>
                      </div>}
                   </div>
                   <h6 className="d-flex align-items-center justify-content-between border-top pt-3 mb-0">
                      <div className="fw-normal">Total Payable</div>
-                     <div className="fw-bold">Rs {bookingPrice + bookingPrice*0.18}</div>
+                     <div className="fw-bold">Rs {(bookingPrice + bookingPrice*0.18).toFixed(2)}</div>
                   </h6>
                </div>
 
