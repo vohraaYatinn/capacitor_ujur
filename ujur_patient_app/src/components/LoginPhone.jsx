@@ -128,7 +128,7 @@ const LoginPhone = () => {
             <input
               type="text"
               className="form-control bg-transparent rounded-0 border-0 px-0"
-              placeholder="Type your email / Id"
+              placeholder="Type your Phone / Id"
               aria-label="Type your email or phone number"
               aria-describedby="mail"
               onChange={(e) => {

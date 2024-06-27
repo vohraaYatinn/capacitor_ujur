@@ -16,10 +16,13 @@ import convertToPDF from '../utils/convertToPdf';
 import { Alert } from "antd";
 import PatientHistoryComponent from './PatientHistoryComponent';
 import "./styles/newcss.css"
+import InvoiceUjur from './InvoiceUjur';
 
 const AppointmentDetails = () => {
    const router = useRouter();
    const [visible1, setVisible1] = useState(false)
+   const [invoiceShow, setInvoiceShow] = useState(false)
+    
   const [cancelReason, setCancelReason] = useState("I am busy")
   let [cancle, setCancle] = useState(false);
   const [uploadLabReportResponse, uploadLabReportError, uploadLabReportLoading, uploadLabReportFetch] = useAxios();
@@ -46,6 +49,21 @@ const AppointmentDetails = () => {
    const showModal = () => {
      setIsModalOpen(true);
    };
+   const downloadInvoice = (html) => {
+    setSelectedDocument("Invoice")
+
+    console.log("ab")
+    setInvoiceShow(false)
+    setTimeout(()=>{
+      setPercentageIsError(false)
+      setPercentageDownload(0)
+      showModal()
+    },500)  
+
+    setTimeout(()=>{
+      convertToPDF(html, "invoice", setPercentageDownload, setPercentageIsError)
+    },1500)    
+   }
    
    const handleUpload = (e) => {
       const file = e.target.files[0];
@@ -80,7 +98,7 @@ const AppointmentDetails = () => {
       appointmentId:appointmentId
    });
    const [isUploaded, setIsUploaded] = useState(false);
-
+   const [selectedDocument, setSelectedDocument] = useState("Prescription")
    const handleOk = () => {
       convertToPDF(appointmentDetails?.pdf_content, "prescription")
      setIsModalOpen(false);
@@ -248,6 +266,11 @@ onClick={()=>{
 
   
 >Cancel Booking</Button>
+<Button style={{width:"100%", background:"#0d6efd", color:"white"}}
+onClick={()=>{
+  setInvoiceShow(true)
+}}
+>Download Invoice</Button>
 
 </div> 
 
@@ -265,7 +288,8 @@ onClick={()=>{
                  >Upload Lab Report</Button>
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
 onClick={()=>{
-  cancelAppointment()
+  setInvoiceShow(true)
+
 }}
 >Download Invoice</Button>
                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
@@ -283,6 +307,7 @@ onClick={()=>{
 {appointmentDetails?.payment_status == "Paid" &&
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
+                  setSelectedDocument("Prescription")
                   setPercentageIsError(false)
                   setPercentageDownload(0)
                   showModal()
@@ -308,7 +333,7 @@ onClick={()=>{
                           <div style={{width:"100%",display:"flex", alignItems:"center", justifyContent:"center"}}>
                             <Progress type="circle" percent={percentageDownload} size={100} status={percentageIsError && "exception"} style={{marginTop:"1rem"}} />
                             </div>  
-                            <p style={{textAlign:"center", marginTop:"1rem", fontSize:"1.1rem"}}>{percentageIsError ? "There is a error while downloading file" :percentageDownload == 100 && "Prescription has been downloaded successfully"}</p> 
+                            <p style={{textAlign:"center", marginTop:"1rem", fontSize:"1.1rem"}}>{percentageIsError ? "There is a error while downloading file" :percentageDownload == 100 && selectedDocument + " has been downloaded successfully"}</p> 
                             <p style={{textAlign:"center", marginTop:"-1rem"}}>{(!percentageIsError && percentageDownload == 100) && "The file has been saved to the Documents folder on your device."}</p> 
 
       </Modal>
@@ -495,6 +520,8 @@ onClick={()=>{
          </div>
 
          <BottomNav path="profile"/>
+         <InvoiceUjur show={invoiceShow} setShow={setInvoiceShow} downloadInvoice={downloadInvoice} appointmentDetails={appointmentDetails} />
+
       </div>
 </>  )
 }

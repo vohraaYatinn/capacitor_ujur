@@ -15,15 +15,6 @@ import { App as CapacitorApp } from '@capacitor/app';
 const ViewAppointments = () => {
    const router = useRouter();
 
-   useEffect(()=>{
-      CapacitorApp.addListener('backButton', ({canGoBack}) => {
-         if(!canGoBack){
-           CapacitorApp.exitApp();
-         } else {
-            router.push("/home")
-         }
-         });
-   },[])
    const dispatch = useDispatch();
    const [addNav, setAddNAv] = useState(0)
    const [appointments, setAppointment] = useState([])
@@ -86,6 +77,7 @@ const ViewAppointments = () => {
                   id="pills-upcoming-tab" data-bs-toggle="pill"
                      data-bs-target="#pills-upcoming" type="button" role="tab" aria-controls="pills-upcoming"
                      aria-selected="true">Upcoming</button>
+                     
                </li>
                <li class="nav-item col" role="presentation">
                <button class={`nav-link w-100 ${addNav == 1 && "active"}`}
@@ -128,7 +120,14 @@ const ViewAppointments = () => {
                                  <div class="d-flex justify-content-end">
                                  </div>
                                 {addNav==0 &&
+                                <>
                                                                  <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">UPCOMING</span>
+                                                                  <p style={{
+                    fontWeight:800,
+                    fontSize:"0.9rem",
+                    marginTop:"0.5rem"
+                  }}>Token No. {each?.appointment_slot}</p>
+                 </>
 
                                 }
                                 {addNav==2 &&

@@ -27,11 +27,19 @@ document.addEventListener('contextmenu', function(event) {
 // requestPermissions();
 
 CapacitorApp.addListener('backButton', ({canGoBack}) => {
-  if(!canGoBack){
+  const currentUrl = window.location.pathname;
+  console.log(currentUrl)
+  if (currentUrl === '/view-appointments') {
+    // Navigate to home page
+    console.log("sadsad")
+
+    window.location.href = '/home';
+  }
+  else if(!canGoBack){
     CapacitorApp.exitApp();
   } else {
     window.history.back();
-  }
+  } 
   });
 root.render(
   <Provider store={Store}>

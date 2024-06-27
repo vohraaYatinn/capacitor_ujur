@@ -93,7 +93,7 @@ useEffect(()=>{
    }
    }
    const paymentOrderFunction = () => {
-      paymentOrderFetch(paymentOrder({amount:bookingPrice}))
+      paymentOrderFetch(paymentOrder({amount:(bookingPrice + bookingPrice*0.18).toFixed(2)}))
    
    }
 
@@ -102,7 +102,7 @@ useEffect(()=>{
    },[])
    useEffect(()=>{
       if(data){
-         confirmPaymentFetch(confirmPayment({data:data}));
+         confirmPaymentFetch(confirmPayment({data:data, bookingId:bookingId}));
       }
    },[data])
      //useState

@@ -342,7 +342,7 @@ const Home = () => {
                 }}
               >
 {/* <option value=""> */}
-                  <p class="mb-0">Hi{" "}<span className="fw-bold">{profileData?.full_name && profileData?.full_name?.split(' ')[0].replace(/\b\w/g, char => char.toUpperCase())}</span></p>
+                  <p class="mb-0 fw-bold">Hi{" "}<span className="fw-bold">{profileData?.full_name && profileData?.full_name?.split(' ')[0].replace(/\b\w/g, char => char.toUpperCase())}</span></p>
                 {/* </option>
                 {extraPatientsData.map((data)=>{
                 return(

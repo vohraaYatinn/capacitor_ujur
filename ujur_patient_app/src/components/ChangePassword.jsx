@@ -230,7 +230,7 @@ const ForgotPassword = () => {
             </div>
          </div>
          <div className="offcanvas-footer">
-            <Link to="/view-appointments" className="btn btn-info btn-lg w-100 rounded-4">Login</Link>
+            <Link to="/login-phone" className="btn btn-info btn-lg w-100 rounded-4">Login</Link>
          </div>
             </Popup>
                 <button
