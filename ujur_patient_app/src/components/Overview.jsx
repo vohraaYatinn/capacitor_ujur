@@ -79,7 +79,7 @@ useEffect(()=>{
       setBookingPrice(doctorFees + 15)
    }
    else if(paymentMode == "Offline"){
-      setBookingPrice(15)
+      setBookingPrice(doctorFees + 15)
    }
 },[paymentMode])
 
@@ -278,12 +278,12 @@ useEffect(()=>{
                                    }}
                         />
                         <label className="form-check-label label-custom-boot" for="flexRadioDefault2">
-                        Pay at Hospital
+                        Pay Offline
                         </label>
                         {
                            paymentMode == "Offline" &&   <p style={{
                               color:"red"
-                           }}>Amount {doctorFees + doctorFees*0.18}/- to be paid at hospital</p>
+                           }}>Amount to be paid at hospital</p>
                         }
                       
                      </div>
@@ -295,9 +295,15 @@ useEffect(()=>{
      
             <PaymentComponent orderDetails={orderDetails} payButtonRef={payButtonRef} setData={setData}/>
             <a 
-            onClick={()=>
-               // confirmBooking()
-               paymentOrderFunction()
+            onClick={()=>{
+               if(paymentMode == "Online"){
+                  paymentOrderFunction()
+
+               }
+               else{
+                  confirmBooking()
+               }
+            }
             } 
             
             className="btn btn-info btn-lg w-100 rounded-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
