@@ -119,7 +119,6 @@ useEffect(()=>{
          type:couponResponse?.percentage ? "success" : "error"
        });
        if(couponResponse?.percentage){
-         setPaymentMode("Online")
 
          setCouponApplied(couponResponse?.percentage)
          const discount = (couponResponse?.percentage / 100) * (doctorFees);

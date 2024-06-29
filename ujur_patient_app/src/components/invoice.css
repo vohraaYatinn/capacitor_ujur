@@ -24,9 +24,14 @@ body {
     border-top: none !important;
 }
 #invoice-container {
+    font-size: 0.6rem;
     position: relative;
     overflow: hidden; /* Ensure content stays within the container */
     z-index: 0;
+  }
+  #invoice-container h1, h3,h2,h5{
+    font-size: 0.9rem;
+
   }
   
   .watermark {
