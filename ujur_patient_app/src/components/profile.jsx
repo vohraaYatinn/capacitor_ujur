@@ -176,7 +176,7 @@ const CustomerProfile = () => {
             <div class="bg-white rounded-4 px-3 pt-3 overflow-hidden edit-profile-back shadow mb-3">
               <h6 class="pb-2">Personal Info</h6>
               <div style={{display:"flex", alignItems:"center", justifyContent:"center", width:"100%", marginBottom:"2rem"}}>
-             { profileData.profile_picture && <Image
+             { profileData.profile_picture && <img
     src={  test_url_images + profileData.profile_picture}
     style={{border:"1px solid transparent", borderRadius:"100px", height:"10rem", width:"10rem"}}
   /> }

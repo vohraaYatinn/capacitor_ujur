@@ -143,6 +143,8 @@ const AllHospitalFetchComponent = () => {
  
               
                </div>
+               {doctors.length == (20*showAllNumber) &&
+
                <div onClick={()=>{
                 setShowNumber(showAllNumber+1)
                }}> 
@@ -154,6 +156,7 @@ const AllHospitalFetchComponent = () => {
                   marginTop:"1rem"
                 }}>Load More</p>
                 </div>
+}
           </div>
           
           {/* review */}

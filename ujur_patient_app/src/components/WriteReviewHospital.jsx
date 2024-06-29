@@ -109,8 +109,8 @@ const WriteReviewHospital = () => {
             </div>
             <div>
                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <h6 class="m-0 fs-14">Write a comment</h6>
-                  <p class="m-0 text-info">Max 250 word</p>
+               <h6 class="m-0 fs-14">Write a comment (optional)</h6>
+               <p class="m-0 text-info">Max 250 word</p>
                </div>
                <form>
                   <textarea class="form-control text-muted p-3 fs-14" name="" id="" cols="30" rows="5" placeholder='Enter your text here...'

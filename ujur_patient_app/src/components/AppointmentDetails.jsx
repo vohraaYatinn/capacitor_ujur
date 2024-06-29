@@ -259,18 +259,19 @@ const AppointmentDetails = () => {
                  </div>
                  <div class="mt-1 p-3">
 
+
 <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
+onClick={()=>{
+  setInvoiceShow(true)
+}}
+>Download Invoice</Button>
+<Button style={{width:"100%", background:"#0d6efd", color:"white", backgroundColor:"red"}}
 onClick={()=>{
 
   setVisible1(true)  }}
 
   
 >Cancel Booking</Button>
-<Button style={{width:"100%", background:"#0d6efd", color:"white"}}
-onClick={()=>{
-  setInvoiceShow(true)
-}}
->Download Invoice</Button>
 
 </div> 
 
@@ -278,33 +279,36 @@ onClick={()=>{
                  
                  :
                  appointmentDetails?.status != "cancel" &&
+                 
                  <div class="bg-white mt-1 p-3">
+<Button style={{width:"100%", background:"#0d6efd", color:"white"}}
+onClick={()=>{
+  setInvoiceShow(true)
 
+}}
+>Download Invoice</Button>
+{appointmentDetails?.payment_status == "Paid" &&
+<>
                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                  
                   setCancle(!cancle)
                  }}
                  >Upload Lab Report</Button>
-                                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
-onClick={()=>{
-  setInvoiceShow(true)
-
-}}
->Download Invoice</Button>
+                                  
                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                  
                     router.push("/write-reviews/"+appointmentId)
                  }}
-                 >Add Review</Button>
+                 >Add Doctor Review</Button>
                  <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                  
                     router.push("/write-reviews-hospital/"+appointmentId)
                  }}
                  >Add Hospital Review</Button>
-{appointmentDetails?.payment_status == "Paid" &&
+
                                   <Button style={{width:"100%", background:"#0d6efd", color:"white"}}
                  onClick={()=>{
                   setSelectedDocument("Prescription")
@@ -321,6 +325,7 @@ onClick={()=>{
                   },1050)
                  }}
                  >Download Prescription</Button>
+                 </>
 }
                  </div> 
                 

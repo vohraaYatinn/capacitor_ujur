@@ -185,7 +185,7 @@ useEffect(()=>{
             </div>
          </div>
          <div className="offcanvas-footer">
-            <Link to="/view-appointments" className="btn btn-info btn-lg w-100 rounded-4">Go to appointments</Link>
+            <Link to="/view-appointments" className="btn btn-info btn-lg w-100 rounded-4">Go To Appointments</Link>
          </div>
             </Popup>
 <div className="overview d-flex flex-column vh-100">

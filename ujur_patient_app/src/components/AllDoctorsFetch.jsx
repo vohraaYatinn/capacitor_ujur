@@ -157,6 +157,7 @@ const AllDoctorsFetch = () => {
  
               
                </div>
+               {doctors.length == (20*showAllNumber) &&
                <div onClick={()=>{
                 setShowNumber(showAllNumber+1)
                }}> 
@@ -168,6 +169,7 @@ const AllDoctorsFetch = () => {
                   marginTop:"1rem"
                 }}>Load More</p>
                 </div>
+                }
           </div>
           
           {/* review */}

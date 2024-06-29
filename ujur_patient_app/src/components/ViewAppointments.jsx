@@ -111,7 +111,9 @@ const ViewAppointments = () => {
                               <div>
                                  <h6 class="mb-1">Dr. {each?.doctor?.full_name}</h6>
                                  <p class="text-muted mb-2">{each?.doctor?.education}</p>
-                                 <p class="text-muted m-0"><span class="mdi mdi-calendar-month text-primary me-1"></span>
+                                 <p class="text-muted m-0" style={{
+                                    fontSize:"0.8rem"
+                                 }}><span class="mdi mdi-calendar-month text-primary me-1"></span>
                                  {moment(each?.date_appointment).format('DD-MM-YYYY')}
 
                                  </p>
@@ -130,14 +132,19 @@ const ViewAppointments = () => {
                  </>
 
                                 }
+                                   {addNav==1 &&
+                                                                 <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2">COMPLETED</span>
+
+                                }
                                 {addNav==2 &&
                                                                  <span class="badge bg-danger-subtle text-danger fw-normal rounded-pill px-2">CANCELLED</span>
 
                                 }
                               </div>
+                              {addNav!=2 &&
 <div className="text-muted" >
                   <FaLocationDot size={30} />
-                  </div>
+                  </div>}
                            </div>
                         </Link>
                         )

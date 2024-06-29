@@ -47,13 +47,17 @@ const HospitalOverview = () => {
             src={test_url_images+hospitalData.logo}
             alt=""
             className="img-fluid appointment-doctor-img"
+            style={{
+              height:"6rem",
+              objectFit:"cover"
+            }}
           />
           <div className=''>
             <h6 className="text-white mb-0 pt-2">Book Appointment</h6>
             <h1 className="text-warning mb-0 fw-bold" style={{fontSize: "1rem"}}>
               Doctor
             </h1>
-              {/* <span className="text-white-50 fw-normal" style={{fontSize: "0.8rem"}}> Choose from the list</span> */}
+              <span className="text-white-50 fw-normal" style={{fontSize: "0.8rem"}}> Choose from the list</span>
             <p className="mt-2">
               {hospitalData?.average_review_stars && Array(Math.floor(hospitalData?.average_review_stars)).fill(null).map(()=>{
             return(

@@ -109,7 +109,7 @@ const WriteReview = () => {
             </div>
             <div>
                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <h6 class="m-0 fs-14">Write a comment</h6>
+                  <h6 class="m-0 fs-14">Write a comment (optional)</h6>
                   <p class="m-0 text-info">Max 250 word</p>
                </div>
                <form>

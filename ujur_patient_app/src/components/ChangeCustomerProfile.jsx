@@ -19,12 +19,46 @@ const ChangeCustomerProfile = () => {
   const [profileData, setProfileData] = useState([]);
   const [profileDataToChange, setProfileDataToChange] = useState([]);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [showCPass, setShowCPass] = useState(false);
 
   const [date, setDate] = useState({
     year: null,
     month: null,
     day: null
   });
+  const [errors, setErrors] = useState({});
+
+  const validate = (values) => {
+    console.log(values)
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if(values?.email && !regex.test(values.email)) {
+      errors.email = "Email is invalid";
+    }
+    if(!values.full_name){
+      errors.firstName = "First name is required"
+    }
+    if(!values.full_name){
+      errors.lastName = "Last name is required"
+    }
+    if(!values.date_of_birth){
+      errors.date_of_birth = "Date of Birth is required"
+    }
+    if(!values.district){
+      errors.district = "District is required"
+    }
+    if(!values.block){
+      errors.block = "Block is required"
+    }
+    if(values?.phoneNumber && values.phoneNumber.length < 14){
+      errors.phoneNumber = "Number should be 10 Digits"
+    }
+    
+    if(values?.password && values.password.length < 6){
+      errors.password = "Password must have more than 6 characters"
+    }
+    return errors;
+  }
   const onChangeGender = (e) => {
    setProfileDataToChange((prev) => ({
       ...prev,
@@ -74,21 +108,15 @@ const ChangeCustomerProfile = () => {
     profileFetch(fetchprofiles({ patientId: 1 }));
   };
   const EditProfile = () =>{
+    const errors = validate(profileDataToChange)
+    if(Object.keys(errors).length !== 0){
+      setErrors(errors)
+    }else{
+      setErrors({})
    EditprofileFetch(changeProfileValues(profileDataToChange))
 
-  }
-//   const handleUpload = (e) => {
-//    const file = e.target.files[0];
-//    if (file) {
-//      console.log("Selected file:", file);
-//      setProfileDataToChange((prev) => ({
-//        ...prev,
-//        document: file,
-//      }));
-//      setIsUploaded(true);
-//    }
-//  };
-  // Function to set date from string
+            }}
+
   const setDateFromString = (dateString) => {
     const [year, month, day] = dateString.split('-');
     const monthNames = [
@@ -223,7 +251,12 @@ const ChangeCustomerProfile = () => {
               }));
             }}
           />
+          				
         </div>
+        {
+              errors.firstName && (<div className="text-danger text-start mt-1">{errors.firstName}</div>)
+            }
+
       </div>
     <div className="mb-3 mt-3 col-6">
         <label htmlFor="exampleFormControlName" className="form-label mb-1">
@@ -254,6 +287,9 @@ const ChangeCustomerProfile = () => {
             }}
           />
         </div>
+        {
+              errors.lastName && (<div className="text-danger text-start mt-1">{errors.lastName}</div>)
+            }
       </div>
       </div>
             <div className="mb-3">
@@ -285,6 +321,9 @@ const ChangeCustomerProfile = () => {
             }}
           />
         </div>
+        {
+              errors.email && (<div className="text-danger text-start mt-1">{errors.email}</div>)
+            }
       </div>
       <div className="mb-3">
         <label htmlFor="exampleFormControlEmail" className="form-label mb-1">
@@ -301,8 +340,8 @@ const ChangeCustomerProfile = () => {
             <span className="mdi mdi-lock mdi-18px text-muted" />
           </span>
           <input
-            type="password"
-            className="form-control bg-transparent rounded-0 border-0 px-0"
+              type={showCPass ? "text" : "password"}// Conditional type based on state
+              className="form-control bg-transparent rounded-0 border-0 px-0"
             placeholder="Type your password"
             aria-label="Type your email or phone"
             aria-describedby="mail"
@@ -314,7 +353,37 @@ const ChangeCustomerProfile = () => {
               }));
             }}
           />
+                      <span onClick={() => setShowCPass(!showCPass)}>
+                            {showCPass ? (
+                                <IoEyeOutline
+                                    style={{
+                                        width: "2rem",
+                                        padding: "5px",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        height: "100%",
+                                    }}
+                                />
+                            ) : (
+                                <IoEyeOffOutline
+                                    style={{
+                                        width: "2rem",
+                                        padding: "5px",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        height: "100%",
+                                    }}
+                                />
+                            )}
+                        </span>
         </div>
+        {
+              errors.password && (<div className="text-danger text-start mt-1">{errors.password}</div>)
+            }
       </div>
    
                     <div className="mb-3">
@@ -357,6 +426,9 @@ const ChangeCustomerProfile = () => {
             }}
           />
         </div>
+        {
+              errors.phoneNumber && (<div className="text-danger text-start mt-1">{errors.phoneNumber}</div>)
+            }
       </div>
         
       <div class="row">
@@ -435,6 +507,7 @@ const ChangeCustomerProfile = () => {
                
                
             </div>
+  
             </div>
             <div class="mb-3">
                <label for="exampleFormControlName1" class="form-label mb-1 label-custom-boot">Date Of Birth</label>
@@ -459,6 +532,9 @@ const ChangeCustomerProfile = () => {
             }}
           />
                </div>
+               {
+              errors.date_of_birth && (<div className="text-danger text-start mt-1">{errors.date_of_birth}</div>)
+            }
             </div>
             <div class="mb-3">
                <label for="exampleFormControlName1" class="form-label mb-1 label-custom-boot">Gender</label>
@@ -507,6 +583,10 @@ const ChangeCustomerProfile = () => {
     </Select>
                
             </div>
+            {
+              errors.district && (<div className="text-danger text-start mt-1">{errors.district}</div>)
+            }
+
             <div class="mt-3">
                <label for="exampleFormControlName" class="form-label mb-1 label-custom-boot">Block</label>
                <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlName">
@@ -524,6 +604,10 @@ const ChangeCustomerProfile = () => {
                      }}
                      />
                </div>
+               {
+              errors.block && (<div className="text-danger text-start mt-1">{errors.block}</div>)
+            }
+
             </div>
          </form>
       

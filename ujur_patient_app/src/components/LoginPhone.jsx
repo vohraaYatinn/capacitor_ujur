@@ -183,7 +183,7 @@ const LoginPhone = () => {
           {
               errors.password && (<div className="text-danger text-start mt-1">{errors.password}</div>)
             }
-          <p className="text-end mt-1"><Link to={`/forgot-password`}>forgot password?</Link></p>
+          <p className="text-end mt-1"><Link to={`/forgot-password`}>Forgot Password?</Link></p>
         
 
         </div>

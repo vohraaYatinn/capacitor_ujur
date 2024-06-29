@@ -47,6 +47,9 @@ const ForgotPassword = () => {
 		if (!values.email) {
 			errors.email = "Email is required";
 		}
+		else if (!regex.test(values.email)) {
+			errors.email = "Email is invalid";
+		  }
 		if(!values.phone){
 			errors.phone = "Mobile Number is required"
 		  }else if(values.phone.length < 14){
@@ -129,7 +132,7 @@ const ForgotPassword = () => {
 							// i change the type = number to "text"
 							type="text"
 							className="form-control bg-transparent rounded-0 border-0 px-0"
-							placeholder="Type your email / Id"
+							placeholder="Type your email Id"
 							aria-label="Type your email or phone number"
 							aria-describedby="mail"
 							onChange={(e) => {

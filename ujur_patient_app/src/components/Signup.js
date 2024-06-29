@@ -85,6 +85,9 @@ const Signup = () => {
     if(!values.email){
       errors.email = "Email is required";
     }
+    else if (!regex.test(values.email)) {
+      errors.email = "Email is invalid";
+    }
     if(!values.firstName){
       errors.firstName = "First name is required"
     }

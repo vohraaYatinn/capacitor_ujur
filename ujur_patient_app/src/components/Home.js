@@ -326,6 +326,11 @@ const Home = () => {
               <img
                 src={userDispatch?.profile_picture ? test_url_images + userDispatch?.profile_picture : user99}
                 onClick={()=>setSelectPatientModalOpen(true)}
+                style={{
+                  height:'1.8rem',
+                  width:"1rem",
+                  objectFit:"cover"
+                }}
                 alt=""
                 className="img-fluid rounded-circle icon"
               />
@@ -435,7 +440,7 @@ const Home = () => {
         <div className="col">
           <div className="bg-white text-center rounded-4 p-2 shadow-sm">
             <Link
-              to="/search-doctor"
+              to="/all-doctors-fetch"
               className="link-dark"
               style={{ textDecoration: "none" }}
             >
@@ -748,7 +753,7 @@ const Home = () => {
                   <>
                   <span class="badge bg-success-subtle text-success fw-normal rounded-pill px-2 mb-2">
                     UPCOMING
-                  </span>:
+                  </span>
                   <p style={{
                     fontWeight:800,
                     fontSize:"0.9rem"
