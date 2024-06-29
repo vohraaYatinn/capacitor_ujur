@@ -41,10 +41,10 @@ const ViewAppointments = () => {
 
       //useEffects
       useEffect(()=>{
-         if(1){
+         setAppointment([])
             fetchAppointmentsFunc()
-         }
-       },[1, addNav])
+
+       },[addNav])
        useEffect(()=>{
           if(fetchAppointmentResponse?.result == "success"){
             console.log(fetchAppointmentResponse?.data)

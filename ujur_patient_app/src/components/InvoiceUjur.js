@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Modal, Button, Table } from 'react-bootstrap';
+import { Modal, Button, Table } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./invoice.css"
 import logoDark from "../images/logo-dark.png"
@@ -11,109 +11,105 @@ const InvoiceModal = ({ show,setShow, invoice, downloadInvoice }) => {
     }
     const invoiceContainerRef = useRef(null)
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Invoice #{invoice.id}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-    {invoice &&
-      <div className="container invoice-container" id="invoice-container" style={{
-        overflow:'auto'
-      }}>
-  <div className="row invoice-header">
-
-  <div className="col-sm-6">
-      <h1>INVOICE</h1>
-      <p>
-        Invoice #: {invoice.id}
-        <br />
-        Date: {moment(invoice?.appointment?.date_appointment).format("DD, MM, YYYY")}
-        <br />
-      </p>
-    </div>
-    <div className="col-sm-6 text-right">
-      
     
-    </div>
-
-  </div>
-  <div className="row invoice-details">
-    <div className="col-sm-6">
-      <h5>Bill To:</h5>
-      <p>
-        {invoice?.appointment?.patient?.full_name}
-        <br />
-        {invoice?.appointment?.patient?.block}
-        <br />
-        {invoice?.appointment?.patient?.district}
-      </p>
-    </div>
-    <div className="col-sm-6 text-right">
-      <h5>Appointment Details:</h5>
-      <p>
-        Appointment ID: {invoice?.appointment?.id}
-        <br />
-        Booking Date: {moment(invoice?.appointment?.date_appointment).format("dddd, MMM D, YYYY")}
-
-        
-      </p>
-    </div>
-  </div>
-  <div className="row">
-    <div className="col-12">
-      <table className="table table-bordered">
-        <thead className="thead-light">
-          <tr>
-            <th>Description</th>
-            <th>Doctor fees</th>
-            <th>Booking charges</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Consultation Fee<br/>({invoice?.hospital})</td>
-            <td>Rs {(parseFloat(invoice?.items[0]?.quantity) - parseFloat(invoice?.items[0]?.quantity)*0.18).toFixed(2)}</td>
-            <td>Rs {(parseFloat(invoice?.items[0]?.price) - parseFloat(invoice?.items[0]?.price*0.18)).toFixed(2)}</td>
-          </tr>
-
-        </tbody>
-        <tfoot>
-     
-          <tr>
-            <th colSpan={3} className="text-right">
-              Tax (18%)
-            </th>
-            <th>Rs {((parseFloat(invoice?.items[0]?.quantity) + parseFloat(invoice?.items[0]?.price )) * 0.18 ).toFixed(2)}</th>
-          </tr>
-          <tr>
-            <th colSpan={3} className="text-right">
-              Total
-            </th>
-            <th>Rs {(parseFloat(invoice?.items[0]?.quantity) + parseFloat(invoice?.items[0]?.price)).toFixed(2)}</th>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
-  <div className="row invoice-footer">
-    <div className="col-12">
-      <p>Thank you for using UJUR!</p>
-    </div>
-  </div>
-  <img src={logoDark} alt="Hospital Logo" class="watermark"/>
-
-</div>
-}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={()=>{
-          const check_html = document.getElementById('invoice-container')
-          downloadInvoice(check_html)
-        }}>
-          Download Invoice
-        </Button>
-      </Modal.Footer>
-    </Modal>
+      <Modal
+          visible={show}
+          onCancel={handleClose}
+          footer={[
+              <Button key="download" type="primary" onClick={() => {
+                  if (invoiceContainerRef.current) {
+                      downloadInvoice(invoiceContainerRef.current.innerHTML);
+                  }
+              }}>
+                  Download Invoice
+              </Button>,
+          ]}
+          title={`Invoice #${invoice.id}`}
+      >
+          {invoice && (
+              <div className="container invoice-container" ref={invoiceContainerRef} style={{ overflow: 'auto' }}>
+                  <div className="row invoice-header">
+                      <div className="col-sm-6">
+                          <h1>INVOICE</h1>
+                          <p>
+                              Invoice #: {invoice.id}
+                              <br />
+                              Date: {moment(invoice?.appointment?.date_appointment).format("DD, MM, YYYY")}
+                              <br />
+                          </p>
+                      </div>
+                      <div className="col-sm-6 text-right"></div>
+                  </div>
+                  <div className="row invoice-details">
+                      <div className="col-sm-6">
+                          <h5>Bill To:</h5>
+                          <p>
+                              {invoice?.appointment?.patient?.full_name}
+                              <br />
+                              {invoice?.appointment?.patient?.block}
+                              <br />
+                              {invoice?.appointment?.patient?.district}
+                          </p>
+                      </div>
+                      <div className="col-sm-6 text-right">
+                          <h5>Appointment Details:</h5>
+                          <p>
+                              Appointment ID: {invoice?.appointment?.id}
+                              <br />
+                              Booking Date: {moment(invoice?.appointment?.date_appointment).format("dddd, MMM D, YYYY")}
+                          </p>
+                      </div>
+                  </div>
+                  <div className="row">
+                      <div className="col-12">
+                          <Table bordered dataSource={invoice.items} pagination={false}>
+                              <Table.Column title="Description" dataIndex="name" key="name" />
+                              <Table.Column
+                                  title="Doctor fees"
+                                  key="doctorFees"
+                                  render={(text, record) => (
+                                      `Rs ${(parseFloat(record.quantity) - parseFloat(record.quantity) * 0.18).toFixed(2)}`
+                                  )}
+                              />
+                              <Table.Column
+                                  title="Booking charges"
+                                  key="bookingCharges"
+                                  render={(text, record) => (
+                                      `Rs ${(parseFloat(record.price) - parseFloat(record.price) * 0.18).toFixed(2)}`
+                                  )}
+                              />
+                          </Table>
+                      </div>
+                  </div>
+                  <div className="row">
+                      <div className="col-12">
+                          <table className="table table-bordered">
+                              <tfoot>
+                                  <tr>
+                                      <th colSpan={3} className="text-right">
+                                          Tax (18%)
+                                      </th>
+                                      <th>Rs {((parseFloat(invoice?.items[0]?.quantity) + parseFloat(invoice?.items[0]?.price)) * 0.18).toFixed(2)}</th>
+                                  </tr>
+                                  <tr>
+                                      <th colSpan={3} className="text-right">
+                                          Total
+                                      </th>
+                                      <th>Rs {(parseFloat(invoice?.items[0]?.quantity) + parseFloat(invoice?.items[0]?.price)).toFixed(2)}</th>
+                                  </tr>
+                              </tfoot>
+                          </table>
+                      </div>
+                  </div>
+                  <div className="row invoice-footer">
+                      <div className="col-12">
+                          <p>Thank you for using UJUR!</p>
+                      </div>
+                  </div>
+                  <img src={logoDark} alt="Hospital Logo" className="watermark" />
+              </div>
+          )}
+      </Modal>
   );
 };
 
@@ -130,11 +126,14 @@ const InvoiceUjur = ({show, setShow, downloadInvoice, appointmentDetails}) => {
       { name: 'Item 1', quantity: appointmentDetails?.revenues[0]?.doctor_fees, price: appointmentDetails?.revenues[0]?.booking_amount },
     ],
   };
+  const check_invoice = (html) =>{
+    downloadInvoice(html)
+  }
 
 
   return (
     
-      <InvoiceModal show={show} setShow={setShow} invoice={invoice} downloadInvoice={downloadInvoice}/>
+      <InvoiceModal show={show} setShow={setShow} invoice={invoice} downloadInvoice={check_invoice}/>
    
   );
 };

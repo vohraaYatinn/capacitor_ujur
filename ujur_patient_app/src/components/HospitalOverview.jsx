@@ -80,7 +80,10 @@ const HospitalOverview = () => {
         <div className="d-flex align-items-center justify-content-center">
    
           <div className="d-flex align-items-center gap-3 col justify-content-center" onClick={()=>{
-                     window.location.href = hospitalData?.google_link;
+            if(hospitalData?.google_link){
+              window.location.href = hospitalData?.google_link;
+
+            }
                   }}>
           <FaLocationDot size={30} 
                   
@@ -93,7 +96,7 @@ const HospitalOverview = () => {
             <span className="mdi mdi-medal-outline mdi-24px text-info" />
             <div>
               <p className="mb-0 small text-muted">Establishment</p>
-              <p className="text-primary m-0 fw-bold">7 Years</p>
+              <p className="text-primary m-0 fw-bold">{hospitalData?.years_of_establishment} Years</p>
             </div>
           </div>
         </div>
@@ -184,7 +187,7 @@ const HospitalOverview = () => {
          <div className='row' style={{
                 gap: "1rem"
          }}>
-          {hospitalData?.hospital_doctors?.map((data)=>{
+          {hospitalData?.hospital_doctors_check?.map((data)=>{
             return (
               <div className="top-doctor-item col-5" >
               <Link to={`/about-doctor/${data.id}`} className="link-dark">
@@ -217,8 +220,11 @@ const HospitalOverview = () => {
                     <p className="card-text text-muted small m-0">
                     {data?.education && data.education.length > 11 ? data.education.substring(0, 12) + '...' : data.education}
                     </p>
-                    <span class="bg-white rounded-pill px-1 small text-orange"><i class="mdi mdi-star"></i> 4.9</span>
-
+                    <div>
+                        <span className="mdi mdi-star text-warning me-1" />
+                        {data?.avg_reviews ? data?.avg_reviews : "N/A"} (
+                        {data?.total_reviews && data?.total_reviews || 0})
+                      </div>
                   </div>
                 </div>
               </Link>

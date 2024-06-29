@@ -200,7 +200,8 @@ const Signup = () => {
           </span>
           <ImgCrop>
           <Upload
-          
+                maxCount={1}
+
       customRequest={customRequest}
       multiple={false}
     >

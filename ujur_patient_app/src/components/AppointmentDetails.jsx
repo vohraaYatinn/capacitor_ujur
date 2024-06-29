@@ -59,7 +59,6 @@ const AppointmentDetails = () => {
       setPercentageDownload(0)
       showModal()
     },500)  
-
     setTimeout(()=>{
       convertToPDF(html, "invoice", setPercentageDownload, setPercentageIsError)
     },1500)    

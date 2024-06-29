@@ -210,7 +210,8 @@ const ChangeCustomerProfile = () => {
                <div class="input-group border bg-white rounded-3 py-1" id="exampleFormControlName">
                   <ImgCrop>
           <Upload
-          
+                          maxCount={1}
+
       customRequest={customRequest}
       multiple={false}
     >

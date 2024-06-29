@@ -8,7 +8,7 @@ import doctorImg2 from "../img/home/schedule.png";
 import doctorImg3 from "../img/home/medicine.png";
 import doctorImg4 from "../img/home/prescription.png";
 import user from "../img/home/user.png";
-import { Card, Modal, Select, Skeleton } from 'antd';
+import { Alert, Card, Modal, Select, Skeleton } from 'antd';
 import {districts} from '../demo/districts';
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -126,6 +126,20 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(()=>{
+    if(patientSignupError){
+       setMessage({
+          message: patientSignupError?.response?.data?.message,
+          isShow: true,
+          type:"error"
+        });
+    }
+  },[patientSignupError])
+  const [message, setMessage] = useState({
+    message: "",
+    isShow: false,
+    type:"success"
+  });
   const [profileResponse, profileError, profileLoading, profileFetch] =
   useAxios();
   const fetchPatientprofile = () => {
@@ -194,7 +208,6 @@ const Home = () => {
   
   const handleOk = () => {
     submitUserSignup()
-    setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -488,7 +501,23 @@ const Home = () => {
       </div>
       <Modal title="Add New Profile" open={isModalOpen} onOk={handleOk} okText={"Add"} onCancel={handleCancel} >
       <>
-                  <div className="mb-3 mt-5">
+                    <div className="mb-3 mt-3">
+                    {message.isShow && (
+            <Alert
+              style={{ marginBottom: "1rem" }}
+              message={message?.message}
+              type={message?.type}
+              showIcon
+              closable
+              onClose={() => {
+                setMessage({
+                  message: "",
+                  isShow: false,
+                  type:"success"
+                });
+              }}
+            />
+          )} 
                     <label
                       htmlFor="exampleFormControlFullName"
                       className="form-label mb-1 label-custom-boot"
@@ -756,7 +785,8 @@ const Home = () => {
                   </span>
                   <p style={{
                     fontWeight:800,
-                    fontSize:"0.9rem"
+                    fontSize:"0.9rem",
+                    textWrap:"nowrap"
                   }}>Token No. {latestAppointment?.appointment_slot}</p>
                   </>
                 ) : latestAppointment?.status == "cancel" ?

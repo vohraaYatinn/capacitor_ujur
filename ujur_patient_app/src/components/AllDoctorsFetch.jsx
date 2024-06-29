@@ -145,8 +145,11 @@ const AllDoctorsFetch = () => {
                     <p className="card-text text-muted small m-0">
                     {data?.education && data.education.length > 11 ? data.education.substring(0, 12) + '...' : data.education}
                     </p>
-                    <span class="bg-white rounded-pill px-1 small text-orange"><i class="mdi mdi-star"></i> 4.9</span>
-
+                    <div>
+                        <span className="mdi mdi-star text-warning me-1" />
+                        {data?.avg_reviews ? data?.avg_reviews : "N/A"} (
+                        {data?.total_reviews && data?.total_reviews || 0})
+                      </div>
                   </div>
                 </div>
               </Link>
