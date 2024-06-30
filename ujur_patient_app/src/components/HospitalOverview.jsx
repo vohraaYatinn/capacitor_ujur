@@ -80,7 +80,7 @@ const HospitalOverview = () => {
         <div className="d-flex align-items-center justify-content-center">
    
           <div className="d-flex align-items-center gap-3 col justify-content-center" onClick={()=>{
-            if(hospitalData?.google_link){
+            if(hospitalData?.google_link && hospitalData?.google_link?.length != 0){
               window.location.href = hospitalData?.google_link;
 
             }

@@ -225,7 +225,9 @@ const AppointmentDetails = () => {
                      <span style={{color:"#0C6DFD"}}>Location</span>{" "}
                   <FaLocationDot size={30}   style={{color:"#0C6DFD"}}
                   onClick={()=>{
+                    if(appointmentDetails?.doctor?.hospital?.google_link && appointmentDetails?.doctor?.hospital?.google_link?.length != 0){
                      window.location.href = appointmentDetails?.doctor?.hospital?.google_link;
+                    }
                   }}
                   />
                   </div>
