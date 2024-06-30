@@ -14,7 +14,15 @@ import { App as CapacitorApp } from '@capacitor/app';
 
 const ViewAppointments = () => {
    const router = useRouter();
-
+   useEffect(()=>{
+      CapacitorApp.addListener('backButton', ({canGoBack}) => {
+         if(!canGoBack){
+           CapacitorApp.exitApp();
+         } else {
+            router.push("/home")
+         }
+         });
+   },[])
    const dispatch = useDispatch();
    const [addNav, setAddNAv] = useState(0)
    const [appointments, setAppointment] = useState([])

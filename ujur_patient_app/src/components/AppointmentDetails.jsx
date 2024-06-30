@@ -86,7 +86,6 @@ const AppointmentDetails = () => {
   };
     const handleRemove = () => {
       setIsUploaded(false);
-      console.log("Remove button clicked");
       setFormValues((prev) => ({
         ...prev,
       labReport: "",

@@ -123,7 +123,7 @@ const LoginPhone = () => {
               className="input-group-text bg-transparent rounded-0 border-0"
               id="mail"
             >
-              <span className="mdi mdi-email-outline mdi-18px text-muted" />
+              <span className="mdi mdi-phone-outline mdi-18px text-muted" />
             </span>
             <input
               type="text"

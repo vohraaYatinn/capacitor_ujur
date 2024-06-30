@@ -11,6 +11,7 @@ import { useRouter } from '../hooks/use-router';
 import { Modal } from 'antd';
 import { Alert } from "antd";
 import PaymentComponent from './PaymentGateway';
+import { App as CapacitorApp } from '@capacitor/app';
 
 const OverviewBooking = () => {
    const dispatch = useDispatch();
@@ -143,6 +144,13 @@ useEffect(()=>{
    useEffect(() => {
       if (bookingConfirmationResponse?.result == "success" && bookingConfirmationResponse?.booking_confirm ) {
          setAfterBookingData(bookingConfirmationResponse?.data)
+         CapacitorApp.addListener('backButton', ({canGoBack}) => {
+            if(!canGoBack){
+              CapacitorApp.exitApp();
+            } else {
+               router.push("/view-appointments")
+            }
+            });
          setVisible1(true)
       // router.push(`/overview-booking/${fetchBookingResponse?.booking_id}`);
       }
